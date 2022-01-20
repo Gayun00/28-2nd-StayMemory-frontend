@@ -6,8 +6,6 @@ import { useLocation, useSearchParams } from 'react-router-dom';
 function Admin() {
   const [hotelList, setHotelList] = useState([]);
   const [price, setPrice] = useState(0);
-  const reader = new FileReader();
-  const formData = new FormData();
   const location = useLocation();
   const adminId = location.pathname.slice(-1);
 
@@ -16,21 +14,21 @@ function Admin() {
   }, []);
 
   function loadAdminData() {
-    fetch(`/data/admin${adminId}.json`)
-      // fetch(
-      // `http://ec2-3-36-124-170.ap-northeast-2.compute.amazonaws.com/admins/1`
-      // )
+    fetch(
+      `http://ec2-3-36-124-170.ap-northeast-2.compute.amazonaws.com/admins/1`
+    )
       .then(res => res.json())
-      // .then(res => console.log(res));
-      .then(res => setHotelList(res));
+      // .then(res => console.log(res.data));
+      .then(res => setHotelList(res.data));
   }
 
+  useEffect(() => {
+    console.log(hotelList);
+  }, [hotelList]);
+
   function submitImage(e, hotelId) {
+    const formData = new FormData();
     const uploadedFile = e.target.files[0];
-    console.log(uploadedFile);
-    // reader.readAsDataURL(uploadedFile);
-    // reader.onload = function (e) {
-    // const encodedImg = e.target.result;
     formData.append('img', uploadedFile);
     fetch(
       `http://ec2-3-36-124-170.ap-northeast-2.compute.amazonaws.com/admins/${adminId}?stay-id=${hotelId}`,
@@ -46,23 +44,20 @@ function Admin() {
     )
       .then(res => res.json())
       .then(res => console.log(res));
-    //reLoadHotelList();
-    for (var value of formData.values()) {
-      console.log(value);
-    }
-    // };
+    reloadHotelList();
   }
 
   function updatePrice(e) {
+    const formData = new FormData();
     const val = e.target.value;
     setPrice(val);
-    console.log(val, price);
     formData.append('price', price);
   }
 
   async function submitPrice() {
-    // console.log(hotelId);
-    formData.append('price', 3000);
+    console.log(price);
+    const formData = new FormData();
+    formData.append('price', price);
     for (var value of formData.values()) {
       console.log(value);
     }
@@ -75,8 +70,10 @@ function Admin() {
           price: formData,
         },
       }
-    );
-    //reLoadHotelList();
+    )
+      .then(res => res.json())
+      .then(res => console.log(res));
+    reloadHotelList();
   }
   // const adminId = 1;
   const hotelId = 1;
@@ -95,51 +92,53 @@ function Admin() {
     )
       .then(res => res.json())
       .then(res => console.log(res));
-    // reLoadHotelList();
+    reloadHotelList();
   }
 
-  function reLoadHotelList() {
-    // fetch(`url/admins/${adminId}`, {
-    //   method: 'PATCH',
-    //   headers: {
-    //     //
-    //   },
-    //   body: {
-    //   },
-    // });
+  function reloadHotelList() {
+    fetch(
+      `http://ec2-3-36-124-170.ap-northeast-2.compute.amazonaws.com/admins/${adminId}`
+    )
+      .then(res => res.json())
+      .then(res => setHotelList([...res.data]));
   }
+
+  useEffect(() => {
+    console.log(hotelList);
+  }, [hotelList]);
 
   return (
     <Wrapper>
       <HotelList>
         <ListTitle>Hotel List</ListTitle>
-        {hotelList.map((hotel, idx) => (
-          <HotelItem key={idx}>
-            <Name>{hotel.name}</Name>
-            <ImgContainer>
-              <img src={hotel.img} alt={hotel.name} />
-              <UploadButton>
-                <input
-                  type="file"
-                  src=""
-                  alt="change_img"
-                  accept="image/*"
-                  onChange={e => submitImage(e, hotel.id)}
-                />
-              </UploadButton>
-            </ImgContainer>
-            <TextContainer>
-              <Price>{`가격: ${hotel.price}`}</Price>
-              <PriceInputWrapper>
-                <PriceInput onChange={e => updatePrice(e)}></PriceInput>
-                <PriceButton onClick={submitPrice}>변경 </PriceButton>
-              </PriceInputWrapper>
-            </TextContainer>
-            <CloseButton onClick={deleteHotel}>
-              <GrClose />
-            </CloseButton>
-          </HotelItem>
-        ))}
+        {hotelList.length &&
+          hotelList.map((hotel, idx) => (
+            <HotelItem key={idx}>
+              <Name>{hotel.name}</Name>
+              <ImgContainer>
+                <img src={hotel.img} alt={hotel.name} />
+                <UploadButton>
+                  <input
+                    type="file"
+                    src=""
+                    alt="change_img"
+                    accept="image/*"
+                    onChange={e => submitImage(e, hotel.hotelId)}
+                  />
+                </UploadButton>
+              </ImgContainer>
+              <TextContainer>
+                <Price>{`가격: ${hotel.price}`}</Price>
+                <PriceInputWrapper>
+                  <PriceInput onChange={e => updatePrice(e)}></PriceInput>
+                  <PriceButton onClick={submitPrice}>변경 </PriceButton>
+                </PriceInputWrapper>
+              </TextContainer>
+              <CloseButton onClick={deleteHotel}>
+                <GrClose />
+              </CloseButton>
+            </HotelItem>
+          ))}
       </HotelList>
     </Wrapper>
   );

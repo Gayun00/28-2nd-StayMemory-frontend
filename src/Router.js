@@ -7,6 +7,7 @@ import Detail from './pages/Detail/Detail';
 import MyPage from './pages/MyPage/MyPage';
 import Nav from './components/Nav/Nav';
 import KakaoLogin from './pages/Login/KakaoLogin';
+import Admin from './pages/Admin/Admin';
 import { RecoilRoot } from 'recoil';
 export default function Router() {
   return (
@@ -21,6 +22,7 @@ export default function Router() {
           <Route path="/findstay/:id" element={<Detail />} />
           <Route path="/mypage/:page" element={<MyPage />} />
           <Route path="/signin_kakao" element={<KakaoLogin />} />
+          <Route path="/admin/:id" element={<Admin />} />
         </Routes>
       </BrowserRouter>
     </RecoilRoot>
