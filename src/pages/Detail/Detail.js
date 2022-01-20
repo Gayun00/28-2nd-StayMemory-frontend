@@ -32,9 +32,7 @@ function Detail() {
       `http://ec2-3-36-124-170.ap-northeast-2.compute.amazonaws.com/stays/2/unavailable-date?start-date=2022-01-01`
     )
       .then(res => res.json())
-      // .then(res => console.log(res.data));
       .then(res => setDisabledDates([...res.data.date]));
-    // .then(res => setDisabledDates(...res.data.date));
   }
 
   useEffect(() => {
@@ -58,7 +56,7 @@ function Detail() {
           <SelectWrapper>
             <h2>{detail.hotelName}</h2>
             <SelectDateWrapper onClick={onClickDates}>
-              {selectedDates.check_out !== null ? (
+              {selectedDates.checkout !== null ? (
                 <p>{`${selectedDates.checkin}~${selectedDates.checkout}`}</p>
               ) : (
                 <>
