@@ -30,4 +30,9 @@ export const disabledDatesState = atom({
   default: [],
 });
 
+export const totalPriceState = atom({
+  key: 'totalPriceState',
+  default: 0,
+});
+
 export default showModalState;

@@ -5,6 +5,7 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import showModalState, {
   disabledDatesState,
   selectedDatesState,
+  totalPriceState,
 } from '../../components/Modal/GlobalState';
 import { useParams } from 'react-router-dom';
 // import SelectDateFindStay from '../'
@@ -15,6 +16,7 @@ function Detail() {
   const selectedDates = useRecoilValue(selectedDatesState);
   const [disabledDates, setDisabledDates] = useRecoilState(disabledDatesState);
   const params = useParams();
+  const totalPrice = useRecoilValue(totalPriceState);
 
   useEffect(() => {
     fetch(`/data/detail${params.hotelName}.json`)
@@ -66,7 +68,7 @@ function Detail() {
               )}
             </SelectDateWrapper>
             <BookButton>
-              <button>결제하기</button>
+              <button>{totalPrice ? `${totalPrice}원  ` : ''}결제하기</button>
             </BookButton>
           </SelectWrapper>
         </HeaderWrapper>
