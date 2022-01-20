@@ -79,6 +79,7 @@ export default function StaticDateRangePickerDemo() {
     date: <SelectDate />,
     date_detail: <SelectDate detail={true} />,
   };
+  console.log(modalContent[showModal]);
 
   return (
     <Wrapper>
