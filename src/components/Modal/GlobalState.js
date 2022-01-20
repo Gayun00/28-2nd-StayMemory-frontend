@@ -8,8 +8,8 @@ export const showModalState = atom({
 export const selectedDatesState = atom({
   key: 'selectedDatesState',
   default: {
-    check_in: null,
-    check_out: null,
+    checkin: null,
+    checkout: null,
   },
 });
 

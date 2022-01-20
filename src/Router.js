@@ -6,7 +6,7 @@ import SignUp from './pages/SignUp/SignUp';
 import Detail from './pages/Detail/Detail';
 import MyPage from './pages/MyPage/MyPage';
 import Nav from './components/Nav/Nav';
-import KakaoLogin from './components/KakaoLogin/KakaoLogin';
+import KakaoLogin from './pages/Login/KakaoLogin';
 import { RecoilRoot } from 'recoil';
 export default function Router() {
   return (

@@ -1,6 +1,6 @@
 import React from 'react';
 import styled, { keyframes } from 'styled-components';
-import { KAKAO_AUTH_URL } from '../../components/OAuth/Oauth';
+import { KAKAO_AUTH_URL } from './Oauth';
 
 function Login() {
   return (
