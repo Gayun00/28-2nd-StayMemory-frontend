@@ -18,14 +18,14 @@ function SubSlider({ subSlide }) {
     <Wrapper>
       <SliderWrapper>
         <Slider {...settings}>
-          {subSlide[0].hotels.map((hotel, idx) => (
+          {subSlide.map((hotel, idx) => (
             <ImgContainer key={idx}>
               <img className="slideImg" src={hotel.img} alt={hotel.name} />
               <HotelInfoWrap>
-                <HotelTitle>{hotel.name}</HotelTitle>
+                <HotelTitle>{hotel.hotelNameKor}</HotelTitle>
                 <TextWrap>
                   <HotelLocation>{hotel.location}</HotelLocation>
-                  <HotelPrice>{`${hotel.minPrice}~${hotel.maxPrice}`}</HotelPrice>
+                  <HotelPrice>{hotel.price}</HotelPrice>
                 </TextWrap>
                 <ReadMore>read more</ReadMore>
               </HotelInfoWrap>
@@ -111,6 +111,7 @@ const ImgContainer = styled.div`
   img {
     object-fit: cover;
     width: 100%;
+    height: 30%;
   }
 `;
 
@@ -123,7 +124,7 @@ const HotelInfoWrap = styled.div`
 
 const HotelTitle = styled.h3`
   margin-bottom: 1rem;
-  font-size: ${props => props.theme.fontBold};
+  font-size: 1.2rem;
 `;
 
 const TextWrap = styled.div`

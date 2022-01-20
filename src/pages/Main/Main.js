@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import MainSlider from './MainSlider';
-import SubSlider from './SubSlider/SubSlider';
+import SubSlider from './SubSlider';
 import styled from 'styled-components';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -13,15 +13,23 @@ function Main() {
       .then(res => res.json())
       .then(res => setMainSlide([...res]));
 
-    fetch('/data/subSlider.json')
+    fetch(
+      'http://ec2-3-36-124-170.ap-northeast-2.compute.amazonaws.com/stays?offset=0&limit=5'
+    )
       .then(res => res.json())
-      .then(res => setSubSlide([...res]));
+      // .then(res => console.log(res.data));
+      .then(res => setSubSlide([...res.data]));
   }, []);
+
+  useEffect(() => {
+    console.log(subSlide.slice(0, 4));
+  }, [subSlide]);
+  const slicedSubSlide = subSlide.slice(0, 9);
 
   return (
     <Wrapper>
       <MainSlider mainSlide={mainSlide} />
-      {subSlide.length && <SubSlider subSlide={subSlide} />}
+      {subSlide.length && <SubSlider subSlide={slicedSubSlide} />}
     </Wrapper>
   );
 }
