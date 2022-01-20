@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useLocation, useSearchParams } from 'react-router-dom';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 function KakaoLogin() {
   const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -7,6 +7,7 @@ function KakaoLogin() {
   // const API_KEY = process.env.REACT_APP_KAKAO_API_KEY;
   const API_KEY = '61d21cb7cc0fa85b881660e01f84c54b';
   const CLIENT_SECRET = '8WF6yOVTDxc36khE3GHGZNB9Oc1otlk2';
+  const navigate = useNavigate();
   console.log(
     `grant_type=authorization_code&client_id=${API_KEY}&${searchParams}&client_secret=${CLIENT_SECRET}`
   );
@@ -24,6 +25,8 @@ function KakaoLogin() {
     })
       .then(res => res.json())
       .then(res => setToken(res.access_token));
+    console.log(token);
+    sessionStorage.setItem('token', token);
   }, [searchParams]);
 
   useEffect(() => {
@@ -38,6 +41,7 @@ function KakaoLogin() {
     )
       .then(res => res.json())
       .then(res => console.log(res));
+    navigate('/');
   }, [token]);
   // console.log(searchParams.get('code'));
   return null;
