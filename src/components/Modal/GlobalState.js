@@ -25,4 +25,9 @@ export const selectedLocationState = atom({
   },
 });
 
+export const disabledDatesState = atom({
+  key: 'disabledDatesState',
+  default: [],
+});
+
 export default showModalState;

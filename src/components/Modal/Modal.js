@@ -31,18 +31,19 @@ export default function StaticDateRangePickerDemo() {
     } else if (showModal === 'date') {
       navigate(convertToQs('list', selectedDates));
     } else if (showModal === 'date_detail') {
-      getUnavaliableDate();
+      // getUnavaliableDate();
       console.log('dd');
     }
   }
 
-  function getUnavaliableDate() {
-    fetch(
-      `http://ec2-3-36-124-170.ap-northeast-2.compute.amazonaws.com/stays/2/price?start-date=2022-01-01&end-date=2022-01-03&num-people=2`
-    );
-    // .then(res => res.json())
-    // .then(res => setDisabledDates(res));
-  }
+  // function getUnavaliableDate() {
+  //   fetch(
+  //     `http://ec2-3-36-124-170.ap-northeast-2.compute.amazonaws.com/stays/2/price?start-date=2022-01-01&end-date=2022-01-03&num-people=2`
+  //   )
+  //     .then(res => res.json())
+  //     .then(res => console.log(res));
+  //   // .then(res => setDisabledDates(res));
+  // }
 
   useEffect(() => {
     function disableButton() {

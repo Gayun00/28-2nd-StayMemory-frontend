@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { IoIosArrowRoundBack, IoIosArrowDown } from 'react-icons/io';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import showModalState, {
+  disabledDatesState,
   selectedDatesState,
 } from '../../components/Modal/GlobalState';
 import { useParams } from 'react-router-dom';
@@ -12,6 +13,7 @@ function Detail() {
   const [detail, setDetail] = useState({});
   const setModal = useSetRecoilState(showModalState);
   const selectedDates = useRecoilValue(selectedDatesState);
+  const [disabledDates, setDisabledDates] = useRecoilState(disabledDatesState);
   const params = useParams();
 
   useEffect(() => {
@@ -22,6 +24,26 @@ function Detail() {
 
   function showDatesModal() {
     setModal('date_detail');
+  }
+
+  function getUnavaliableDate() {
+    console.log('ddfsdf');
+    fetch(
+      `http://ec2-3-36-124-170.ap-northeast-2.compute.amazonaws.com/stays/2/unavailable-date?start-date=2022-01-01`
+    )
+      .then(res => res.json())
+      // .then(res => console.log(res.data));
+      .then(res => setDisabledDates([...res.data.date]));
+    // .then(res => setDisabledDates(...res.data.date));
+  }
+
+  useEffect(() => {
+    console.log(disabledDates);
+  }, [disabledDates]);
+
+  function onClickDates() {
+    showDatesModal();
+    getUnavaliableDate();
   }
 
   return (
@@ -35,7 +57,7 @@ function Detail() {
           </BackWrapper>
           <SelectWrapper>
             <h2>{detail.hotelName}</h2>
-            <SelectDateWrapper onClick={showDatesModal}>
+            <SelectDateWrapper onClick={onClickDates}>
               {selectedDates.check_out !== null ? (
                 <p>{`${selectedDates.checkin}~${selectedDates.checkout}`}</p>
               ) : (
