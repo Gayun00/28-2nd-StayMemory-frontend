@@ -2,8 +2,9 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { BsArrowRight } from 'react-icons/bs';
 import { GrClose } from 'react-icons/gr';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import showModalState, {
+  disabledDatesState,
   selectedDatesState,
   selectedLocationState,
   validDatesState,
@@ -19,6 +20,7 @@ export default function StaticDateRangePickerDemo() {
   const [showModal, setShowModal] = useRecoilState(showModalState);
   const selectedDates = useRecoilValue(selectedDatesState);
   const selectedLocation = useRecoilValue(selectedLocationState);
+  const setDisabledDates = useSetRecoilState(disabledDatesState);
   const validDates = useRecoilValue(validDatesState);
   const [buttonIsValid, setButtonIsValid] = React.useState(false);
 
@@ -29,8 +31,17 @@ export default function StaticDateRangePickerDemo() {
     } else if (showModal === 'date') {
       navigate(convertToQs('list', selectedDates));
     } else if (showModal === 'date_detail') {
-      console.log(selectedDates);
+      getUnavaliableDate();
+      console.log('dd');
     }
+  }
+
+  function getUnavaliableDate() {
+    fetch(
+      `http://ec2-3-36-124-170.ap-northeast-2.compute.amazonaws.com/stays/2/price?start-date=2022-01-01&end-date=2022-01-03&num-people=2`
+    );
+    // .then(res => res.json())
+    // .then(res => setDisabledDates(res));
   }
 
   useEffect(() => {
