@@ -61,17 +61,18 @@ function Detail() {
       {
         method: 'POST',
         headers: {
+          'Content-Type': 'application/json',
           Authorization:
             'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MX0.AekHFMguragxj6mgkwhioYrEzr6tOktCW-vOYLj1P9M',
         },
-        body: {
+        body: JSON.stringify({
           stayId: hotel.hotelId,
           numPeople: 2,
           checkin: selectedDates.checkin,
           checkout: selectedDates.checkout,
           price: totalPrice,
           payment: 'credit_card',
-        },
+        }),
       }
     )
       .then(res => res.json())
@@ -127,10 +128,7 @@ function Detail() {
               </RoomDescription>
             </RoomInfoWrapper>
             <RoomImgWrapper>
-              <img
-                src="https://staymemory.ap-northeast-2.amazonaws.com/stays/stays/3b98bda6-6cae-4bde-a727-c57d0efb90a8.jpg"
-                alt="detail_img"
-              />
+              <img src={stay.img} alt="detail_img" />
             </RoomImgWrapper>
           </ContentWrapper>
         </Container>
