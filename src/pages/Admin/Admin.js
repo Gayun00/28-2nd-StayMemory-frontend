@@ -7,6 +7,7 @@ function Admin() {
   const [hotelList, setHotelList] = useState([]);
   const [price, setPrice] = useState(0);
   const reader = new FileReader();
+  const formData = new FormData();
   const location = useLocation();
   const adminId = location.pathname.slice(-1);
 
@@ -16,57 +17,85 @@ function Admin() {
 
   function loadAdminData() {
     fetch(`/data/admin${adminId}.json`)
+      // fetch(
+      // `http://ec2-3-36-124-170.ap-northeast-2.compute.amazonaws.com/admins/1`
+      // )
       .then(res => res.json())
+      // .then(res => console.log(res));
       .then(res => setHotelList(res));
   }
 
-  async function submitImage(e, hotelId) {
+  function submitImage(e, hotelId) {
     const uploadedFile = e.target.files[0];
-    reader.readAsDataURL(uploadedFile);
-    reader.onload = function (e) {
-      const encodedImg = e.target.result;
-      // await fetch(`url/admins/${adminId}/?stay_id=${hotelId}`, {
-      //   method: 'POST',
-      //   headers: {
-      //     //
-      //   },
-      //   body: {
-      //     image: encodedImg,
-      //   },
-      // })
-      //reLoadHotelList();
-    };
+    console.log(uploadedFile);
+    // reader.readAsDataURL(uploadedFile);
+    // reader.onload = function (e) {
+    // const encodedImg = e.target.result;
+    formData.append('img', uploadedFile);
+    fetch(
+      `http://ec2-3-36-124-170.ap-northeast-2.compute.amazonaws.com/admins/${adminId}?stay-id=${hotelId}`,
+      {
+        method: 'POST',
+        headers: {
+          //
+        },
+        body: {
+          img: formData,
+        },
+      }
+    )
+      .then(res => res.json())
+      .then(res => console.log(res));
+    //reLoadHotelList();
+    for (var value of formData.values()) {
+      console.log(value);
+    }
+    // };
   }
 
-  function updatePrice(e, id) {
+  function updatePrice(e) {
     const val = e.target.value;
     setPrice(val);
+    console.log(val, price);
+    formData.append('price', price);
   }
 
-  async function submitPrice(hotelId) {
-    // await fetch(`url/admins/${adminId}/?stay_id=${hotelId}`, {
-    //   method: 'PATCH',
-    //   headers: {
-    //     //
-    //   },
-    //   body: {
-    //     price: price,
-    //   },
-    // });
+  async function submitPrice() {
+    // console.log(hotelId);
+    formData.append('price', 3000);
+    for (var value of formData.values()) {
+      console.log(value);
+    }
+    await fetch(
+      `http://ec2-3-36-124-170.ap-northeast-2.compute.amazonaws.com/admins/${adminId}?stay-id=1`,
+      {
+        method: 'POST',
+        headers: {},
+        body: {
+          price: formData,
+        },
+      }
+    );
     //reLoadHotelList();
   }
-
-  async function deleteHotel(hotelId) {
-    // await fetch(`url/admins/${adminId}/?stay_id=${hotelId}`, {
-    //   method: 'PATCH',
-    //   headers: {
-    //     //
-    //   },
-    //   body: {
-    //     hotelId: hotelId,
-    //   },
-    // });
-    //reLoadHotelList();
+  // const adminId = 1;
+  const hotelId = 1;
+  async function deleteHotel() {
+    await fetch(
+      `http://ec2-3-36-124-170.ap-northeast-2.compute.amazonaws.com/admins/${adminId}?stay-id=${hotelId}`,
+      {
+        method: 'DELETE',
+        headers: {
+          //
+        },
+        body: {
+          hotelId: hotelId,
+        },
+      }
+    )
+      .then(res => res.json())
+      .then(res => console.log(res));
+    // reLoadHotelList();
   }
 
   function reLoadHotelList() {
@@ -102,15 +131,11 @@ function Admin() {
             <TextContainer>
               <Price>{`가격: ${hotel.price}`}</Price>
               <PriceInputWrapper>
-                <PriceInput
-                  onChange={e => updatePrice(e, hotel.id)}
-                ></PriceInput>
-                <PriceButton onClick={() => submitPrice(hotel.id)}>
-                  변경
-                </PriceButton>
+                <PriceInput onChange={e => updatePrice(e)}></PriceInput>
+                <PriceButton onClick={submitPrice}>변경 </PriceButton>
               </PriceInputWrapper>
             </TextContainer>
-            <CloseButton>
+            <CloseButton onClick={deleteHotel}>
               <GrClose />
             </CloseButton>
           </HotelItem>
