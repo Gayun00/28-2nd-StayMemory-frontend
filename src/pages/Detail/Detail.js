@@ -11,7 +11,7 @@ import { useParams } from 'react-router-dom';
 // import SelectDateFindStay from '../'
 
 function Detail() {
-  const [detail, setDetail] = useState({});
+  const [detail, setDetail] = useState([]);
   const setModal = useSetRecoilState(showModalState);
   const selectedDates = useRecoilValue(selectedDatesState);
   const [disabledDates, setDisabledDates] = useRecoilState(disabledDatesState);
@@ -19,9 +19,12 @@ function Detail() {
   const totalPrice = useRecoilValue(totalPriceState);
 
   useEffect(() => {
-    fetch(`/data/detail${params.hotelName}.json`)
+    fetch(
+      `http://ec2-3-36-124-170.ap-northeast-2.compute.amazonaws.com/stays/${params.id}`
+    )
       .then(res => res.json())
-      .then(res => setDetail(res));
+      // .then(res => console.log(res.data));
+      .then(res => setDetail([res.data]));
   }, []);
 
   function showDatesModal() {
@@ -37,65 +40,101 @@ function Detail() {
       .then(res => setDisabledDates([...res.data.date]));
   }
 
-  useEffect(() => {
-    console.log(disabledDates);
-  }, [disabledDates]);
-
   function onClickDates() {
     showDatesModal();
     getUnavaliableDate();
   }
 
+  function bookHotel(hotel) {
+    alert('예약되었습니다.');
+    const test = {
+      stayId: hotel.hotelId,
+      numPeople: 2,
+      checkin: selectedDates.checkin,
+      checkout: selectedDates.checkout,
+      price: totalPrice,
+      payment: 'credit_card',
+    };
+    console.log(test);
+    fetch(
+      `http://ec2-3-36-124-170.ap-northeast-2.compute.amazonaws.com/reservations`,
+      {
+        method: 'POST',
+        headers: {
+          Authorization:
+            'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MX0.AekHFMguragxj6mgkwhioYrEzr6tOktCW-vOYLj1P9M',
+        },
+        body: {
+          stayId: hotel.hotelId,
+          numPeople: 2,
+          checkin: selectedDates.checkin,
+          checkout: selectedDates.checkout,
+          price: totalPrice,
+          payment: 'credit_card',
+        },
+      }
+    )
+      .then(res => res.json())
+      .then(res => console.log(res));
+  }
+
+  const stay = detail[0];
+
   return (
     <Wrapper>
-      <Container>
-        <HeaderWrapper>
-          <Title>BOOKING</Title>
-          <BackWrapper>
-            <IoIosArrowRoundBack />
-            <p>돌아가기</p>
-          </BackWrapper>
-          <SelectWrapper>
-            <h2>{detail.hotelName}</h2>
-            <SelectDateWrapper onClick={onClickDates}>
-              {selectedDates.checkout !== null ? (
-                <p>{`${selectedDates.checkin}~${selectedDates.checkout}`}</p>
-              ) : (
-                <>
-                  <div>날짜를 선택해주세요</div>
-                  <IoIosArrowDown />
-                </>
-              )}
-            </SelectDateWrapper>
-            <BookButton>
-              <button>{totalPrice ? `${totalPrice}원  ` : ''}결제하기</button>
-            </BookButton>
-          </SelectWrapper>
-        </HeaderWrapper>
-        <ContentWrapper>
-          <RoomInfoWrapper>
-            <RoomInfoTitleWrapper>
-              <RoomInfoTitle>ROOM INFORMATION</RoomInfoTitle>
-              <HotelName>{detail.hotelName}</HotelName>
-            </RoomInfoTitleWrapper>
-            <p>-</p>
-            <HotelDescription>{detail.hotelDescription}</HotelDescription>
-            <RoomDescription>
-              <p>
-                체크인 {detail.checkin}/ 체크아웃 {detail.checkout}
-              </p>
-              <p>
-                기준 인원 {detail.headCount}명 (최대 인원 {detail.headCount}명)
-              </p>
-              <p>객실면적 {detail.area}m</p>
-              <p>{detail.bed}</p>
-            </RoomDescription>
-          </RoomInfoWrapper>
-          <RoomImgWrapper>
-            <img src={detail.img} alt="detail_img" />
-          </RoomImgWrapper>
-        </ContentWrapper>
-      </Container>
+      {detail.length && (
+        <Container>
+          <HeaderWrapper>
+            <Title>BOOKING</Title>
+            <BackWrapper>
+              <IoIosArrowRoundBack />
+              <p>돌아가기</p>
+            </BackWrapper>
+            <SelectWrapper>
+              <h2>{stay.hotelName}</h2>
+              <SelectDateWrapper onClick={onClickDates}>
+                {selectedDates.checkout !== null ? (
+                  <p>{`${selectedDates.checkin}~${selectedDates.checkout}`}</p>
+                ) : (
+                  <>
+                    <div>날짜를 선택해주세요</div>
+                    <IoIosArrowDown />
+                  </>
+                )}
+              </SelectDateWrapper>
+              <BookButton onClick={() => bookHotel(stay)}>
+                <button>{totalPrice ? `${totalPrice}원  ` : ''}결제하기</button>
+              </BookButton>
+            </SelectWrapper>
+          </HeaderWrapper>
+          <ContentWrapper>
+            <RoomInfoWrapper>
+              <RoomInfoTitleWrapper>
+                <RoomInfoTitle>ROOM INFORMATION</RoomInfoTitle>
+                <HotelName>{stay.hotelName}</HotelName>
+              </RoomInfoTitleWrapper>
+              <p>-</p>
+              <HotelDescription>{stay.hotelDescription}</HotelDescription>
+              <RoomDescription>
+                <p>
+                  체크인 {stay.checkin}/ 체크아웃 {stay.checkout}
+                </p>
+                <p>
+                  기준 인원 {stay.headCount}명 (최대 인원 {stay.headCount}명)
+                </p>
+                <p>객실면적 {stay.area}m</p>
+                {/* <p>{stay.bed}</p> */}
+              </RoomDescription>
+            </RoomInfoWrapper>
+            <RoomImgWrapper>
+              <img
+                src="https://staymemory.ap-northeast-2.amazonaws.com/stays/stays/3b98bda6-6cae-4bde-a727-c57d0efb90a8.jpg"
+                alt="detail_img"
+              />
+            </RoomImgWrapper>
+          </ContentWrapper>
+        </Container>
+      )}
     </Wrapper>
   );
 }

@@ -18,7 +18,7 @@ export default function Router() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/list" element={<List />} />
-          <Route path="/findstay/:hotelName" element={<Detail />} />
+          <Route path="/findstay/:id" element={<Detail />} />
           <Route path="/mypage/:page" element={<MyPage />} />
           <Route path="/signin_kakao" element={<KakaoLogin />} />
         </Routes>
