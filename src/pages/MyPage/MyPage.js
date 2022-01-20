@@ -50,11 +50,15 @@ function MyPage() {
       }
     )
       .then(res => res.json())
-      .then(res => console.log(res));
-    // .then(res => {
-    //   setHotelData(res.hotelData);
-    // });
+      // .then(res => console.log(res.data));
+      .then(res => {
+        setHotelData(res.data);
+      });
   }, [queryString, location.pathname]);
+
+  useEffect(() => {
+    console.log(hotelData);
+  }, [hotelData]);
 
   const updateOffset = btnidx => {
     const limit = 2;
@@ -74,6 +78,11 @@ function MyPage() {
       .then(res => res.json())
       .then(res => setWelcomeData(res));
   }, []);
+
+  const keyObj = {
+    id: 'id' ?? 'hotelId',
+    name: 'hotelNameKor' ?? 'hotelName',
+  };
 
   return (
     <Container>
@@ -129,28 +138,31 @@ function MyPage() {
             </ButtonsWrapper>
           )}
           <HotelInfo>
-            {hotelData.map(hotelEle => {
-              return (
-                <HotelWrap key={hotelEle.id}>
-                  <HotelInfoText>
-                    <HotelNameKor>{hotelEle.hotelNameKor}</HotelNameKor>
-                    <HotelNameEng>PARADISE HOTEL</HotelNameEng>
-                    <HotelNormalInfoWrap>
-                      <HotelNormalInfo>{hotelEle.address}</HotelNormalInfo>
-                      <HotelNormalInfo>
-                        최소{hotelEle.baseNum}명/최대{hotelEle.maxNum}명
-                      </HotelNormalInfo>
-                      <HotelNormalInfo>{hotelEle.price}</HotelNormalInfo>
-                    </HotelNormalInfoWrap>
+            {hotelData &&
+              hotelData.map(hotelEle => {
+                return (
+                  <HotelWrap key={hotelEle.id || hotelEle.hotelId}>
+                    <HotelInfoText>
+                      <HotelNameKor>
+                        {hotelEle.hotelNameKor || hotelEle.hotelName}
+                      </HotelNameKor>
+                      <HotelNameEng>PARADISE HOTEL</HotelNameEng>
+                      <HotelNormalInfoWrap>
+                        <HotelNormalInfo>{hotelEle.address}</HotelNormalInfo>
+                        <HotelNormalInfo>
+                          최소{hotelEle.baseNum}명/최대{hotelEle.maxNum}명
+                        </HotelNormalInfo>
+                        <HotelNormalInfo>{hotelEle.price}</HotelNormalInfo>
+                      </HotelNormalInfoWrap>
 
-                    <ReserveBtn>예약하기</ReserveBtn>
-                  </HotelInfoText>
-                  <div>
-                    <HotelImg src={hotelEle.img} alt="호텔이미지" />
-                  </div>
-                </HotelWrap>
-              );
-            })}
+                      <ReserveBtn>예약하기</ReserveBtn>
+                    </HotelInfoText>
+                    <div>
+                      <HotelImg src={hotelEle.img} alt="호텔이미지" />
+                    </div>
+                  </HotelWrap>
+                );
+              })}
           </HotelInfo>
         </MyPageContent>
       </MainContainer>
