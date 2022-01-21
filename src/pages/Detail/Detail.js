@@ -8,7 +8,6 @@ import showModalState, {
   totalPriceState,
 } from '../../components/Modal/GlobalState';
 import { useParams } from 'react-router-dom';
-// import SelectDateFindStay from '../'
 
 function Detail() {
   const [detail, setDetail] = useState([]);
@@ -39,6 +38,10 @@ function Detail() {
       .then(res => res.json())
       .then(res => setDisabledDates([...res.data.date]));
   }
+
+  useEffect(() => {
+    console.log(disabledDates);
+  }, [disabledDates]);
 
   function onClickDates() {
     showDatesModal();
@@ -247,7 +250,7 @@ const RoomInfoTitle = styled.h1`
 
 const HotelName = styled.h2`
   margin: 1rem 0 2rem 0;
-  font-size: 2rem;
+  font-size: 1.5rem;
 `;
 
 const HotelDescription = styled.p`

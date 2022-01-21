@@ -24,9 +24,7 @@ function Nav() {
 
   return (
     <Wrapper>
-      <div className="logo" onClick={() => goToPage('/')}>
-        logo
-      </div>
+      <Logo onClick={() => goToPage('/')}></Logo>
       <FilterWrap>
         <span className="location">
           <HiOutlineLocationMarker />
@@ -77,6 +75,12 @@ const Wrapper = styled.div`
   padding: 0 3rem 0 3rem;
   border-bottom: 1px solid lightgrey;
   font-size: 0.9rem;
+`;
+
+const Logo = styled.img.attrs(() => ({
+  src: '/images/logo.png',
+}))`
+  width: 4.2rem;
 `;
 
 const FilterWrap = styled.div`

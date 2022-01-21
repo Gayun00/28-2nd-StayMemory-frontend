@@ -216,13 +216,19 @@ const MyPageContent = styled.div`
   padding-top: 50px;
 `;
 
-const ButtonsWrapper = styled.div``;
+const ButtonsWrapper = styled.div`
+  display: flex;
+  /* align-items: center; */
+  height: 5rem;
+`;
+
 const ReservationInfo = styled.span`
-  padding: 1rem;
+  margin-right: 1rem;
+  font-size: 1.3rem;
   cursor: pointer;
 `;
 const History = styled.span`
-  padding: 1rem;
+  font-size: 1.3rem;
   cursor: pointer;
 `;
 const ReserveBtn = styled.button`
