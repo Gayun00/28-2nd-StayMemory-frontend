@@ -3,6 +3,7 @@ import Slider from 'react-slick';
 import styled from 'styled-components';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import Likes from '../../components/Likes/Likes';
 
 function SubSlider({ subSlide }) {
   const settings = {
@@ -19,8 +20,13 @@ function SubSlider({ subSlide }) {
       <SliderWrapper>
         <Slider {...settings}>
           {subSlide.map((hotel, idx) => (
-            <ImgContainer key={idx}>
-              <img className="slideImg" src={hotel.img} alt={hotel.name} />
+            <ItemContainer key={idx}>
+              <ImgContainer>
+                <Img img={hotel.img}></Img>
+                <LikesWrapper>
+                  <Likes />
+                </LikesWrapper>
+              </ImgContainer>
               <HotelInfoWrap>
                 <HotelTitle>{hotel.hotelNameKor}</HotelTitle>
                 <TextWrap>
@@ -29,7 +35,7 @@ function SubSlider({ subSlide }) {
                 </TextWrap>
                 <ReadMore>read more</ReadMore>
               </HotelInfoWrap>
-            </ImgContainer>
+            </ItemContainer>
           ))}
         </Slider>
       </SliderWrapper>
@@ -41,78 +47,36 @@ const Wrapper = styled.div`
   position: relative;
   width: 80vw;
   margin-bottom: 3rem;
-
-  .prev {
-    position: absolute;
-    width: 4.5rem;
-    height: 7.5rem;
-    background-color: transparent;
-    border: none;
-    transform: translate(188%, 355%);
-    z-index: 5;
-  }
-
-  .next {
-    position: absolute;
-    width: 4.5rem;
-    height: 7.5rem;
-    background-color: transparent;
-    border: none;
-    transform: translate(290%, -205%);
-    z-index: 5;
-  }
-
-  .arrowBack {
-    font-size: 2rem;
-    color: white;
-    opacity: 0.6;
-  }
-
-  .arrowForward {
-    font-size: 2rem;
-    color: white;
-    opacity: 0.6;
-  }
-
-  .slideNum {
-    position: absolute;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 8.5rem;
-    height: 7.5rem;
-    opacity: 0.7;
-    background-color: black;
-    color: white;
-    font-size: 1.5rem;
-    transform: translateY(56%);
-  }
-
-  .slideButtons {
-    width: 8.7rem;
-    height: 7.5rem;
-    opacity: 0.7;
-    background-color: black;
-    transform: translate(98%, 56%);
-    z-index: 1;
-  }
 `;
 
 const SliderWrapper = styled.div``;
 
-const ImgContainer = styled.div`
+const ItemContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 1rem;
+  height: 22rem;
+`;
+
+const ImgContainer = styled.div`
+  position: relative;
+  height: 60%;
+  background-color: lightblue;
+`;
+
+const Img = styled.img.attrs(hotel => ({
+  src: hotel.img,
+  alt: hotel.name,
+}))`
+  object-fit: cover;
   width: 100%;
   height: 100%;
+`;
 
-  img {
-    object-fit: cover;
-    width: 100%;
-    height: 30%;
-  }
+const LikesWrapper = styled.div`
+  position: absolute;
+  transform: translate(780%, -110%);
 `;
 
 const HotelInfoWrap = styled.div`
