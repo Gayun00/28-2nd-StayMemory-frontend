@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-function Likes(props) {
+function Like(props) {
   const [heart, setHeart] = useState(false);
 
   function clickHeart() {
@@ -29,4 +29,4 @@ function Likes(props) {
   );
 }
 
-export default Likes;
+export default Like;
