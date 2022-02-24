@@ -28,7 +28,7 @@ function SubSlider({ subSlide }) {
           {subSlide.map((hotel, idx) => (
             <ItemContainer key={idx} onClick={() => onClickHotel(hotel.id)}>
               <ImgContainer>
-                <Img img={hotel.img}></Img>
+                <Img img={hotel.img} />
                 <LikesWrapper>
                   <Like />
                 </LikesWrapper>

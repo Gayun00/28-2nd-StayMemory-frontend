@@ -11,9 +11,7 @@ function Like(props) {
         Authorization:
           'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MX0.AekHFMguragxj6mgkwhioYrEzr6tOktCW-vOYLj1P9M',
       },
-    })
-      .then(response => response.json())
-      .then(response => console.log(response));
+    }).then(response => response.json());
   }
 
   return (

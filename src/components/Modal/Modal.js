@@ -14,7 +14,7 @@ import showModalState, {
 import Location from '../Modal/Location/Location';
 import SelectDate from './SelectDate/SelectDate';
 import { useEffect } from 'react/cjs/react.development';
-import convertToQs from '../QueryString/QueryString';
+import convertToQs from '../../utils/QueryString/QueryString';
 import { useNavigate } from 'react-router';
 
 export default function StaticDateRangePickerDemo() {
