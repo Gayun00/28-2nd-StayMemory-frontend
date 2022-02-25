@@ -13,6 +13,7 @@ import { BsArrowRight } from 'react-icons/bs';
 import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
 
 import { useNavigate } from 'react-router-dom';
+import { FETCH_LiST_API_URL } from '../../utils/constants';
 
 export default function List() {
   const [hotel, setHotel] = useState([]);
@@ -24,25 +25,31 @@ export default function List() {
   const handleFilter = stateObj => {
     const URLSearch = new URLSearchParams(location.search);
     Object.entries(stateObj).map(([key, value]) => {
-      if (typeof value === 'boolean') {
-        value && URLSearch.append('category', key);
-      } else {
-        value && URLSearch.append(key, value);
+      console.log(key, value);
+      if (value.length) {
+        if (typeof value === 'array') {
+          return URLSearch.set(key, value.join('&'));
+        } else {
+          return URLSearch.set(key, value);
+        }
       }
     });
+    console.log(URLSearch.toString());
     navigate(`/list?` + URLSearch.toString());
     closeHandler();
   };
   useEffect(() => {
-    fetch(
-      `http://ec2-3-36-124-170.ap-northeast-2.compute.amazonaws.com/stays${location.search}`
-    )
-      .then(res => res.json())
-      .then(res => setHotel(res.data));
+    const fetchHotelList = async () => {
+      const res = await fetch(FETCH_LiST_API_URL(location.search));
+      console.log(FETCH_LiST_API_URL(location.search));
+      const resJson = await res.json();
+      setHotel(resJson.data);
+    };
+    fetchHotelList();
   }, [location.search]);
 
   useEffect(() => {
-    fetch('http://ec2-3-36-124-170.ap-northeast-2.compute.amazonaws.com/stays')
+    fetch(FETCH_LiST_API_URL)
       .then(res => res.json())
       .then(res => setHotel(res.data));
   }, []);
@@ -217,6 +224,30 @@ export const PeopleTitle = styled.div`
     font-size: 20px;
     cursor: pointer;
   }
+`;
+
+export const RangeWrap = styled.div`
+  position: relative;
+  height: 10px;
+`;
+
+export const MinRangeBar = styled.input.attrs({
+  type: 'range',
+  min: '0',
+  max: '100',
+})`
+  position: absolute;
+`;
+
+export const MaxRangeBar = styled.input.attrs({
+  type: 'range',
+  min: '0',
+  max: '100',
+})`
+  position: absolute;
+  background-color: aliceblue;
+  background: transparent;
+  -webkit-appearance: none;
 `;
 
 export const PeopleCounter = styled.div`
