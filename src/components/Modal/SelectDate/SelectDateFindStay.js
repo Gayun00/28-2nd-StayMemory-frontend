@@ -6,7 +6,7 @@ import 'react-dates/lib/css/_datepicker.css';
 import { useRecoilState } from 'recoil';
 import { selectedDatesState } from '../GlobalState';
 
-function DatePicker() {
+function SelectDateFindStay() {
   const [selectedDates, setSelectedDates] = useRecoilState(selectedDatesState);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
@@ -34,4 +34,4 @@ function DatePicker() {
   );
 }
 
-export default DatePicker;
+export default SelectDateFindStay;
