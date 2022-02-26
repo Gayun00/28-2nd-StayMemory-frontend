@@ -23,7 +23,9 @@ function SelectDate() {
   }
 
   const selectedDatesIsNotValid =
-    selectedDates.check_out !== null && validDates === false;
+    selectedDatesState.length &&
+    selectedDates.check_out !== null &&
+    validDates === false;
 
   return (
     <Wrapper>

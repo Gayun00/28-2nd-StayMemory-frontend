@@ -25,11 +25,12 @@ function Nav() {
 
   function logout() {
     sessionStorage.removeItem(LOGIN_TOKEN);
+    goToPage('/login');
   }
 
   return (
     <Wrapper>
-      <Logo onClick={() => goToPage('/')}></Logo>
+      <Logo onClick={() => goToPage('/')} />
       <FilterWrap>
         <span className="location">
           <HiOutlineLocationMarker />
