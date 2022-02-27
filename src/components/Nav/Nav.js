@@ -6,7 +6,7 @@ import { AiOutlineCalendar } from 'react-icons/ai';
 import { BsToggleOn, BsToggleOff } from 'react-icons/bs';
 import ModalPortal from '../Modal/ModalPortal';
 import { useRecoilState } from 'recoil';
-import { isLoggedInState, showModalState } from '../Modal/GlobalState';
+import { showModalState } from '../Modal/GlobalState';
 import { useNavigate } from 'react-router';
 
 function Nav() {
@@ -29,7 +29,7 @@ function Nav() {
 
   return (
     <Wrapper>
-      <Logo onClick={() => goToPage('/')}></Logo>
+      <Logo onClick={() => goToPage('/')} />
       <FilterWrap>
         <span className="location">
           <HiOutlineLocationMarker />
