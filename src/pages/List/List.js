@@ -25,7 +25,6 @@ export default function List() {
   const handleFilter = stateObj => {
     const URLSearch = new URLSearchParams(location.search);
     Object.entries(stateObj).map(([key, value]) => {
-      console.log(key, value);
       if (value.length) {
         if (typeof value === 'array') {
           return URLSearch.set(key, value.join('&'));
@@ -34,14 +33,12 @@ export default function List() {
         }
       }
     });
-    console.log(URLSearch.toString());
     navigate(`/list?` + URLSearch.toString());
     closeHandler();
   };
   useEffect(() => {
     const fetchHotelList = async () => {
       const res = await fetch(FETCH_LiST_API_URL(location.search));
-      console.log(FETCH_LiST_API_URL(location.search));
       const resJson = await res.json();
       setHotel(resJson.data);
     };

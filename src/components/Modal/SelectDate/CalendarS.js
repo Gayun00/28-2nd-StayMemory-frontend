@@ -1,10 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import 'react-dates/initialize';
-import {
-  DateRangePicker,
-  SingleDatePicker,
-  DayPickerRangeController,
-} from 'react-dates';
+import { DateRangePicker } from 'react-dates';
 import 'react-dates/lib/css/_datepicker.css';
 
 function CalendarS({
@@ -14,10 +10,6 @@ function CalendarS({
   focusedInput,
   setFocusedInput,
 }) {
-  useEffect(() => {
-    console.log(focusedInput);
-  }, [focusedInput]);
-
   return (
     <div className="App">
       <DateRangePicker
