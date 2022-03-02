@@ -10,10 +10,12 @@ import { AiOutlineClose } from 'react-icons/ai';
 import { useRecoilState } from 'recoil';
 import { filterConditionState } from '../listState';
 import { TYPE_DATA } from '../../../utils/constants';
+import { useQueryString } from '../../../utils/QueryString/QueryString';
 
 export default function SelectTheme({ closeHandler, handleFilter }) {
   const [filterCondition, setFilterCondition] =
     useRecoilState(filterConditionState);
+  const { handleSearchParams } = useQueryString();
 
   const handleChange = e => {
     const { name } = e.target;
@@ -57,7 +59,11 @@ export default function SelectTheme({ closeHandler, handleFilter }) {
         <AiOutlineClose onClick={closeHandler} />
       </PeopleTitle>
       <ModalPeopleBtnWrapper>
-        <ModalPeopleBtn onClick={() => handleFilter(filterCondition)}>
+        <ModalPeopleBtn
+          onClick={() =>
+            handleSearchParams(`list`, filterCondition, 'multiple')
+          }
+        >
           적용하기
         </ModalPeopleBtn>
       </ModalPeopleBtnWrapper>

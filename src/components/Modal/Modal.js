@@ -1,6 +1,5 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { BsArrowRight } from 'react-icons/bs';
 import { GrClose } from 'react-icons/gr';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import showModalState, {
@@ -86,14 +85,7 @@ export default function StaticDateRangePickerDemo() {
           <GrClose onClick={onClose} />
         </PopUpTitle>
         <CalendarWrapper>{modalContent[showModal]}</CalendarWrapper>
-        <SearchButton
-          diabled={!buttonIsValid}
-          validDates={validDates}
-          onClick={onClickSearch}
-        >
-          {modalButton[showModal]}
-          <BsArrowRight />
-        </SearchButton>
+        <SearchButton />
       </PopUp>
     </Wrapper>
   );
