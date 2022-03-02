@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   ModalPeopleBtn,
   ModalPeopleBtnWrapper,
@@ -7,32 +7,48 @@ import {
   CheckList,
 } from '../List';
 import { AiOutlineClose } from 'react-icons/ai';
-
-const TYPE_DATA = [
-  { id: 1, type: '게스트하우스', name: '게스트하우스' },
-  { id: 2, type: '호텔', name: '호텔' },
-];
+import { useRecoilState } from 'recoil';
+import { filterConditionState } from '../listState';
+import { TYPE_DATA } from '../../../utils/constants';
 
 export default function SelectTheme({ closeHandler, handleFilter }) {
-  const [selectedType, setSelectedType] = useState({
-    게스트하우스: false,
-    호텔: false,
-  });
+  const [filterCondition, setFilterCondition] =
+    useRecoilState(filterConditionState);
 
   const handleChange = e => {
     const { name } = e.target;
-    setSelectedType(current => ({ ...current, [name]: !current[name] }));
+    let updatedCategory = [];
+    if (!filterCondition.category.includes(name)) {
+      updatedCategory = [...filterCondition.category, name];
+    } else {
+      updatedCategory = [...filterCondition.category].filter(cate => {
+        return cate !== name;
+      });
+    }
+    setFilterCondition({
+      ...filterCondition,
+      category: updatedCategory,
+    });
   };
 
   const handleCheckedAll = () => {
-    if (isCheckedAll) {
-      setSelectedType({ 게스트하우스: false, 호텔: false });
-    } else {
-      setSelectedType({ 게스트하우스: true, 호텔: true });
+    let updateCategory = [];
+
+    if (!isCheckedAll) {
+      TYPE_DATA.category.forEach(obj => {
+        updateCategory.push(obj.name);
+      });
     }
+
+    setFilterCondition({
+      ...filterCondition,
+      category: updateCategory,
+    });
   };
 
-  const isCheckedAll = Object.values(selectedType).every(value => value);
+  const isCheckedAll = TYPE_DATA.category.every(obj =>
+    filterCondition.category.includes(obj.name)
+  );
 
   return (
     <ModalBack>
@@ -41,32 +57,34 @@ export default function SelectTheme({ closeHandler, handleFilter }) {
         <AiOutlineClose onClick={closeHandler} />
       </PeopleTitle>
       <ModalPeopleBtnWrapper>
-        <ModalPeopleBtn onClick={() => handleFilter(selectedType)}>
+        <ModalPeopleBtn onClick={() => handleFilter(filterCondition)}>
           적용하기
         </ModalPeopleBtn>
       </ModalPeopleBtnWrapper>
       <CheckList>
         <li>
-          <label onChange={handleCheckedAll} name="all">
+          <label name="all">
             <span>전체</span>
             <input
               type="checkbox"
               value="space"
               name="all"
               checked={isCheckedAll}
+              onChange={handleCheckedAll}
             />
           </label>
         </li>
-        {TYPE_DATA.map((item, idx) => {
+        {TYPE_DATA.category.map((item, idx) => {
           return (
             <li key={idx}>
-              <label onChange={handleChange} name={item.name}>
+              <label name={item.name}>
                 <span>{item.type}</span>
                 <input
                   type="checkbox"
                   value="space"
                   name={item.name}
-                  checked={selectedType[item.name]}
+                  checked={filterCondition.category.includes(item.name)}
+                  onChange={handleChange}
                 />
               </label>
             </li>

@@ -1,8 +1,21 @@
+![스크린샷 2022-02-05 오전 1 49 52](https://user-images.githubusercontent.com/93597794/152569117-418e46c9-1ca5-42b8-8d44-4ce5648e9d1f.png)
+
+
+## Project Introduce
+좋은 잠자리 문화를 선도하고 있는 STAY를 큐레이팅하는 여행 플렛폼 STAYFOLIO 클론 프로젝트 입니다. 
+<br>
+
+STAYFOLIO 만의 감성적인 UI와 체계적인 코드 구조를 분석하여 학습 및 구현하였습니다.
+<br>
+
+reference : https://www.stayfolio.com/
+
+<br>
+
 ## 팀 소개
 ### 팀명
 
-Stay Memory
-
+#### STAYMEMORY
 <br>
 
 ### 팀원
@@ -16,6 +29,29 @@ Stay Memory
 
 ## 배포 링크
 
+<br>
+
+
+## 기술 스택
+
+Used DevTools
+- JavaScript(ES6)
+- React(v17) Hook
+- Sass
+- sider
+
+Collabo Tools
+- Git&Github
+- Slack
+- Trello
+- Libraries
+
+React-router-dom 외 라이브러리
+- styled component
+
+Code Formatter
+- eslint
+- prettie
 
 <br>
 
@@ -29,7 +65,8 @@ Stay Memory
 - 마이 페이지 : 예약정보 / 다녀온 스테이 탭 구현
 
 ### 이석호
-- 검색 페이지 구현
+- 검색 페이지 : 조건 선택 및 쿼리스트링 및 백엔드 데이터 활용으로 호텔 리스트 시각화
+
 
 ### 옥채현
 - 로그인 페이지 : 레이아웃 구현
@@ -46,6 +83,12 @@ Stay Memory
 ### Nav 컴포넌트
 ### 마이 페이지
 ### 검색 페이지
+```
+- 인원, 가격 등 필터 Drop-down 버튼 구현
+- 상수 데이터를 활용하여 input 카운트 개별 관리
+- input range 가격 슬라이드 구현(MUI 라이브러리 문제로 삭제)
+- 쿼리스트링 및 백엔드 데이터 활용으로 조건에 맞는 호텔 리스트 시각화 
+```
 
 <br>
 
@@ -56,5 +99,3 @@ Stay Memory
   - 회고 미팅
   - 칸반보드로 개별 진행상황 관리
   - <img width="599" alt="스크린샷 2022-02-02 오후 5 34 16" src="https://user-images.githubusercontent.com/67543454/152119643-5d6e2dca-f40c-4835-9f12-1f964dc6b75f.png">
-
-- 마이페이지 : 관심스테이 탭 구현

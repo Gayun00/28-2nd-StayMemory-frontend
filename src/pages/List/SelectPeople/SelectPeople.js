@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import {
@@ -11,39 +11,49 @@ import {
   ModalBack,
 } from '../List';
 import { AiOutlineClose } from 'react-icons/ai';
+import { TYPE_DATA } from '../../../utils/constants';
+import { filterConditionState } from '../listState';
+import { useRecoilState } from 'recoil';
+import { useLocation } from 'react-router-dom';
+export default function SelectPeople({ closeHandler, handleFilter }) {
+  const [filterCondition, setFilterCondition] =
+    useRecoilState(filterConditionState);
+  const location = useLocation();
 
-const useCounter = () => {
-  const [quantity, setQuantity] = useState({
-    adult: 0,
-    child: 0,
-    baby: 0,
-  });
+  const headCount = filterCondition.count;
 
   const plusQuantity = name => {
-    setQuantity({
-      ...quantity,
-      [name]: quantity[name] + 1,
+    const updatedCount = {
+      ...filterCondition.count,
+      [name]: filterCondition.count[name] + 1,
+    };
+    setFilterCondition({
+      ...filterCondition,
+      count: updatedCount,
     });
   };
 
   const minusQuantity = name => {
-    setQuantity({
-      ...quantity,
-      [name]: quantity[name] < 1 ? 0 : quantity[name] - 1,
+    const updatedCount = {
+      ...filterCondition.count,
+      [name]: filterCondition.count[name] - 1,
+    };
+    setFilterCondition({
+      ...filterCondition,
+      count: updatedCount,
     });
   };
 
-  return { quantity, plusQuantity, minusQuantity };
-};
-
-export default function SelectPeople({ closeHandler, handleFilter }) {
-  const { quantity, plusQuantity, minusQuantity } = useCounter(0);
-
-  const COUNTER_DATA = [
-    { id: 1, type: '성인', name: 'adult' },
-    { id: 2, type: '아동', age: '24개월~12세', name: 'child' },
-    { id: 3, type: '영아', age: '24개월 미만', name: 'baby' },
-  ];
+  const onFilter = () => {
+    let updateArr = [];
+    Object.entries(filterCondition.count).map(([key, value]) => {
+      updateArr.push(`${key}=${value}`);
+    });
+    // const URLSearch = new URLSearchParams(location.search);
+    handleFilter({
+      count: updateArr.join('&').toString(),
+    });
+  };
 
   return (
     <ModalBack>
@@ -52,8 +62,8 @@ export default function SelectPeople({ closeHandler, handleFilter }) {
         <AiOutlineClose onClick={closeHandler} />
       </PeopleTitle>
       <div>
-        {COUNTER_DATA &&
-          COUNTER_DATA.map((item, idx) => {
+        {TYPE_DATA.count &&
+          TYPE_DATA.count.map((item, idx) => {
             return (
               <PeopleCounter key={idx}>
                 <span>
@@ -65,7 +75,11 @@ export default function SelectPeople({ closeHandler, handleFilter }) {
                     -
                   </CounterButton>
                   <InputNum>
-                    <input type="number" value={quantity[item.name]} />
+                    <input
+                      type="number"
+                      value={filterCondition.count[item.name] || 0}
+                      readOnly
+                    />
                     <span>명</span>
                   </InputNum>
                   <CounterButton onClick={() => plusQuantity(item.name)}>
@@ -77,9 +91,7 @@ export default function SelectPeople({ closeHandler, handleFilter }) {
           })}
       </div>
       <ModalPeopleBtnWrapper>
-        <ModalPeopleBtn onClick={() => handleFilter(quantity)}>
-          적용하기
-        </ModalPeopleBtn>
+        <ModalPeopleBtn onClick={onFilter}>적용하기</ModalPeopleBtn>
       </ModalPeopleBtnWrapper>
     </ModalBack>
   );

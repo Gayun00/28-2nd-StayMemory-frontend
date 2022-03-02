@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { BsArrowRight } from 'react-icons/bs';
 import { GrClose } from 'react-icons/gr';
@@ -26,8 +25,6 @@ export default function StaticDateRangePickerDemo() {
   const validDates = useRecoilValue(validDatesState);
   const [buttonIsValid, setButtonIsValid] = React.useState(false);
   const setTotalPrice = useSetRecoilState(totalPriceState);
-  const params = useParams();
-  console.log(params);
 
   function onClickSearch() {
     setShowModal(null);

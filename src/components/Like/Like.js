@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { RiHeartLine, RiHeartFill } from 'react-icons/ri';
+import styled from 'styled-components';
 
 function Like(props) {
   const [heart, setHeart] = useState(false);
@@ -18,9 +20,13 @@ function Like(props) {
     <div>
       <div>
         {heart ? (
-          <img src="/images/heart2.png" alt="꽉 찬 하트" onClick={clickHeart} />
+          <div onClick={clickHeart}>
+            <RiHeartFill size="20px" />
+          </div>
         ) : (
-          <img src="/images/heart1.png" alt="텅 빈 하트" onClick={clickHeart} />
+          <div onClick={clickHeart}>
+            <RiHeartLine size="20px" color="pink" />
+          </div>
         )}
       </div>
     </div>

@@ -81,8 +81,8 @@ const Img = styled.img.attrs(hotel => ({
 `;
 
 const LikesWrapper = styled.div`
-  position: absolute;
-  transform: translate(780%, -110%);
+  /* position: absolute;*/
+  transform: translateY(-110%);
 `;
 
 const HotelInfoWrap = styled.div`

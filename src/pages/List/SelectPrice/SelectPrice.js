@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   ModalPeopleBtn,
   ModalPeopleBtnWrapper,
@@ -8,24 +8,39 @@ import {
   InputHeader,
   InputContent,
   Dash,
+  MinRangeBar,
+  MaxRangeBar,
+  RangeWrap,
 } from '../List';
 import { AiOutlineClose } from 'react-icons/ai';
+import { useRecoilState } from 'recoil';
+import { filterConditionState } from '../listState';
 
 export default function SelectPrice({ closeHandler, handleFilter }) {
-  const [value, setValue] = useState([0]);
+  const [filterCondition, setFilterCondition] =
+    useRecoilState(filterConditionState);
 
-  const convertToPriceObj = () => {
-    return {
-      minprice: value * 100,
-      maxprice: value * 10000,
-    };
-  };
+  const [value, setValue] = useState(0);
 
   const handleChange = e => {
-    setValue(e.target.value);
-    console.log(e.target.value);
-    console.log(value);
+    const maxPrice = e.target.value * 10000;
+    setValue(maxPrice);
   };
+
+  const onFilter = () => {
+    let updateArr = [];
+
+    Object.entries(filterCondition.priceRange).map(([key, value]) => {
+      updateArr.push(`${key}=${value}`);
+    });
+    handleFilter({
+      priceRange: updateArr.join('&').toString(),
+    });
+  };
+
+  useEffect(() => {
+    console.log(value, filterCondition.priceRange);
+  }, [value, filterCondition]);
 
   return (
     <ModalBack>
@@ -33,8 +48,8 @@ export default function SelectPrice({ closeHandler, handleFilter }) {
         가격 범위
         <AiOutlineClose onClick={closeHandler} />
       </PeopleTitle>
-      <div>
-        <input
+      <RangeWrap>
+        <MinRangeBar
           onChange={handleChange}
           type="range"
           id="id"
@@ -42,7 +57,7 @@ export default function SelectPrice({ closeHandler, handleFilter }) {
           min="0"
           max="100"
         />
-      </div>
+      </RangeWrap>
       <InputContainer>
         <div>
           <InputHeader>최저요금</InputHeader>
@@ -61,9 +76,7 @@ export default function SelectPrice({ closeHandler, handleFilter }) {
         </div>
       </InputContainer>
       <ModalPeopleBtnWrapper>
-        <ModalPeopleBtn onClick={() => handleFilter(convertToPriceObj())}>
-          적용하기
-        </ModalPeopleBtn>
+        <ModalPeopleBtn onClick={onFilter}>적용하기</ModalPeopleBtn>
       </ModalPeopleBtnWrapper>
     </ModalBack>
   );
