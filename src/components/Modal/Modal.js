@@ -76,7 +76,7 @@ export default function StaticDateRangePickerDemo() {
     date: <SelectDate />,
     date_detail: <SelectDate detail={true} />,
   };
-
+  //////////
   return (
     <Wrapper>
       <PopUp>

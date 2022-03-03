@@ -5,7 +5,7 @@ import GlobalStyle from './styles/GlobalStyle';
 import { ThemeProvider } from 'styled-components';
 import Router from './Router';
 import theme from './styles/theme';
-
+//
 ReactDOM.render(
   <>
     <GlobalStyle />

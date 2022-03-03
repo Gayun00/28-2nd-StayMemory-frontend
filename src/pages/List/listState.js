@@ -3,7 +3,7 @@ import { atom } from 'recoil';
 export const filterConditionState = atom({
   key: 'filterConditionState',
   default: {
-    location: '',
+    city: '',
     count: {
       adult: 0,
       child: 0,

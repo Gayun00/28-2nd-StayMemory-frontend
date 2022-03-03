@@ -34,3 +34,10 @@ export const TYPE_DATA = {
     },
   ],
 };
+
+export const cities = [
+  { id: 0, name: '전체' },
+  { id: 1, name: '서울' },
+  { id: 2, name: '제주' },
+  { id: 3, name: '강원' },
+];
