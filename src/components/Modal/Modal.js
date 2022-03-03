@@ -84,7 +84,9 @@ export default function StaticDateRangePickerDemo() {
           <h2>{modalTitle[showModal]}</h2>
           <GrClose onClick={onClose} />
         </PopUpTitle>
-        <CalendarWrapper>{modalContent[showModal]}</CalendarWrapper>
+        {/* <CalendarWrapper> */}
+        {modalContent[showModal]}
+        {/* </CalendarWrapper> */}
       </PopUp>
     </Wrapper>
   );
@@ -142,7 +144,7 @@ const SearchButton = styled.button`
   cursor: ${props => (props.validDates ? 'pointer' : 'none')};
 `;
 
-const CalendarWrapper = styled.div`
-  border-top: 1px solid lightgrey;
-  border-bottom: 1px solid lightgrey;
-`;
+// const CalendarWrapper = styled.div`
+//   border-top: 1px solid lightgrey;
+//   border-bottom: 1px solid lightgrey;
+// `;

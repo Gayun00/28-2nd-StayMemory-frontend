@@ -27,38 +27,44 @@ function Location() {
 
   return (
     <Wrapper>
-      <SearchWrapper>
-        <AiOutlineSearch />
-        <input
-          type="text"
-          name="search"
-          placeholder="원하는 스테이/지역을 검색해보세요"
-        />
-      </SearchWrapper>
-      <SearchTitle>국내</SearchTitle>
-      <ButtonWrapper>
-        {cities.map(city => (
-          <Button
-            key={city.id}
-            isClicked={filterCondition.city === city.name}
-            onClick={() => onClickCityButton(city.name)}
-          >
-            {city.name}
-          </Button>
-        ))}
-      </ButtonWrapper>
+      <Container>
+        <SearchWrapper>
+          <AiOutlineSearch />
+          <input
+            type="text"
+            name="search"
+            placeholder="원하는 스테이/지역을 검색해보세요"
+          />
+        </SearchWrapper>
+        <SearchTitle>국내</SearchTitle>
+        <ButtonWrapper>
+          {cities.map(city => (
+            <Button
+              key={city.id}
+              isClicked={filterCondition.city === city.name}
+              onClick={() => onClickCityButton(city.name)}
+            >
+              {city.name}
+            </Button>
+          ))}
+        </ButtonWrapper>
+      </Container>
       <SearchButton onClickSearch={onClickSearch} />
     </Wrapper>
   );
 }
 
-const Wrapper = styled.div`
+const Wrapper = styled.div``;
+
+const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   padding: 3rem;
   width: 40rem;
+  border-top: 1px solid lightgrey;
+  border-bottom: 1px solid lightgrey;
 `;
 
 const SearchWrapper = styled.div`

@@ -4,11 +4,21 @@ import { BsArrowRight } from 'react-icons/bs';
 
 function SearchButton({ onClickSearch }) {
   return (
-    <Button onClick={onClickSearch}>
-      <BsArrowRight />
-    </Button>
+    <Wrapper>
+      <Button onClick={onClickSearch}>
+        <p>SEARCH</p>
+        <BsArrowRight />
+      </Button>
+    </Wrapper>
   );
 }
+
+const Wrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+`;
 
 const Button = styled.button`
   display: flex;
