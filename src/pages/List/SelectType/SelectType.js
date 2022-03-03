@@ -59,11 +59,7 @@ export default function SelectTheme({ closeHandler, handleFilter }) {
         <AiOutlineClose onClick={closeHandler} />
       </PeopleTitle>
       <ModalPeopleBtnWrapper>
-        <ModalPeopleBtn
-          onClick={() =>
-            handleSearchParams(`list`, filterCondition, 'multiple')
-          }
-        >
+        <ModalPeopleBtn onClick={() => handleSearchParams('category', 'array')}>
           적용하기
         </ModalPeopleBtn>
       </ModalPeopleBtnWrapper>

@@ -4,10 +4,7 @@ import { BsArrowRight } from 'react-icons/bs';
 import { useQueryString } from '../../utils/QueryString/QueryString';
 
 function SearchButton() {
-  const obj = {};
-  function onClickSearch() {
-    useQueryString(obj);
-  }
+  function onClickSearch() {}
 
   return (
     <Button>

@@ -10,10 +10,12 @@ import { AiOutlineClose } from 'react-icons/ai';
 import { TYPE_DATA } from '../../../utils/constants';
 import { useRecoilState } from 'recoil';
 import { filterConditionState } from '../listState';
+import { useQueryString } from '../../../utils/QueryString/QueryString';
 
-export default function SelectTheme({ closeHandler, handleFilter }) {
+export default function SelectTheme({ closeHandler }) {
   const [filterCondition, setFilterCondition] =
     useRecoilState(filterConditionState);
+  const { handleSearchParams } = useQueryString();
 
   const handleChange = e => {
     const { name } = e.target;
@@ -25,7 +27,7 @@ export default function SelectTheme({ closeHandler, handleFilter }) {
         return th !== name;
       });
     }
-    console.log(updatedTheme);
+
     setFilterCondition({
       ...filterCondition,
       theme: updatedTheme,
@@ -57,7 +59,9 @@ export default function SelectTheme({ closeHandler, handleFilter }) {
         테마
         <AiOutlineClose onClick={closeHandler} />
       </PeopleTitle>
-      <ModalPeopleBtnWrapper onClick={() => handleFilter(filterCondition)}>
+      <ModalPeopleBtnWrapper
+        onClick={() => handleSearchParams('theme', 'array')}
+      >
         <ModalPeopleBtn>적용하기</ModalPeopleBtn>
       </ModalPeopleBtnWrapper>
       <CheckList>

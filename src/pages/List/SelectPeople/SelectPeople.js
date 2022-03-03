@@ -14,13 +14,11 @@ import { AiOutlineClose } from 'react-icons/ai';
 import { TYPE_DATA } from '../../../utils/constants';
 import { filterConditionState } from '../listState';
 import { useRecoilState } from 'recoil';
-import { useLocation } from 'react-router-dom';
+import { useQueryString } from '../../../utils/QueryString/QueryString';
 export default function SelectPeople({ closeHandler, handleFilter }) {
   const [filterCondition, setFilterCondition] =
     useRecoilState(filterConditionState);
-  const location = useLocation();
-
-  const headCount = filterCondition.count;
+  const { handleSearchParams } = useQueryString();
 
   const plusQuantity = name => {
     const updatedCount = {
@@ -45,14 +43,7 @@ export default function SelectPeople({ closeHandler, handleFilter }) {
   };
 
   const onFilter = () => {
-    let updateArr = [];
-    Object.entries(filterCondition.count).map(([key, value]) => {
-      updateArr.push(`${key}=${value}`);
-    });
-    // const URLSearch = new URLSearchParams(location.search);
-    handleFilter({
-      count: updateArr.join('&').toString(),
-    });
+    handleSearchParams('count', 'object');
   };
 
   return (
