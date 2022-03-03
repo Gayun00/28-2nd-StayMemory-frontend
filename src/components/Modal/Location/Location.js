@@ -1,19 +1,28 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { useRecoilState } from 'recoil';
 import { selectedLocationState } from '../GlobalState';
+import { cities } from '../../../utils/constants';
+import SearchButton from '../../Button/SearchButton';
+import { useQueryString } from '../../../utils/QueryString/QueryString';
+import { filterConditionState } from '../../../pages/List/listState';
 
 function Location() {
-  const [selectedLocation, setSelectedLocation] = useRecoilState(
-    selectedLocationState
-  );
+  const { handleSearchParams } = useQueryString();
+  const [filterCondition, setFilterCondition] =
+    useRecoilState(filterConditionState);
 
-  function selectLocation(str) {
-    setSelectedLocation({
-      ...selectedLocation,
-      city: str,
+  function onClickCityButton(city) {
+    setFilterCondition({
+      ...filterCondition,
+      city: city,
     });
+  }
+
+  function onClickSearch() {
+    console.log(filterCondition.city);
+    handleSearchParams('city');
   }
 
   return (
@@ -28,31 +37,17 @@ function Location() {
       </SearchWrapper>
       <SearchTitle>국내</SearchTitle>
       <ButtonWrapper>
-        <Button
-          isClicked={selectedLocation.city === '전체'}
-          onClick={() => selectLocation('전체')}
-        >
-          전체
-        </Button>
-        <Button
-          isClicked={selectedLocation.city === '서울'}
-          onClick={() => selectLocation('서울')}
-        >
-          서울
-        </Button>
-        <Button
-          isClicked={selectedLocation.city === '제주'}
-          onClick={() => selectLocation('제주')}
-        >
-          제주
-        </Button>
-        <Button
-          isClicked={selectedLocation.city === '강원'}
-          onClick={() => selectLocation('강원')}
-        >
-          강원
-        </Button>
+        {cities.map(city => (
+          <Button
+            key={city.id}
+            isClicked={filterCondition.city === city.name}
+            onClick={() => onClickCityButton(city.name)}
+          >
+            {city.name}
+          </Button>
+        ))}
       </ButtonWrapper>
+      <SearchButton onClickSearch={onClickSearch} />
     </Wrapper>
   );
 }

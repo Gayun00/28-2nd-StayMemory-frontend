@@ -85,7 +85,6 @@ export default function StaticDateRangePickerDemo() {
           <GrClose onClick={onClose} />
         </PopUpTitle>
         <CalendarWrapper>{modalContent[showModal]}</CalendarWrapper>
-        <SearchButton />
       </PopUp>
     </Wrapper>
   );

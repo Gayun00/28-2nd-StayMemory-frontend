@@ -1,13 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 import { BsArrowRight } from 'react-icons/bs';
-import { useQueryString } from '../../utils/QueryString/QueryString';
 
-function SearchButton() {
-  function onClickSearch() {}
-
+function SearchButton({ onClickSearch }) {
   return (
-    <Button>
+    <Button onClick={onClickSearch}>
       <BsArrowRight />
     </Button>
   );
