@@ -14,6 +14,7 @@ import SelectDate from './SelectDate/SelectDate';
 import { useEffect } from 'react/cjs/react.development';
 import convertToQs from '../../utils/QueryString/QueryString';
 import { useNavigate } from 'react-router';
+import CalendarM from './SelectDate/CalendarM';
 
 export default function StaticDateRangePickerDemo() {
   const navigate = useNavigate();
@@ -73,7 +74,7 @@ export default function StaticDateRangePickerDemo() {
 
   const modalContent = {
     location: <Location />,
-    date: <SelectDate />,
+    date: <CalendarM />,
     date_detail: <SelectDate detail={true} />,
   };
   //////////
