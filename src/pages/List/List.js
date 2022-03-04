@@ -94,16 +94,10 @@ export default function List() {
               )}
             </div>
             <div>
-              <ModalBtn onClick={() => clickHandler(2)}>
-                스테이 유형
-                <MdOutlineKeyboardArrowDown />
-              </ModalBtn>
-              {currentID === 2 && (
-                <SelectType
-                  closeHandler={closeHandler}
-                  handleFilter={handleFilter}
-                />
-              )}
+              <SelectType
+                closeHandler={closeHandler}
+                handleFilter={handleFilter}
+              />
             </div>
             <div>
               <ModalBtn onClick={() => clickHandler(3)}>

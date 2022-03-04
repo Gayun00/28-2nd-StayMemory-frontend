@@ -14,7 +14,7 @@ import { AiOutlineClose } from 'react-icons/ai';
 import { TYPE_DATA } from '../../../utils/constants';
 import { filterConditionState } from '../listState';
 import { useRecoilState } from 'recoil';
-import { useQueryString } from '../../../utils/QueryString/QueryString';
+import { useQueryString } from '../../../utils/utils';
 export default function SelectPeople({ closeHandler, handleFilter }) {
   const [filterCondition, setFilterCondition] =
     useRecoilState(filterConditionState);

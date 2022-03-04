@@ -5,7 +5,7 @@ import { useRecoilState } from 'recoil';
 import { selectedLocationState } from '../GlobalState';
 import { cities } from '../../../utils/constants';
 import SearchButton from '../../Button/SearchButton';
-import { useQueryString } from '../../../utils/QueryString/QueryString';
+import { useQueryString } from '../../../utils/utils';
 import { filterConditionState } from '../../../pages/List/listState';
 
 function Location() {

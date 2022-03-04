@@ -10,7 +10,7 @@ import { AiOutlineClose } from 'react-icons/ai';
 import { TYPE_DATA } from '../../../utils/constants';
 import { useRecoilState } from 'recoil';
 import { filterConditionState } from '../listState';
-import { useQueryString } from '../../../utils/QueryString/QueryString';
+import { useQueryString } from '../../../utils/utils';
 
 export default function SelectTheme({ closeHandler }) {
   const [filterCondition, setFilterCondition] =

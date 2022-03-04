@@ -11,8 +11,7 @@ import showModalState, {
 } from './GlobalState';
 import Location from '../Modal/Location/Location';
 import SelectDate from './SelectDate/SelectDate';
-import { useEffect } from 'react/cjs/react.development';
-import convertToQs from '../../utils/QueryString/QueryString';
+import convertToQs from '../../utils/utils';
 import { useNavigate } from 'react-router';
 import CalendarM from './SelectDate/CalendarM';
 
@@ -45,7 +44,7 @@ export default function StaticDateRangePickerDemo() {
       .then(res => setTotalPrice(res.data.total_price));
   }
 
-  useEffect(() => {
+  React.useEffect(() => {
     function disableButton() {
       if (showModal === 'location') {
         setButtonIsValid(selectedLocation.location !== null);

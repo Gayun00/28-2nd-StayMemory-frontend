@@ -15,7 +15,7 @@ import {
 import { AiOutlineClose } from 'react-icons/ai';
 import { useRecoilState } from 'recoil';
 import { filterConditionState } from '../listState';
-import { useQueryString } from '../../../utils/QueryString/QueryString';
+import { useQueryString } from '../../../utils/utils';
 
 export default function SelectPrice({ closeHandler, handleFilter }) {
   const [filterCondition, setFilterCondition] =
