@@ -13,45 +13,17 @@ import { filterConditionState } from '../listState';
 import { useQueryString } from '../../../utils/utils';
 
 export default function SelectTheme({ closeHandler }) {
-  const [filterCondition, setFilterCondition] =
-    useRecoilState(filterConditionState);
-  const { handleSearchParams } = useQueryString();
+  const {
+    addFilterArr,
+    handleCheckedAll,
+    isCheckedAll,
+    isChecked,
+    parseArrayToSearchParams,
+  } = useQueryString('theme');
 
   const handleChange = e => {
-    const { name } = e.target;
-    let updatedTheme = [];
-    if (!filterCondition.theme.includes(name)) {
-      updatedTheme = [...filterCondition.theme, name];
-    } else {
-      updatedTheme = [...filterCondition.theme].filter(th => {
-        return th !== name;
-      });
-    }
-
-    setFilterCondition({
-      ...filterCondition,
-      theme: updatedTheme,
-    });
+    addFilterArr(e);
   };
-
-  const handleCheckedAll = () => {
-    let updateTheme = [];
-
-    if (!isCheckedAll) {
-      TYPE_DATA.theme.forEach(obj => {
-        updateTheme.push(obj.name);
-      });
-    }
-
-    setFilterCondition({
-      ...filterCondition,
-      theme: updateTheme,
-    });
-  };
-
-  const isCheckedAll = TYPE_DATA.theme.every(obj =>
-    filterCondition.theme.includes(obj.name)
-  );
 
   return (
     <ModalBack>
@@ -59,9 +31,7 @@ export default function SelectTheme({ closeHandler }) {
         테마
         <AiOutlineClose onClick={closeHandler} />
       </PeopleTitle>
-      <ModalPeopleBtnWrapper
-        onClick={() => handleSearchParams('theme', 'array')}
-      >
+      <ModalPeopleBtnWrapper onClick={() => parseArrayToSearchParams()}>
         <ModalPeopleBtn>적용하기</ModalPeopleBtn>
       </ModalPeopleBtnWrapper>
       <CheckList>
@@ -85,7 +55,7 @@ export default function SelectTheme({ closeHandler }) {
                 <input
                   type="checkbox"
                   name={obj.name}
-                  checked={filterCondition.theme.includes(obj.name)}
+                  checked={isChecked(obj.name)}
                   onChange={handleChange}
                 />
               </label>

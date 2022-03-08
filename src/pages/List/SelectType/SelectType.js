@@ -14,7 +14,7 @@ import { useClickAway, useQueryString } from '../../../utils/utils';
 import styled from 'styled-components';
 import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
 
-export default function SelectTheme() {
+export default function SelectType() {
   const {
     addFilterArr,
     handleCheckedAll,
