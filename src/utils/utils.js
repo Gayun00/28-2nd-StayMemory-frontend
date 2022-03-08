@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { filterConditionState } from '../pages/List/listState';
-
+import { TYPE_DATA } from './constants';
 export const convertToQs = (page, obj) => {
   const queryString = Object.entries(obj)
     .map(el => el.join('='))
@@ -10,45 +10,70 @@ export const convertToQs = (page, obj) => {
   return `/${page}?${queryString}`;
 };
 
-export default convertToQs;
-
-export const useQueryString = () => {
-  const [filterCondition, setFilterCondition] =
-    useRecoilState(filterConditionState);
+export const useQueryString = objKey => {
   const { search } = useLocation();
   const navigate = useNavigate();
   let URLSearch = new URLSearchParams(search);
 
-  useEffect(() => {
-    URLSearch = new URLSearchParams(search);
-  }, [search]);
+  const [selectedList, setSelectedList] = useState([]);
+  const [selectedListObject, setSelectedListObject] = useState({});
 
-  const handleSearchParams = (objKey, type = 'string', page = 'list') => {
-    const objValue = filterCondition[objKey];
-
-    if (type === 'array') {
-      URLSearch.set(objKey, objValue);
-    } else if (type === 'object') {
-      let valueArr = [];
-      Object.entries(objValue).map(([key, value]) => {
-        if (value) {
-          valueArr.push(key + '=' + value);
-        }
-      });
-      URLSearch.set(objKey, valueArr.join('&'));
+  const addFilterArr = e => {
+    let updatedList = [];
+    const { name } = e.target;
+    if (!selectedList.includes(name)) {
+      updatedList = [...selectedList, name];
     } else {
-      URLSearch.set(objKey, objValue);
+      updatedList = [...selectedList].filter(cate => {
+        return cate !== name;
+      });
+    }
+    setSelectedList(updatedList);
+  };
+
+  const handleCheckedAll = () => {
+    let updatedList = [];
+
+    if (!isCheckedAll) {
+      TYPE_DATA[objKey].forEach(obj => {
+        updatedList.push(obj.name);
+      });
     }
 
+    setSelectedList(updatedList);
+  };
+  const isCheckedAll = TYPE_DATA[objKey].every(obj =>
+    selectedList.includes(obj.name)
+  );
+
+  const isChecked = property => {
+    return selectedList.includes(property);
+  };
+
+  const parseArrayToSearchParams = (page = 'list') => {
+    URLSearch.set(objKey, selectedList.join('&'));
     navigate(`/${page}?` + URLSearch.toString());
   };
 
-  const handleArrayToSearchParams = (key, array, page = 'list') => {
-    URLSearch.set(key, array.join('&'));
-    navigate(`/${page}?` + URLSearch.toString());
-  };
+  // const parseObjectToSearchParams = (page = 'list') => {
+  //   const objValue = filterCondition[objKey];
 
-  return { handleSearchParams, handleArrayToSearchParams, URLSearch };
+  //   let valueArr = [];
+  //   Object.entries(objValue).map(([key, value]) => {
+  //     if (value) {
+  //       valueArr.push(key + '=' + value);
+  //     }
+  //   });
+  //   URLSearch.set(objKey, valueArr.join('&'));
+  // };
+
+  return {
+    addFilterArr,
+    handleCheckedAll,
+    isCheckedAll,
+    isChecked,
+    parseArrayToSearchParams,
+  };
 };
 export const useClickAway = () => {
   const [isOpened, setIsOpened] = useState(false);

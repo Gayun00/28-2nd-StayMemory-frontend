@@ -15,43 +15,17 @@ import styled from 'styled-components';
 import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
 
 export default function SelectTheme() {
-  const [filterCondition, setFilterCondition] =
-    useRecoilState(filterConditionState);
-  const { handleArrayToSearchParams } = useQueryString();
-  const [category, setCategory] = useState([]);
+  const {
+    addFilterArr,
+    handleCheckedAll,
+    isCheckedAll,
+    isChecked,
+    parseArrayToSearchParams,
+  } = useQueryString('category');
   const { isOpened, setIsOpened, clickRef } = useClickAway();
-
   const handleChange = e => {
-    let updatedCategory = [];
-    const { name } = e.target;
-    if (!category.includes(name)) {
-      updatedCategory = [...category, name];
-    } else {
-      updatedCategory = [...category].filter(cate => {
-        return cate !== name;
-      });
-    }
-    setCategory(updatedCategory);
+    addFilterArr(e);
   };
-
-  const handleCheckedAll = () => {
-    let updateCategory = [];
-
-    if (!isCheckedAll) {
-      TYPE_DATA.category.forEach(obj => {
-        updateCategory.push(obj.name);
-      });
-    }
-
-    setFilterCondition({
-      ...filterCondition,
-      category: updateCategory,
-    });
-  };
-
-  const isCheckedAll = TYPE_DATA.category.every(obj =>
-    category.includes(obj.name)
-  );
 
   return (
     <Wrapper ref={clickRef}>
@@ -66,9 +40,7 @@ export default function SelectTheme() {
             <AiOutlineClose onClick={() => setIsOpened(!isOpened)} />
           </PeopleTitle>
           <ModalPeopleBtnWrapper>
-            <ModalPeopleBtn
-              onClick={() => handleArrayToSearchParams('category', category)}
-            >
+            <ModalPeopleBtn onClick={() => parseArrayToSearchParams()}>
               적용하기
             </ModalPeopleBtn>
           </ModalPeopleBtnWrapper>
@@ -94,7 +66,7 @@ export default function SelectTheme() {
                       type="checkbox"
                       value="space"
                       name={item.name}
-                      checked={category.includes(item.name)}
+                      checked={isChecked(item.name)}
                       onChange={handleChange}
                     />
                   </label>
@@ -130,4 +102,3 @@ const ModalBtn = styled.li`
     font-size: 20px;
   }
 `;
-// 사용자가 선택한 타입 값 관리. > 불리언 데이터 사용

@@ -25,16 +25,16 @@ export default function StaticDateRangePickerDemo() {
   const [buttonIsValid, setButtonIsValid] = React.useState(false);
   const setTotalPrice = useSetRecoilState(totalPriceState);
 
-  function onClickSearch() {
-    setShowModal(null);
-    if (showModal === 'location') {
-      navigate(convertToQs('list', selectedLocation));
-    } else if (showModal === 'date') {
-      navigate(convertToQs('list', selectedDates));
-    } else if (showModal === 'date_detail') {
-      submitSelectedDates();
-    }
-  }
+  // function onClickSearch() {
+  //   setShowModal(null);
+  //   if (showModal === 'location') {
+  //     navigate(convertToQs('list', selectedLocation));
+  //   } else if (showModal === 'date') {
+  //     navigate(convertToQs('list', selectedDates));
+  //   } else if (showModal === 'date_detail') {
+  //     submitSelectedDates();
+  //   }
+  // }
 
   function submitSelectedDates() {
     fetch(
