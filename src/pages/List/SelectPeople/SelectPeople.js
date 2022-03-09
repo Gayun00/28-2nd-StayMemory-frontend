@@ -18,32 +18,32 @@ import { useQueryString } from '../../../utils/utils';
 export default function SelectPeople({ closeHandler, handleFilter }) {
   const [filterCondition, setFilterCondition] =
     useRecoilState(filterConditionState);
-  const { handleSearchParams } = useQueryString();
+  const initialState = {
+    adult: 0,
+    child: 0,
+    baby: 0,
+  };
+  const {
+    handleSearchParams,
+    addFilterObject,
+    selectedListObject,
+    parseObjectToSearchParams,
+  } = useQueryString('count', initialState);
 
   const plusQuantity = name => {
-    const updatedCount = {
-      ...filterCondition.count,
-      [name]: filterCondition.count[name] + 1,
-    };
-    setFilterCondition({
-      ...filterCondition,
-      count: updatedCount,
-    });
+    const updatedCount = selectedListObject[name] + 1;
+    addFilterObject(name, updatedCount);
   };
 
   const minusQuantity = name => {
-    const updatedCount = {
-      ...filterCondition.count,
-      [name]: filterCondition.count[name] - 1,
-    };
-    setFilterCondition({
-      ...filterCondition,
-      count: updatedCount,
-    });
+    if (selectedListObject[name]) {
+      const updatedCount = selectedListObject[name] - 1;
+      addFilterObject(name, updatedCount);
+    }
   };
 
   const onFilter = () => {
-    handleSearchParams('count', 'object');
+    parseObjectToSearchParams();
   };
 
   return (
@@ -68,7 +68,7 @@ export default function SelectPeople({ closeHandler, handleFilter }) {
                   <InputNum>
                     <input
                       type="number"
-                      value={filterCondition.count[item.name] || 0}
+                      value={selectedListObject[item.name] || 0}
                       readOnly
                     />
                     <span>명</span>

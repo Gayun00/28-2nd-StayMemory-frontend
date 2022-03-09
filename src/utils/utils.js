@@ -10,13 +10,13 @@ export const convertToQs = (page, obj) => {
   return `/${page}?${queryString}`;
 };
 
-export const useQueryString = objKey => {
+export const useQueryString = (objKey, stateObj) => {
   const { search } = useLocation();
   const navigate = useNavigate();
   let URLSearch = new URLSearchParams(search);
 
   const [selectedList, setSelectedList] = useState([]);
-  const [selectedListObject, setSelectedListObject] = useState({});
+  const [selectedListObject, setSelectedListObject] = useState(stateObj);
 
   const addFilterArr = e => {
     let updatedList = [];
@@ -42,6 +42,7 @@ export const useQueryString = objKey => {
 
     setSelectedList(updatedList);
   };
+
   const isCheckedAll = TYPE_DATA[objKey].every(obj =>
     selectedList.includes(obj.name)
   );
@@ -55,24 +56,39 @@ export const useQueryString = objKey => {
     navigate(`/${page}?` + URLSearch.toString());
   };
 
-  // const parseObjectToSearchParams = (page = 'list') => {
-  //   const objValue = filterCondition[objKey];
+  const addFilterObject = (name, updatedResult) => {
+    const updatedObject = {
+      ...selectedListObject,
+      [name]: updatedResult,
+    };
 
-  //   let valueArr = [];
-  //   Object.entries(objValue).map(([key, value]) => {
-  //     if (value) {
-  //       valueArr.push(key + '=' + value);
-  //     }
-  //   });
-  //   URLSearch.set(objKey, valueArr.join('&'));
-  // };
+    setSelectedListObject(updatedObject);
+  };
+
+  useEffect(() => {
+    console.log(selectedListObject);
+  }, [selectedListObject]);
+
+  const parseObjectToSearchParams = (page = 'list') => {
+    let valueArr = [];
+    Object.entries(selectedListObject).map(([key, value]) => {
+      if (value) {
+        valueArr.push(key + '=' + value);
+      }
+    });
+    URLSearch.set(objKey, valueArr.join('&'));
+    navigate(`/${page}?` + URLSearch.toString());
+  };
 
   return {
+    selectedListObject,
     addFilterArr,
+    addFilterObject,
     handleCheckedAll,
     isCheckedAll,
     isChecked,
     parseArrayToSearchParams,
+    parseObjectToSearchParams,
   };
 };
 export const useClickAway = () => {
