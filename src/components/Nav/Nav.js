@@ -8,13 +8,22 @@ import ModalPortal from '../Modal/ModalPortal';
 import { useRecoilState } from 'recoil';
 import { showModalState } from '../Modal/GlobalState';
 import { useNavigate } from 'react-router';
+import useClickAway from '../../utils/hooks/useClickAway';
+import {
+  ModalContentComponents,
+  ModalContents,
+  NavModalTitle,
+} from '../../utils/constants';
 
 function Nav() {
   const [modal, setModal] = useRecoilState(showModalState);
+  const [openedModalName, setOpenedModalName] = useState('');
   const [isDarkMode, setIsDarkMode] = useState(false);
   const navigate = useNavigate();
   const LOGIN_TOKEN = 'loginToken';
   const isLoggedIn = sessionStorage.getItem(LOGIN_TOKEN);
+  const { isOpened, onToggle, clickRef } = useClickAway();
+
   function handleDarkMode() {
     setIsDarkMode(!isDarkMode);
   }
@@ -27,22 +36,23 @@ function Nav() {
     sessionStorage.removeItem(LOGIN_TOKEN);
   }
 
+  function onClickModalButton(category) {
+    setOpenedModalName(category);
+    onToggle();
+  }
+
   return (
     <Wrapper>
       <Logo onClick={() => goToPage('/')} />
       <FilterWrap>
-        <span className="location">
-          <HiOutlineLocationMarker />
-          <FilterButton onClick={() => setModal('location')}>
-            어디로 떠날까요?
-          </FilterButton>
-        </span>
-        <span className="date">
-          <AiOutlineCalendar />
-          <FilterButton onClick={() => setModal('date')}>
-            언제 떠날까요?
-          </FilterButton>
-        </span>
+        {NavModalTitle.map(ti => (
+          <span key={ti.id}>
+            {ti.icon}
+            <FilterButton onClick={() => onClickModalButton(ti.category)}>
+              {ti.title}
+            </FilterButton>
+          </span>
+        ))}
       </FilterWrap>
       <MenuWrap>
         <span onClick={() => goToPage('/list')}>FIND STAY</span>
@@ -64,9 +74,9 @@ function Nav() {
         )}
       </UserWrap>
 
-      {modal !== null && (
+      {isOpened && (
         <ModalPortal>
-          <Modal />
+          <Modal onToggle={onToggle} content={openedModalName} />
         </ModalPortal>
       )}
     </Wrapper>

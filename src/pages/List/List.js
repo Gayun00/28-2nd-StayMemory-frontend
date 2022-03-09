@@ -11,7 +11,7 @@ import styled from 'styled-components';
 import { GoLocation } from 'react-icons/go';
 import { BsArrowRight } from 'react-icons/bs';
 
-import { FETCH_LiST_API_URL } from '../../utils/constants';
+import { FETCH_LiST_API_URL, ModalContents } from '../../utils/constants';
 
 export default function List() {
   const [hotel, setHotel] = useState([]);

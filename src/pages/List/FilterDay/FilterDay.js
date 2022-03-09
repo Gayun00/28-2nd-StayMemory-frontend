@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { BiRefresh } from 'react-icons/bi';
-import CalendarS from '../../../components/Modal/SelectDate/CalendarS';
+import CalendarS from '../../../components/Modal/ModalContentItem/Calendar/CalendarS';
 
 export default function FilterDay() {
   const [startDate, setStartDate] = useState(null);

@@ -9,13 +9,16 @@ import showModalState, {
   totalPriceState,
   validDatesState,
 } from './GlobalState';
-import Location from '../Modal/Location/Location';
-import SelectDate from './SelectDate/SelectDate';
+import Location from './ModalContentItem/Location/Location';
+import SelectDate from './ModalContent/SelectDate';
+import SelectCity from './ModalContent/SelectCity';
+
 import convertToQs from '../../utils/hooks/useQueryStringArr';
 import { useNavigate } from 'react-router';
-import CalendarM from './SelectDate/CalendarM';
+import CalendarM from './ModalContentItem/Calendar/CalendarM';
+import useClickAway from '../../utils/hooks/useClickAway';
 
-export default function StaticDateRangePickerDemo() {
+export default function Modal({ form, onToggle, content }) {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useRecoilState(showModalState);
   const selectedDates = useRecoilValue(selectedDatesState);
@@ -24,17 +27,8 @@ export default function StaticDateRangePickerDemo() {
   const validDates = useRecoilValue(validDatesState);
   const [buttonIsValid, setButtonIsValid] = React.useState(false);
   const setTotalPrice = useSetRecoilState(totalPriceState);
-
-  // function onClickSearch() {
-  //   setShowModal(null);
-  //   if (showModal === 'location') {
-  //     navigate(convertToQs('list', selectedLocation));
-  //   } else if (showModal === 'date') {
-  //     navigate(convertToQs('list', selectedDates));
-  //   } else if (showModal === 'date_detail') {
-  //     submitSelectedDates();
-  //   }
-  // }
+  const { clickRef, isOpened, onToggled } = useClickAway();
+  console.log(content);
 
   function submitSelectedDates() {
     fetch(
@@ -43,6 +37,11 @@ export default function StaticDateRangePickerDemo() {
       .then(res => res.json())
       .then(res => setTotalPrice(res.data.total_price));
   }
+
+  const modalContentObj = {
+    date: <SelectDate content={content} />,
+    location: <SelectCity content={content} />,
+  };
 
   React.useEffect(() => {
     function disableButton() {
@@ -59,92 +58,32 @@ export default function StaticDateRangePickerDemo() {
     setShowModal(null);
   }
 
-  const modalTitle = {
-    location: '어디로 떠날까요?',
-    date: '언제 떠날까요?',
-    date_detail: '예약 날짜를 선택해주세요.',
-  };
-
-  const modalButton = {
-    location: 'SEARCH',
-    date: 'SEARCH',
-    date_detail: 'DONE',
-  };
-
-  const modalContent = {
-    location: <Location />,
-    date: <CalendarM />,
-    date_detail: <SelectDate detail={true} />,
-  };
-  //////////
-  return (
-    <Wrapper>
-      <PopUp>
-        <PopUpTitle>
-          <h2>{modalTitle[showModal]}</h2>
-          <GrClose onClick={onClose} />
-        </PopUpTitle>
-        {/* <CalendarWrapper> */}
-        {modalContent[showModal]}
-        {/* </CalendarWrapper> */}
-      </PopUp>
-    </Wrapper>
-  );
+  return <Wrapper>{modalContentObj[content]}</Wrapper>;
 }
 
 const Wrapper = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   width: 100vw;
   height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: rgba(0, 0, 0, 0.6);
-  z-index: 3;
+  z-index: 2;
 `;
 
-const PopUp = styled.div`
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 2rem;
-  background: white;
-  border-radius: 1rem;
-  z-index: 5;
-`;
-
-const PopUpTitle = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin: 1rem 0 1rem 0;
-  width: 100%;
-  font-size: 1.9rem;
-
-  & > svg {
-    color: lightgrey;
-    cursor: pointer;
-  }
-`;
-
-const SearchButton = styled.button`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 8rem;
-  height: 2.5rem;
-  margin: 1.5rem 0 0.5rem 0;
-  background: ${props => (props.validDates ? 'black' : 'lightgrey')};
-  border: none;
-  border-radius: 1.5rem;
-  color: white;
-  cursor: ${props => (props.validDates ? 'pointer' : 'none')};
-`;
-
-// const CalendarWrapper = styled.div`
-//   border-top: 1px solid lightgrey;
-//   border-bottom: 1px solid lightgrey;
+// const SearchButton = styled.button`
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   width: 8rem;
+//   height: 2.5rem;
+//   margin: 1.5rem 0 0.5rem 0;
+//   background: ${props => (props.validDates ? 'black' : 'lightgrey')};
+//   border: none;
+//   border-radius: 1.5rem;
+//   color: white;
+//   cursor: ${props => (props.validDates ? 'pointer' : 'none')};
 // `;

@@ -31,7 +31,7 @@ export const useQueryStringArr = objKey => {
   const handleCheckedAll = () => {
     let updatedList = [];
 
-    if (!isCheckedAll) {
+    if (!isCheckedAll()) {
       TYPE_DATA[objKey].forEach(obj => {
         updatedList.push(obj.name);
       });
@@ -40,14 +40,13 @@ export const useQueryStringArr = objKey => {
     setSelectedList(updatedList);
   };
 
-  const isCheckedAll = TYPE_DATA[objKey].every(obj =>
-    selectedList.includes(obj.name)
-  );
+  const isCheckedAll = () => {
+    return TYPE_DATA[objKey].every(obj => selectedList.includes(obj.name));
+  };
 
   const isChecked = property => {
     return selectedList.includes(property);
   };
-  console.log(isCheckedAll);
 
   const parseArrayToSearchParams = (page = 'list') => {
     URLSearch.set(objKey, selectedList.join('&'));

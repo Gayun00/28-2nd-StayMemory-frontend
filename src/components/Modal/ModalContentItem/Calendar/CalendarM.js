@@ -3,6 +3,8 @@ import 'react-dates/initialize';
 import { DayPickerRangeController } from 'react-dates';
 import 'react-dates/lib/css/_datepicker.css';
 import moment from 'moment';
+import styled from 'styled-components';
+import SearchButton from '../../../Button/SearchButton';
 
 function CalendarM() {
   const [startDate, setStartDate] = useState(null);
@@ -40,5 +42,4 @@ function CalendarM() {
     </div>
   );
 }
-
 export default CalendarM;

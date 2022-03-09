@@ -1,3 +1,8 @@
+import { AiOutlineCalendar } from 'react-icons/ai';
+import { HiOutlineLocationMarker } from 'react-icons/hi';
+import Location from '../components/Modal/ModalContentItem/Location/Location';
+import CalendarM from '../components/Modal/ModalContentItem/Calendar/CalendarM';
+
 const BASE_URL =
   'http://ec2-3-36-124-170.ap-northeast-2.compute.amazonaws.com/';
 export const API_KEY = process.env.REACT_APP_API_KEY;
@@ -41,3 +46,34 @@ export const cities = [
   { id: 2, name: '제주' },
   { id: 3, name: '강원' },
 ];
+
+export const NavModalTitle = [
+  {
+    id: 0,
+    category: 'location',
+    title: '어디로 떠날까요?',
+    icon: <HiOutlineLocationMarker />,
+  },
+  {
+    id: 1,
+    category: 'date',
+    title: '언제 떠날까요?',
+    icon: <AiOutlineCalendar />,
+  },
+];
+
+export const ModalContents = {
+  location: {
+    title: '어디로 떠날까요?',
+    content: <CalendarM />,
+  },
+  date: {
+    title: '언제 떠날까요?',
+    content: <Location />,
+  },
+};
+
+export const ModalContentComponents = {
+  date: <CalendarM />,
+  location: <Location />,
+};
