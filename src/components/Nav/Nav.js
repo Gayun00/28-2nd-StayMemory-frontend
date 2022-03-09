@@ -1,22 +1,14 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import Modal from '../Modal/Modal';
-import { HiUser, HiOutlineLocationMarker } from 'react-icons/hi';
-import { AiOutlineCalendar } from 'react-icons/ai';
+import { HiUser } from 'react-icons/hi';
 import { BsToggleOn, BsToggleOff } from 'react-icons/bs';
 import ModalPortal from '../Modal/ModalPortal';
-import { useRecoilState } from 'recoil';
-import { showModalState } from '../Modal/GlobalState';
 import { useNavigate } from 'react-router';
 import useClickAway from '../../utils/hooks/useClickAway';
-import {
-  ModalContentComponents,
-  ModalContents,
-  NavModalTitle,
-} from '../../utils/constants';
+import { NavModalTitle } from '../../utils/constants';
 
 function Nav() {
-  const [modal, setModal] = useRecoilState(showModalState);
   const [openedModalName, setOpenedModalName] = useState('');
   const [isDarkMode, setIsDarkMode] = useState(false);
   const navigate = useNavigate();
@@ -38,7 +30,7 @@ function Nav() {
 
   function onClickModalButton(category) {
     setOpenedModalName(category);
-    onToggle();
+    if (!isOpened) onToggle();
   }
 
   return (
@@ -73,10 +65,13 @@ function Nav() {
           <BsToggleOn onClick={handleDarkMode} />
         )}
       </UserWrap>
-
       {isOpened && (
         <ModalPortal>
-          <Modal onToggle={onToggle} content={openedModalName} />
+          <Modal
+            clickRef={clickRef}
+            onToggle={onToggle}
+            content={openedModalName}
+          />
         </ModalPortal>
       )}
     </Wrapper>

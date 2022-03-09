@@ -1,12 +1,6 @@
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { TYPE_DATA } from '../constants';
-export const convertToQs = (page, obj) => {
-  const queryString = Object.entries(obj)
-    .map(el => el.join('='))
-    .join('&');
-  return `/${page}?${queryString}`;
-};
 
 export const useQueryStringArr = objKey => {
   const { search } = useLocation();

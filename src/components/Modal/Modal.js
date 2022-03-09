@@ -1,6 +1,5 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { GrClose } from 'react-icons/gr';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import showModalState, {
   selectedDatesState,
@@ -9,17 +8,10 @@ import showModalState, {
   totalPriceState,
   validDatesState,
 } from './GlobalState';
-import Location from './ModalContentItem/Location/Location';
 import SelectDate from './ModalContent/SelectDate';
 import SelectCity from './ModalContent/SelectCity';
 
-import convertToQs from '../../utils/hooks/useQueryStringArr';
-import { useNavigate } from 'react-router';
-import CalendarM from './ModalContentItem/Calendar/CalendarM';
-import useClickAway from '../../utils/hooks/useClickAway';
-
-export default function Modal({ form, onToggle, content }) {
-  const navigate = useNavigate();
+export default function Modal({ clickRef, onToggle, content }) {
   const [showModal, setShowModal] = useRecoilState(showModalState);
   const selectedDates = useRecoilValue(selectedDatesState);
   const selectedHotelId = useRecoilValue(selectedHotelIdState);
@@ -27,8 +19,6 @@ export default function Modal({ form, onToggle, content }) {
   const validDates = useRecoilValue(validDatesState);
   const [buttonIsValid, setButtonIsValid] = React.useState(false);
   const setTotalPrice = useSetRecoilState(totalPriceState);
-  const { clickRef, isOpened, onToggled } = useClickAway();
-  console.log(content);
 
   function submitSelectedDates() {
     fetch(
@@ -39,8 +29,8 @@ export default function Modal({ form, onToggle, content }) {
   }
 
   const modalContentObj = {
-    date: <SelectDate content={content} />,
-    location: <SelectCity content={content} />,
+    date: <SelectDate content={content} onToggle={onToggle} />,
+    location: <SelectCity content={content} onToggle={onToggle} />,
   };
 
   React.useEffect(() => {
@@ -58,7 +48,7 @@ export default function Modal({ form, onToggle, content }) {
     setShowModal(null);
   }
 
-  return <Wrapper>{modalContentObj[content]}</Wrapper>;
+  return <Wrapper ref={clickRef}>{modalContentObj[content]}</Wrapper>;
 }
 
 const Wrapper = styled.div`
@@ -70,8 +60,7 @@ const Wrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgba(0, 0, 0, 0.6);
-  z-index: 2;
+  z-index: 3;
 `;
 
 // const SearchButton = styled.button`

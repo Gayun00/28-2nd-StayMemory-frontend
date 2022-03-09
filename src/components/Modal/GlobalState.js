@@ -5,6 +5,11 @@ export const showModalState = atom({
   default: null,
 });
 
+export const isModalOpenedState = atom({
+  key: 'isModalOpenedState',
+  default: false,
+});
+
 export const selectedDatesState = atom({
   key: 'selectedDatesState',
   default: {

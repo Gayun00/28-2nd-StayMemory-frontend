@@ -5,39 +5,39 @@ import 'react-dates/lib/css/_datepicker.css';
 import moment from 'moment';
 import styled from 'styled-components';
 import SearchButton from '../../../Button/SearchButton';
+import { useRecoilState } from 'recoil';
+import { selectedDatesState } from '../../GlobalState';
 
 function CalendarM() {
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
-  const [focusedInput, setFocusedInput] = useState(null);
-  const [initialMonth, setInitialMonth] = useState(moment('01-01-2021'));
+  const [startDate, setStartDate] = useState(moment());
+  const [endDate, setEndDate] = useState(moment());
+  const [focusedInput, setFocusedInput] = useState('startDate');
+  const [initialMonth, setInitialMonth] = useState(moment());
+  const [selectedDates, setSelectedDates] = useRecoilState(selectedDatesState);
 
   const handleDatesChange = ({ startDate, endDate }) => {
-    setStartDate(moment(startDate, 'MMM DD, YYYY'));
-    setEndDate(moment(endDate, 'MMM DD, YYYY'));
+    setStartDate(moment(startDate));
+    setEndDate(moment(endDate));
   };
 
-  const handleFocusedInput = ({ focusedInput }) => {
-    console.log(focusedInput, 'lkk');
-    setFocusedInput(focusedInput);
-  };
+  useEffect(() => {
+    setSelectedDates({
+      ...selectedDates,
+      checkin: startDate.format('YYYY-MM-DD').toString(),
+      checkout: endDate.format('YYYY-MM-DD').toString(),
+    });
+  }, [focusedInput]);
 
-  // useEffect(() => {
-  //   console.log(startDate, focusedInput);
-  // }, [startDate, focusedInput]);
   return (
     <div>
       <DayPickerRangeController
-        startDate={startDate}
-        endDate={endDate}
         onDatesChange={handleDatesChange}
         focusedInput={focusedInput}
         onFocusChange={focusedInput => setFocusedInput(focusedInput)}
+        startDate={moment(startDate)}
+        endDate={moment(endDate)}
         numberOfMonths={2}
         initialVisibleMonth={() => initialMonth}
-        noBorder={true}
-        small={true}
-        // customArrowIcon={null}
       />
     </div>
   );

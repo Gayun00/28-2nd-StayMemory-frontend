@@ -3,27 +3,56 @@ import styled from 'styled-components';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { BiRefresh } from 'react-icons/bi';
 import CalendarS from '../../../components/Modal/ModalContentItem/Calendar/CalendarS';
+import { useQueryStringObject } from '../../../utils/hooks/useQueryStringObject';
 
 export default function FilterDay() {
   const [startDate, setStartDate] = useState(null);
   const [focusedInput, setFocusedInput] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const location = useLocation();
-  const navigate = useNavigate();
   const URLSearch = new URLSearchParams(location.search);
   const place = URLSearch.get('city');
-  const checkinDate = URLSearch.get('checkin');
-  const checkoutDate = URLSearch.get('checkout');
+  const dates = URLSearch.get('dates');
+  const datesObj = {
+    checkin: '',
+    checkout: '',
+  };
+  const {
+    selectedListObject,
+    setSelectedListObject,
+    parseObjectToSearchParams,
+    parseQueryIntoObject,
+  } = useQueryStringObject('dates', datesObj);
+
+  const newDates = parseQueryIntoObject(dates);
+  useEffect(() => {
+    setSelectedListObject(newDates);
+  }, []);
+
   const handleDatesChange = ({ startDate, endDate }) => {
     setStartDate(startDate);
     setEndDate(endDate);
+    let updatedTest = {
+      checkin: '',
+      checkout: '',
+    };
+    if (startDate) {
+      updatedTest = {
+        ...selectedListObject,
+        checkin: startDate.format('YYYY-MM-DD').toString(),
+      };
+    } else if (endDate) {
+      updatedTest = {
+        ...selectedListObject,
+        checkout: endDate.format('YYYY-MM-DD').toString(),
+      };
+    }
+    setSelectedListObject(updatedTest);
   };
 
   useEffect(() => {
-    startDate && URLSearch.set('checkin', startDate.format('YYYY-MM-DD'));
-    endDate && URLSearch.set('checkout', endDate.format('YYYY-MM-DD'));
-    navigate(`/list?` + URLSearch.toString());
-  }, [focusedInput]);
+    parseObjectToSearchParams();
+  }, [selectedListObject]);
 
   return (
     <FilterDays>
@@ -43,7 +72,11 @@ export default function FilterDay() {
           onClick={() => setFocusedInput('startDate')}
           placeholder="체크인"
           aria-label="체크인"
-          value={startDate ? startDate.format('YYYY-MM-DD') : checkinDate}
+          value={
+            startDate
+              ? startDate.format('YYYY-MM-DD')
+              : selectedListObject.checkin
+          }
         />
         <CheckInOutTitle>체크아웃</CheckInOutTitle>
 
@@ -51,7 +84,9 @@ export default function FilterDay() {
           onClick={() => setFocusedInput('endDate')}
           placeholder="체크아웃"
           aria-label="체크아웃"
-          value={endDate ? endDate.format('YYYY-MM-DD') : checkoutDate}
+          value={
+            endDate ? endDate.format('YYYY-MM-DD') : selectedListObject.checkout
+          }
         />
         <CalendarS
           startDate={startDate}

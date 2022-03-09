@@ -25,10 +25,9 @@ function CalendarS({
         endDateId="end-date"
         onDatesChange={handleDatesChange}
         focusedInput={focusedInput}
-        onFocusChange={focusedInput => console.log(focusedInput)}
+        onFocusChange={focusedInput => setFocusedInput(focusedInput)}
         noBorder={true}
         small={true}
-        // customArrowIcon={null}
       />
     </div>
   );

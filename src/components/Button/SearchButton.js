@@ -2,10 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 import { BsArrowRight } from 'react-icons/bs';
 
-function SearchButton({ onClickSearch }) {
+function SearchButton({ onClickSearch, isValid }) {
   return (
     <Wrapper>
-      <Button onClick={onClickSearch}>
+      <Button onClick={onClickSearch} isValid={isValid}>
         <p>SEARCH</p>
         <BsArrowRight />
       </Button>
@@ -27,10 +27,10 @@ const Button = styled.button`
   width: 8rem;
   height: 2.5rem;
   margin: 1.5rem 0 0.5rem 0;
-  background: ${props => (props.validDates ? 'black' : 'lightgrey')};
+  background: black;
   border: none;
   border-radius: 1.5rem;
   color: white;
-  cursor: ${props => (props.validDates ? 'pointer' : 'none')};
+  cursor: pointer;
 `;
 export default SearchButton;

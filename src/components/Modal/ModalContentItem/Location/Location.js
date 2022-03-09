@@ -1,15 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { useRecoilState } from 'recoil';
-import { selectedLocationState } from '../../GlobalState';
 import { cities } from '../../../../utils/constants';
-import SearchButton from '../../../Button/SearchButton';
-import { useQueryStringArr } from '../../../../utils/hooks/useQueryStringArr';
 import { filterConditionState } from '../../../../pages/List/listState';
 
 function Location() {
-  const { handleSearchParams } = useQueryStringArr();
   const [filterCondition, setFilterCondition] =
     useRecoilState(filterConditionState);
 
@@ -18,11 +14,6 @@ function Location() {
       ...filterCondition,
       city: city,
     });
-  }
-
-  function onClickSearch() {
-    console.log(filterCondition.city);
-    handleSearchParams('city');
   }
 
   return (
