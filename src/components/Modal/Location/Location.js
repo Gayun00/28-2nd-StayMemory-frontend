@@ -5,11 +5,11 @@ import { useRecoilState } from 'recoil';
 import { selectedLocationState } from '../GlobalState';
 import { cities } from '../../../utils/constants';
 import SearchButton from '../../Button/SearchButton';
-import { useQueryString } from '../../../utils/utils';
+import { useQueryStringArr } from '../../../utils/hooks/useQueryStringArr';
 import { filterConditionState } from '../../../pages/List/listState';
 
 function Location() {
-  const { handleSearchParams } = useQueryString();
+  const { handleSearchParams } = useQueryStringArr();
   const [filterCondition, setFilterCondition] =
     useRecoilState(filterConditionState);
 

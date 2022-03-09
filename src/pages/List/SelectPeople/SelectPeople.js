@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 import {
@@ -12,23 +12,15 @@ import {
 } from '../List';
 import { AiOutlineClose } from 'react-icons/ai';
 import { TYPE_DATA } from '../../../utils/constants';
-import { filterConditionState } from '../listState';
-import { useRecoilState } from 'recoil';
-import { useQueryString } from '../../../utils/utils';
-export default function SelectPeople({ closeHandler, handleFilter }) {
-  const [filterCondition, setFilterCondition] =
-    useRecoilState(filterConditionState);
+import { useQueryStringObject } from '../../../utils/hooks/useQueryStringObject';
+export default function SelectPeople({ closeHandler }) {
   const initialState = {
     adult: 0,
     child: 0,
     baby: 0,
   };
-  const {
-    handleSearchParams,
-    addFilterObject,
-    selectedListObject,
-    parseObjectToSearchParams,
-  } = useQueryString('count', initialState);
+  const { addFilterObject, selectedListObject, parseObjectToSearchParams } =
+    useQueryStringObject('count', initialState);
 
   const plusQuantity = name => {
     const updatedCount = selectedListObject[name] + 1;

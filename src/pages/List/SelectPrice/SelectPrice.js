@@ -13,30 +13,20 @@ import {
   RangeWrap,
 } from '../List';
 import { AiOutlineClose } from 'react-icons/ai';
-import { useRecoilState } from 'recoil';
-import { filterConditionState } from '../listState';
-import { useQueryString } from '../../../utils/utils';
+import { useQueryStringObject } from '../../../utils/hooks/useQueryStringObject';
 
-export default function SelectPrice({ closeHandler, handleFilter }) {
-  const [filterCondition, setFilterCondition] =
-    useRecoilState(filterConditionState);
-  const { handleSearchParams } = useQueryString();
+export default function SelectPrice({ closeHandler }) {
+  const initialState = {
+    min: 0,
+    max: 0,
+  };
+  const { addFilterObject, selectedListObject, parseObjectToSearchParams } =
+    useQueryStringObject('priceRange', initialState);
 
   const handleChange = e => {
     const maxPrice = e.target.value * 10000;
-    const updatedPriceRange = {
-      min: 0,
-      max: maxPrice,
-    };
-    setFilterCondition({
-      ...filterCondition,
-      priceRange: updatedPriceRange,
-    });
+    addFilterObject('max', maxPrice);
   };
-
-  useEffect(() => {
-    console.log(filterCondition);
-  }, [filterCondition.priceRange]);
 
   return (
     <ModalBack>
@@ -66,15 +56,13 @@ export default function SelectPrice({ closeHandler, handleFilter }) {
         <div>
           <InputHeader>최고요금</InputHeader>
           <InputContent>
-            <input type="text" value={filterCondition.priceRange.max} />
+            <input type="text" value={selectedListObject.max} />
             만원~
           </InputContent>
         </div>
       </InputContainer>
       <ModalPeopleBtnWrapper>
-        <ModalPeopleBtn
-          onClick={() => handleSearchParams('priceRange', 'object')}
-        >
+        <ModalPeopleBtn onClick={() => parseObjectToSearchParams()}>
           적용하기
         </ModalPeopleBtn>
       </ModalPeopleBtnWrapper>

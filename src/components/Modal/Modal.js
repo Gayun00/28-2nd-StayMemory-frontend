@@ -11,7 +11,7 @@ import showModalState, {
 } from './GlobalState';
 import Location from '../Modal/Location/Location';
 import SelectDate from './SelectDate/SelectDate';
-import convertToQs from '../../utils/utils';
+import convertToQs from '../../utils/hooks/useQueryStringArr';
 import { useNavigate } from 'react-router';
 import CalendarM from './SelectDate/CalendarM';
 

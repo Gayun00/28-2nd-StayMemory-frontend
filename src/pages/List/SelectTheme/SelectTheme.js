@@ -8,9 +8,7 @@ import {
 } from '../List';
 import { AiOutlineClose } from 'react-icons/ai';
 import { TYPE_DATA } from '../../../utils/constants';
-import { useRecoilState } from 'recoil';
-import { filterConditionState } from '../listState';
-import { useQueryString } from '../../../utils/utils';
+import { useQueryStringArr } from '../../../utils/hooks/useQueryStringArr';
 
 export default function SelectTheme({ closeHandler }) {
   const {
@@ -19,7 +17,7 @@ export default function SelectTheme({ closeHandler }) {
     isCheckedAll,
     isChecked,
     parseArrayToSearchParams,
-  } = useQueryString('theme');
+  } = useQueryStringArr('theme');
 
   const handleChange = e => {
     addFilterArr(e);

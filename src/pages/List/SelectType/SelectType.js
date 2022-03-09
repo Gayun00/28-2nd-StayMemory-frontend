@@ -7,12 +7,11 @@ import {
   CheckList,
 } from '../List';
 import { AiOutlineClose } from 'react-icons/ai';
-import { useRecoilState } from 'recoil';
-import { filterConditionState } from '../listState';
 import { TYPE_DATA } from '../../../utils/constants';
-import { useClickAway, useQueryString } from '../../../utils/utils';
+import { useQueryStringArr } from '../../../utils/hooks/useQueryStringArr';
 import styled from 'styled-components';
 import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
+import { useClickAway } from '../../../utils/hooks/useClickAway';
 
 export default function SelectType() {
   const {
@@ -21,7 +20,7 @@ export default function SelectType() {
     isCheckedAll,
     isChecked,
     parseArrayToSearchParams,
-  } = useQueryString('category');
+  } = useQueryStringArr('category');
   const { isOpened, setIsOpened, clickRef } = useClickAway();
   const handleChange = e => {
     addFilterArr(e);
@@ -52,7 +51,7 @@ export default function SelectType() {
                   type="checkbox"
                   value="space"
                   name="all"
-                  checked={isCheckedAll}
+                  checked={() => isCheckedAll()}
                   onChange={handleCheckedAll}
                 />
               </label>
