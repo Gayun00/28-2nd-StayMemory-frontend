@@ -47,6 +47,7 @@ export const useQueryStringArr = objKey => {
   const isChecked = property => {
     return selectedList.includes(property);
   };
+  console.log(isCheckedAll);
 
   const parseArrayToSearchParams = (page = 'list') => {
     URLSearch.set(objKey, selectedList.join('&'));

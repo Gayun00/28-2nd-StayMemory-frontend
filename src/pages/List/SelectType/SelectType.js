@@ -11,7 +11,7 @@ import { TYPE_DATA } from '../../../utils/constants';
 import { useQueryStringArr } from '../../../utils/hooks/useQueryStringArr';
 import styled from 'styled-components';
 import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
-import { useClickAway } from '../../../utils/hooks/useClickAway';
+import useClickAway from '../../../utils/hooks/useClickAway';
 
 export default function SelectType() {
   const {
@@ -21,14 +21,14 @@ export default function SelectType() {
     isChecked,
     parseArrayToSearchParams,
   } = useQueryStringArr('category');
-  const { isOpened, setIsOpened, clickRef } = useClickAway();
+  const { clickRef, isOpened, onToggle } = useClickAway();
   const handleChange = e => {
     addFilterArr(e);
   };
 
   return (
     <Wrapper ref={clickRef}>
-      <ModalBtn onClick={() => setIsOpened(!isOpened)}>
+      <ModalBtn onClick={onToggle}>
         스테이 유형
         <MdOutlineKeyboardArrowDown />
       </ModalBtn>
@@ -36,7 +36,7 @@ export default function SelectType() {
         <ModalBack>
           <PeopleTitle>
             스테이유형
-            <AiOutlineClose onClick={() => setIsOpened(!isOpened)} />
+            <AiOutlineClose onClick={onToggle} />
           </PeopleTitle>
           <ModalPeopleBtnWrapper>
             <ModalPeopleBtn onClick={() => parseArrayToSearchParams()}>

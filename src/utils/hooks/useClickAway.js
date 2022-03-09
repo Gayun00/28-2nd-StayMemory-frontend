@@ -1,25 +1,27 @@
 import { useEffect, useRef, useState } from 'react';
 
-export const useClickAway = () => {
+export default function useClickAway() {
   const [isOpened, setIsOpened] = useState(false);
-  const clickRef = useRef();
+  const clickRef = useRef(null);
+
+  function handleClickAway(e) {
+    const target = e.target;
+    if (!clickRef.current?.contains(target)) setIsOpened(false);
+  }
+
+  function onToggle() {
+    setIsOpened(!isOpened);
+  }
 
   useEffect(() => {
-    const handleDocumentClick = event => {
-      const node = clickRef.current;
-      const nodeHTML = node.innerHTML;
-      const targetHTML = event.target.innerHTML;
-
-      if (!nodeHTML.includes(targetHTML)) {
-        setIsOpened(false);
-      }
-    };
-
-    document.addEventListener('click', handleDocumentClick);
-
+    if (isOpened) {
+      document.addEventListener('click', handleClickAway);
+    } else {
+      document.removeEventListener('click', handleClickAway);
+    }
     return () => {
-      document.removeEventListener('click', handleDocumentClick);
+      document.removeEventListener('click', handleClickAway);
     };
-  }, [clickRef.current]);
-  return { isOpened, setIsOpened, clickRef };
-};
+  }, [isOpened]);
+  return { clickRef, isOpened, onToggle };
+}

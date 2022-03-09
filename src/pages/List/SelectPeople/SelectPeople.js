@@ -9,11 +9,14 @@ import {
   PeopleCounter,
   PeopleTitle,
   ModalBack,
+  ModalBtn,
 } from '../List';
 import { AiOutlineClose } from 'react-icons/ai';
 import { TYPE_DATA } from '../../../utils/constants';
 import { useQueryStringObject } from '../../../utils/hooks/useQueryStringObject';
-export default function SelectPeople({ closeHandler }) {
+import useClickAway from '../../../utils/hooks/useClickAway';
+import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
+export default function SelectPeople() {
   const initialState = {
     adult: 0,
     child: 0,
@@ -21,6 +24,7 @@ export default function SelectPeople({ closeHandler }) {
   };
   const { addFilterObject, selectedListObject, parseObjectToSearchParams } =
     useQueryStringObject('count', initialState);
+  const { clickRef, isOpened, onToggle } = useClickAway();
 
   const plusQuantity = name => {
     const updatedCount = selectedListObject[name] + 1;
@@ -39,43 +43,51 @@ export default function SelectPeople({ closeHandler }) {
   };
 
   return (
-    <ModalBack>
-      <PeopleTitle>
+    <div ref={clickRef}>
+      <ModalBtn onClick={onToggle}>
         인원
-        <AiOutlineClose onClick={closeHandler} />
-      </PeopleTitle>
-      <div>
-        {TYPE_DATA.count &&
-          TYPE_DATA.count.map((item, idx) => {
-            return (
-              <PeopleCounter key={idx}>
-                <span>
-                  {item.type}
-                  <p>{item.age}</p>
-                </span>
-                <div>
-                  <CounterButton onClick={() => minusQuantity(item.name)}>
-                    -
-                  </CounterButton>
-                  <InputNum>
-                    <input
-                      type="number"
-                      value={selectedListObject[item.name] || 0}
-                      readOnly
-                    />
-                    <span>명</span>
-                  </InputNum>
-                  <CounterButton onClick={() => plusQuantity(item.name)}>
-                    +
-                  </CounterButton>
-                </div>
-              </PeopleCounter>
-            );
-          })}
-      </div>
-      <ModalPeopleBtnWrapper>
-        <ModalPeopleBtn onClick={onFilter}>적용하기</ModalPeopleBtn>
-      </ModalPeopleBtnWrapper>
-    </ModalBack>
+        <MdOutlineKeyboardArrowDown />
+      </ModalBtn>
+      {isOpened && (
+        <ModalBack>
+          <PeopleTitle>
+            인원
+            <AiOutlineClose onClick={onToggle} />
+          </PeopleTitle>
+          <div>
+            {TYPE_DATA.count &&
+              TYPE_DATA.count.map((item, idx) => {
+                return (
+                  <PeopleCounter key={idx}>
+                    <span>
+                      {item.type}
+                      <p>{item.age}</p>
+                    </span>
+                    <div>
+                      <CounterButton onClick={() => minusQuantity(item.name)}>
+                        -
+                      </CounterButton>
+                      <InputNum>
+                        <input
+                          type="number"
+                          value={selectedListObject[item.name] || 0}
+                          readOnly
+                        />
+                        <span>명</span>
+                      </InputNum>
+                      <CounterButton onClick={() => plusQuantity(item.name)}>
+                        +
+                      </CounterButton>
+                    </div>
+                  </PeopleCounter>
+                );
+              })}
+          </div>
+          <ModalPeopleBtnWrapper>
+            <ModalPeopleBtn onClick={onFilter}>적용하기</ModalPeopleBtn>
+          </ModalPeopleBtnWrapper>
+        </ModalBack>
+      )}
+    </div>
   );
 }

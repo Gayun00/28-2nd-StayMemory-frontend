@@ -10,32 +10,13 @@ import HotelList from './HotelList/HotelList';
 import styled from 'styled-components';
 import { GoLocation } from 'react-icons/go';
 import { BsArrowRight } from 'react-icons/bs';
-import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
 
-import { useNavigate } from 'react-router-dom';
 import { FETCH_LiST_API_URL } from '../../utils/constants';
 
 export default function List() {
   const [hotel, setHotel] = useState([]);
-
-  const navigate = useNavigate();
   const location = useLocation();
-  const [currentID, setCurrentID] = useState();
 
-  const handleFilter = stateObj => {
-    const URLSearch = new URLSearchParams(location.search);
-    Object.entries(stateObj).map(([key, value]) => {
-      if (value.length) {
-        if (typeof value === 'array') {
-          return URLSearch.set(key, value.join('&'));
-        } else {
-          return URLSearch.set(key, value);
-        }
-      }
-    });
-    navigate(`/list?` + URLSearch.toString());
-    closeHandler();
-  };
   useEffect(() => {
     const fetchHotelList = async () => {
       const res = await fetch(FETCH_LiST_API_URL(location.search));
@@ -51,14 +32,6 @@ export default function List() {
       .then(res => setHotel(res.data));
   }, []);
 
-  const clickHandler = id => {
-    setCurrentID(id);
-  };
-
-  const closeHandler = () => {
-    setCurrentID(false);
-  };
-
   return (
     <Container>
       <Title>
@@ -70,46 +43,16 @@ export default function List() {
         <FilterOther>
           <ModalWrapper>
             <div>
-              <ModalBtn onClick={() => clickHandler(0)}>
-                인원
-                <MdOutlineKeyboardArrowDown />
-              </ModalBtn>
-              {currentID === 0 && (
-                <SelectPeople
-                  closeHandler={closeHandler}
-                  handleFilter={handleFilter}
-                />
-              )}
+              <SelectPeople />
             </div>
             <div>
-              <ModalBtn onClick={() => clickHandler(1)}>
-                가격 범위
-                <MdOutlineKeyboardArrowDown />
-              </ModalBtn>
-              {currentID === 1 && (
-                <SelectPrice
-                  closeHandler={closeHandler}
-                  handleFilter={handleFilter}
-                />
-              )}
+              <SelectPrice />
             </div>
             <div>
-              <SelectType
-                closeHandler={closeHandler}
-                handleFilter={handleFilter}
-              />
+              <SelectType />
             </div>
             <div>
-              <ModalBtn onClick={() => clickHandler(3)}>
-                테마
-                <MdOutlineKeyboardArrowDown />
-              </ModalBtn>
-              {currentID === 3 && (
-                <SelectTheme
-                  closeHandler={closeHandler}
-                  handleFilter={handleFilter}
-                />
-              )}
+              <SelectTheme />
             </div>
             <BtnSelectMap>
               <GoLocation />
@@ -174,7 +117,7 @@ const ModalWrapper = styled.div`
   padding: 14px 0;
 `;
 
-const ModalBtn = styled.li`
+export const ModalBtn = styled.li`
   display: flex;
   align-items: center;
   justify-content: space-between;
