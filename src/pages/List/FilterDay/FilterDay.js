@@ -24,10 +24,10 @@ export default function FilterDay() {
     parseQueryIntoObject,
   } = useQueryStringObject('dates', datesObj);
 
-  const newDates = parseQueryIntoObject(dates);
   useEffect(() => {
+    const newDates = parseQueryIntoObject(dates);
     setSelectedListObject(newDates);
-  }, []);
+  }, [location.search]);
 
   const handleDatesChange = ({ startDate, endDate }) => {
     setStartDate(startDate);
@@ -72,11 +72,7 @@ export default function FilterDay() {
           onClick={() => setFocusedInput('startDate')}
           placeholder="체크인"
           aria-label="체크인"
-          value={
-            startDate
-              ? startDate.format('YYYY-MM-DD')
-              : selectedListObject.checkin
-          }
+          value={selectedListObject.checkin}
         />
         <CheckInOutTitle>체크아웃</CheckInOutTitle>
 
@@ -84,9 +80,7 @@ export default function FilterDay() {
           onClick={() => setFocusedInput('endDate')}
           placeholder="체크아웃"
           aria-label="체크아웃"
-          value={
-            endDate ? endDate.format('YYYY-MM-DD') : selectedListObject.checkout
-          }
+          value={selectedListObject.checkout}
         />
         <CalendarS
           startDate={startDate}

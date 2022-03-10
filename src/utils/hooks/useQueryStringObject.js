@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 export const useQueryStringObject = (objKey, stateObj) => {
@@ -6,7 +6,6 @@ export const useQueryStringObject = (objKey, stateObj) => {
   const navigate = useNavigate();
   let URLSearch = new URLSearchParams(search);
   const [selectedListObject, setSelectedListObject] = useState(stateObj);
-
   const addFilterObject = (name, updatedResult) => {
     const updatedObject = {
       ...selectedListObject,

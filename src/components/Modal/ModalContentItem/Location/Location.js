@@ -1,19 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 import { AiOutlineSearch } from 'react-icons/ai';
-import { useRecoilState } from 'recoil';
 import { cities } from '../../../../utils/constants';
-import { filterConditionState } from '../../../../pages/List/listState';
 
-function Location() {
-  const [filterCondition, setFilterCondition] =
-    useRecoilState(filterConditionState);
-
+function Location({ selectedCity, setSelectedCity }) {
   function onClickCityButton(city) {
-    setFilterCondition({
-      ...filterCondition,
-      city: city,
-    });
+    setSelectedCity(city);
   }
 
   return (
@@ -32,7 +24,7 @@ function Location() {
           {cities.map(city => (
             <Button
               key={city.id}
-              isClicked={filterCondition.city === city.name}
+              isClicked={selectedCity === city.name}
               onClick={() => onClickCityButton(city.name)}
             >
               {city.name}

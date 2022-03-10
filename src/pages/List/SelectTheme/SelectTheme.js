@@ -49,7 +49,7 @@ export default function SelectTheme() {
                   type="checkbox"
                   value="space"
                   name="all"
-                  checked={isCheckedAll}
+                  checked={isCheckedAll()}
                   onChange={handleCheckedAll}
                 />
               </label>

@@ -51,7 +51,7 @@ export default function SelectType() {
                   type="checkbox"
                   value="space"
                   name="all"
-                  checked={() => isCheckedAll()}
+                  checked={isCheckedAll()}
                   onChange={handleCheckedAll}
                 />
               </label>

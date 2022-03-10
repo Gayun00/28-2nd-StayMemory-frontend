@@ -44,10 +44,6 @@ export default function Modal({ clickRef, onToggle, content }) {
     disableButton();
   }, [selectedLocation, validDates, selectedDates, showModal, buttonIsValid]);
 
-  function onClose() {
-    setShowModal(null);
-  }
-
   return <Wrapper ref={clickRef}>{modalContentObj[content]}</Wrapper>;
 }
 
