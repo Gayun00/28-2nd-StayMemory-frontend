@@ -30,29 +30,24 @@ export default function FilterDay() {
   }, [location.search]);
 
   const handleDatesChange = ({ startDate, endDate }) => {
-    setStartDate(startDate);
-    setEndDate(endDate);
-  };
-
-  useEffect(() => {
     startDate &&
       setSelectedListObject({
         ...selectedListObject,
         checkin: startDate.format('YYYY-MM-DD').toString(),
       });
-  }, [startDate]);
 
-  useEffect(() => {
     endDate &&
       setSelectedListObject({
         ...selectedListObject,
         checkout: endDate.format('YYYY-MM-DD').toString(),
       });
-  }, [endDate]);
+    setStartDate(startDate);
+    setEndDate(endDate);
+  };
 
   useEffect(() => {
     parseObjectToSearchParams();
-  }, [selectedListObject]);
+  }, [focusedInput]);
 
   return (
     <FilterDays>

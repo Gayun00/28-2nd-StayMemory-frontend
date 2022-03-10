@@ -62,16 +62,16 @@ export const NavModalTitle = [
   },
 ];
 
-export const ModalContents = {
-  location: {
-    title: '어디로 떠날까요?',
-    content: <CalendarM />,
-  },
-  date: {
-    title: '언제 떠날까요?',
-    content: <Location />,
-  },
-};
+// export const ModalContents = {
+//   location: {
+//     title: '어디로 떠날까요?',
+//     content: <CalendarM />,
+//   },
+//   date: {
+//     title: '언제 떠날까요?',
+//     content: <Location />,
+//   },
+// };
 
 export const ModalContentComponents = {
   date: <CalendarM />,
