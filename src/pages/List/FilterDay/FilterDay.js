@@ -32,23 +32,23 @@ export default function FilterDay() {
   const handleDatesChange = ({ startDate, endDate }) => {
     setStartDate(startDate);
     setEndDate(endDate);
-    let updatedTest = {
-      checkin: '',
-      checkout: '',
-    };
-    if (startDate) {
-      updatedTest = {
+  };
+
+  useEffect(() => {
+    startDate &&
+      setSelectedListObject({
         ...selectedListObject,
         checkin: startDate.format('YYYY-MM-DD').toString(),
-      };
-    } else if (endDate) {
-      updatedTest = {
+      });
+  }, [startDate]);
+
+  useEffect(() => {
+    endDate &&
+      setSelectedListObject({
         ...selectedListObject,
         checkout: endDate.format('YYYY-MM-DD').toString(),
-      };
-    }
-    setSelectedListObject(updatedTest);
-  };
+      });
+  }, [endDate]);
 
   useEffect(() => {
     parseObjectToSearchParams();
