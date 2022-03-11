@@ -14,9 +14,12 @@ export const useQueryStringObject = (objKey, stateObj) => {
     setSelectedListObject(updatedObject);
   };
 
-  const parseObjectToSearchParams = (page = 'list') => {
+  const parseObjectToSearchParams = (
+    obj = selectedListObject,
+    page = 'list'
+  ) => {
     let valueArr = [];
-    Object.entries(selectedListObject).map(([key, value]) => {
+    Object.entries(obj).map(([key, value]) => {
       if (value) {
         valueArr.push(key + '=' + value);
       }
