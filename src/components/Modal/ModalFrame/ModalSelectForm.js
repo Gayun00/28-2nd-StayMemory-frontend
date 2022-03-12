@@ -8,8 +8,8 @@ function ModalSelectForm({ title, children, onClose, onClickSearch }) {
     <Wrapper>
       <PopUp>
         <PopUpTitle>
+          {/* <GrClose onClick={onClose} /> */}
           <h2>{title}</h2>
-          <GrClose onClick={onClose} />
         </PopUpTitle>
         <Container>{children}</Container>
         <SearchButton onClickSearch={onClickSearch} />
@@ -44,10 +44,10 @@ const PopUpTitle = styled.div`
   width: 100%;
   font-size: 1.9rem;
 
-  & > svg {
+  /* & > svg {
     color: lightgrey;
     cursor: pointer;
-  }
+  } */
 `;
 
 export default ModalSelectForm;

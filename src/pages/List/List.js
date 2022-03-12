@@ -23,14 +23,14 @@ export default function List() {
       const resJson = await res.json();
       setHotel(resJson.data);
     };
-    fetchHotelList();
+    // fetchHotelList();
   }, [location.search]);
 
-  useEffect(() => {
-    fetch(FETCH_LiST_API_URL)
-      .then(res => res.json())
-      .then(res => setHotel(res.data));
-  }, []);
+  // useEffect(() => {
+  //   fetch(FETCH_LiST_API_URL)
+  //     .then(res => res.json())
+  //     .then(res => setHotel(res.data));
+  // }, []);
 
   return (
     <Container>

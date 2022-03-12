@@ -1,22 +1,16 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import Modal from '../Modal/Modal';
 import { HiUser } from 'react-icons/hi';
 import { BsToggleOn, BsToggleOff } from 'react-icons/bs';
-import ModalPortal from '../Modal/ModalPortal';
 import { useNavigate } from 'react-router';
-import { NavModalTitle } from '../../utils/constants';
-import ModalSelectForm from '../Modal/ModalFrame/ModalSelectForm';
-import { useRecoilState } from 'recoil';
-import { selectedDatesState } from '../Modal/GlobalState';
+import NavSelectCity from './NavButton/NavSelectCity';
+import NavSelectDate from './NavButton/NavSelectDate';
 
 function Nav() {
-  const [openedModalName, setOpenedModalName] = useState('');
   const [isDarkMode, setIsDarkMode] = useState(false);
   const navigate = useNavigate();
   const LOGIN_TOKEN = 'loginToken';
   const isLoggedIn = sessionStorage.getItem(LOGIN_TOKEN);
-  const [selectedDates, setSelectedDates] = useRecoilState(selectedDatesState);
 
   function handleDarkMode() {
     setIsDarkMode(!isDarkMode);
@@ -30,32 +24,12 @@ function Nav() {
     sessionStorage.removeItem(LOGIN_TOKEN);
   }
 
-  function onClickModalButton(category) {
-    setOpenedModalName(category);
-  }
-
-  function onCloseModal() {
-    setOpenedModalName('');
-  }
   return (
     <Wrapper>
       <Logo onClick={() => goToPage('/')} />
       <FilterWrap>
-        {NavModalTitle.map(ti => (
-          <>
-            <span key={ti.id}>
-              {ti.icon}
-              <FilterButton onClick={() => onClickModalButton(ti.category)}>
-                {ti.title}
-              </FilterButton>
-            </span>
-            {openedModalName === ti.category && (
-              <ModalPortal>
-                <Modal>{ti.modalContent}</Modal>
-              </ModalPortal>
-            )}
-          </>
-        ))}
+        <NavSelectCity />
+        <NavSelectDate />
       </FilterWrap>
       <MenuWrap>
         <span onClick={() => goToPage('/list')}>FIND STAY</span>

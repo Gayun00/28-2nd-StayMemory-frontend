@@ -8,12 +8,12 @@ import SearchButton from '../../../Button/SearchButton';
 import { useRecoilState } from 'recoil';
 import { selectedDatesState } from '../../GlobalState';
 
-function CalendarM() {
+function CalendarM({ selectedDates, setSelectedDates }) {
   const [startDate, setStartDate] = useState(moment());
   const [endDate, setEndDate] = useState(moment());
   const [focusedInput, setFocusedInput] = useState('startDate');
   const [initialMonth, setInitialMonth] = useState(moment());
-  const [selectedDates, setSelectedDates] = useRecoilState(selectedDatesState);
+  // const [selectedDates, setSelectedDates] = useRecoilState(selectedDatesState);
 
   const handleDatesChange = ({ startDate, endDate }) => {
     setStartDate(moment(startDate));

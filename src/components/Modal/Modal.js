@@ -10,7 +10,7 @@ import showModalState, {
 } from './GlobalState';
 import { GrClose } from 'react-icons/gr';
 
-export default function Modal({ children }) {
+export default function Modal({ children, onClose }) {
   const selectedDates = useRecoilValue(selectedDatesState);
   const selectedHotelId = useRecoilValue(selectedHotelIdState);
   const setTotalPrice = useSetRecoilState(totalPriceState);
@@ -22,21 +22,11 @@ export default function Modal({ children }) {
       .then(res => res.json())
       .then(res => setTotalPrice(res.data.total_price));
   }
-  // React.useEffect(() => {
-  //   function disableButton() {
-  //     if (showModal === 'location') {
-  //       setButtonIsValid(selectedLocation.location !== null);
-  //     } else if (showModal === 'date' || showModal === 'date_detail') {
-  //       setButtonIsValid(validDates);
-  //     }
-  //   }
-  //   disableButton();
-  // }, [selectedLocation, validDates, selectedDates, showModal, buttonIsValid]);
 
   return (
     <Background>
       <ModalContainer>
-        {/* <GrClose /> */}
+        <GrClose onClick={onClose} />
         {children}
       </ModalContainer>
     </Background>

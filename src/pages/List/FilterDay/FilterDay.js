@@ -7,6 +7,7 @@ import { useQueryStringObject } from '../../../utils/hooks/useQueryStringObject'
 import moment from 'moment';
 import ModalPortal from '../../../components/Modal/Modal';
 import Modal from '../../../components/Modal/Modal';
+import SelectCity from '../../../components/Modal/ModalContent/SelectCity';
 
 export default function FilterDay() {
   const [startDate, setStartDate] = useState(null);
@@ -16,6 +17,8 @@ export default function FilterDay() {
   const URLSearch = new URLSearchParams(location.search);
   const place = URLSearch.get('city');
   const dates = URLSearch.get('dates');
+  const [isOpened, setIsOpened] = useState(false);
+
   const datesObj = {
     checkin: '',
     checkout: '',
@@ -44,15 +47,23 @@ export default function FilterDay() {
     }
   };
 
+  function toggleModal() {
+    setIsOpened(!isOpened);
+  }
+
   return (
     <FilterDays>
       <Keyword>
         <KeywordTitle>여행지/숙소</KeywordTitle>
         <KeywordInput />
-        <KeywordBtn>{place || '국내전체'}</KeywordBtn>
-        <ModalPortal>
-          <Modal />
-        </ModalPortal>
+        <KeywordBtn onClick={toggleModal}>{place || '국내전체'}</KeywordBtn>
+        {isOpened && (
+          <ModalPortal>
+            <Modal onClose={toggleModal}>
+              <SelectCity onClose={toggleModal} />
+            </Modal>
+          </ModalPortal>
+        )}
         <KeywordReset>
           <ResetLink to="/list">
             <BiRefresh className="BiRefresh" />

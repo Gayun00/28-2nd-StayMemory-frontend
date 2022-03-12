@@ -5,11 +5,12 @@ import CalendarM from '../ModalContentItem/Calendar/CalendarM';
 import Location from '../ModalContentItem/Location/Location';
 import ModalSelectForm from '../ModalFrame/ModalSelectForm';
 
-function SelectCity({ onToggle }) {
+function SelectCity({ onClose }) {
   const { selectedState, setSelectedState, parseStringToSearchParams } =
     useQueryString('city');
 
   function onClickSearch() {
+    onClose();
     parseStringToSearchParams();
   }
 
