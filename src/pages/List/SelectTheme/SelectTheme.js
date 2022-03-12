@@ -26,6 +26,10 @@ export default function SelectTheme() {
     addFilterArr(e);
   };
 
+  const onClickApplyButton = () => {
+    parseArrayToSearchParams();
+  };
+
   return (
     <div ref={clickRef}>
       <ModalBtn onClick={onToggle}>
@@ -38,7 +42,7 @@ export default function SelectTheme() {
             테마
             <AiOutlineClose onClick={onToggle} />
           </PeopleTitle>
-          <ModalPeopleBtnWrapper onClick={() => parseArrayToSearchParams()}>
+          <ModalPeopleBtnWrapper onClick={onClickApplyButton}>
             <ModalPeopleBtn>적용하기</ModalPeopleBtn>
           </ModalPeopleBtnWrapper>
           <CheckList>

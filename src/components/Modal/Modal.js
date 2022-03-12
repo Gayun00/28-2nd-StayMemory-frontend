@@ -4,20 +4,15 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import showModalState, {
   selectedDatesState,
   selectedHotelIdState,
-  selectedLocationState,
+  // selectedLocationState,
   totalPriceState,
-  validDatesState,
+  // validDatesState,
 } from './GlobalState';
-import SelectDate from './ModalContent/SelectDate';
-import SelectCity from './ModalContent/SelectCity';
+import { GrClose } from 'react-icons/gr';
 
-export default function Modal({ clickRef, onToggle, content }) {
-  const [showModal, setShowModal] = useRecoilState(showModalState);
+export default function Modal({ children }) {
   const selectedDates = useRecoilValue(selectedDatesState);
   const selectedHotelId = useRecoilValue(selectedHotelIdState);
-  const selectedLocation = useRecoilValue(selectedLocationState);
-  const validDates = useRecoilValue(validDatesState);
-  const [buttonIsValid, setButtonIsValid] = React.useState(false);
   const setTotalPrice = useSetRecoilState(totalPriceState);
 
   function submitSelectedDates() {
@@ -27,27 +22,28 @@ export default function Modal({ clickRef, onToggle, content }) {
       .then(res => res.json())
       .then(res => setTotalPrice(res.data.total_price));
   }
+  // React.useEffect(() => {
+  //   function disableButton() {
+  //     if (showModal === 'location') {
+  //       setButtonIsValid(selectedLocation.location !== null);
+  //     } else if (showModal === 'date' || showModal === 'date_detail') {
+  //       setButtonIsValid(validDates);
+  //     }
+  //   }
+  //   disableButton();
+  // }, [selectedLocation, validDates, selectedDates, showModal, buttonIsValid]);
 
-  const modalContentObj = {
-    date: <SelectDate content={content} onToggle={onToggle} />,
-    location: <SelectCity content={content} onToggle={onToggle} />,
-  };
-
-  React.useEffect(() => {
-    function disableButton() {
-      if (showModal === 'location') {
-        setButtonIsValid(selectedLocation.location !== null);
-      } else if (showModal === 'date' || showModal === 'date_detail') {
-        setButtonIsValid(validDates);
-      }
-    }
-    disableButton();
-  }, [selectedLocation, validDates, selectedDates, showModal, buttonIsValid]);
-
-  return <Wrapper ref={clickRef}>{modalContentObj[content]}</Wrapper>;
+  return (
+    <Background>
+      <ModalContainer>
+        {/* <GrClose /> */}
+        {children}
+      </ModalContainer>
+    </Background>
+  );
 }
 
-const Wrapper = styled.div`
+const Background = styled.div`
   position: fixed;
   top: 0;
   left: 0;
@@ -57,4 +53,18 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
   z-index: 3;
+  background-color: rgb(0, 0, 0, 0.5);
+`;
+
+const ModalContainer = styled.div`
+  position: relative;
+  padding: 30px;
+  background-color: white;
+  border-radius: 20px;
+
+  & > svg {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+  }
 `;

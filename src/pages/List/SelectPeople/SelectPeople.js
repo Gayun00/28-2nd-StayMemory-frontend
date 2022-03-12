@@ -25,15 +25,13 @@ export default function SelectPeople() {
     useQueryStringObject('count', initialState);
   const { clickRef, isOpened, onToggle } = useClickAway();
 
-  const plusQuantity = name => {
-    const updatedCount = selectedListObject[name] + 1;
-    addFilterObject(name, updatedCount);
+  const onClickPlusButton = name => {
+    addFilterObject(name, selectedListObject[name] + 1);
   };
 
-  const minusQuantity = name => {
+  const onClickMinusButton = name => {
     if (selectedListObject[name]) {
-      const updatedCount = selectedListObject[name] - 1;
-      addFilterObject(name, updatedCount);
+      addFilterObject(name, selectedListObject[name] - 1);
     }
   };
 
@@ -63,7 +61,9 @@ export default function SelectPeople() {
                       <p>{item.age}</p>
                     </span>
                     <div>
-                      <CounterButton onClick={() => minusQuantity(item.name)}>
+                      <CounterButton
+                        onClick={() => onClickMinusButton(item.name)}
+                      >
                         -
                       </CounterButton>
                       <InputNum>
@@ -74,7 +74,9 @@ export default function SelectPeople() {
                         />
                         <span>명</span>
                       </InputNum>
-                      <CounterButton onClick={() => plusQuantity(item.name)}>
+                      <CounterButton
+                        onClick={() => onClickPlusButton(item.name)}
+                      >
                         +
                       </CounterButton>
                     </div>

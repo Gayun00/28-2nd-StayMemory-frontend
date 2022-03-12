@@ -8,6 +8,10 @@ const GlobalStyle = createGlobalStyle`
     font-family: 'Spoqa Han Sans Neo', 'sans-serif';
   }
 
+  svg, button {
+    cursor: pointer
+  }
+
   * {
     box-sizing: border-box;
     font-family: 'Spoqa Han Sans Neo', 'sans-serif';

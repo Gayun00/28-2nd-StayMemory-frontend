@@ -3,13 +3,13 @@ import { GrClose } from 'react-icons/gr';
 import styled from 'styled-components';
 import SearchButton from '../../Button/SearchButton';
 
-function ModalSelectForm({ onClickSearch, onToggle, title, children }) {
+function ModalSelectForm({ title, children, onClose, onClickSearch }) {
   return (
     <Wrapper>
       <PopUp>
         <PopUpTitle>
           <h2>{title}</h2>
-          <GrClose onClick={onToggle} />
+          <GrClose onClick={onClose} />
         </PopUpTitle>
         <Container>{children}</Container>
         <SearchButton onClickSearch={onClickSearch} />
@@ -25,13 +25,10 @@ const Wrapper = styled.div`
 `;
 
 const PopUp = styled.div`
-  position: absolute;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 2rem;
-  background: white;
   border-radius: 1rem;
 `;
 

@@ -10,16 +10,11 @@ function SelectCity({ onToggle }) {
     useQueryString('city');
 
   function onClickSearch() {
-    onToggle();
     parseStringToSearchParams();
   }
 
   return (
-    <ModalSelectForm
-      title="어디로 떠날까요?"
-      onClickSearch={onClickSearch}
-      onToggle={onToggle}
-    >
+    <ModalSelectForm title="어디로 떠날까요?" onClickSearch={onClickSearch}>
       <Location
         selectedCity={selectedState}
         setSelectedCity={setSelectedState}

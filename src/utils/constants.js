@@ -2,6 +2,8 @@ import { AiOutlineCalendar } from 'react-icons/ai';
 import { HiOutlineLocationMarker } from 'react-icons/hi';
 import Location from '../components/Modal/ModalContentItem/Location/Location';
 import CalendarM from '../components/Modal/ModalContentItem/Calendar/CalendarM';
+import SelectCity from '../components/Modal/ModalContent/SelectCity';
+import SelectDate from '../components/Modal/ModalContent/SelectDate';
 
 const BASE_URL =
   'http://ec2-3-36-124-170.ap-northeast-2.compute.amazonaws.com/';
@@ -53,12 +55,14 @@ export const NavModalTitle = [
     category: 'location',
     title: '어디로 떠날까요?',
     icon: <HiOutlineLocationMarker />,
+    modalContent: <SelectCity />,
   },
   {
     id: 1,
     category: 'date',
     title: '언제 떠날까요?',
     icon: <AiOutlineCalendar />,
+    modalContent: <SelectDate />,
   },
 ];
 

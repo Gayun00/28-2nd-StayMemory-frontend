@@ -26,6 +26,10 @@ export default function SelectType() {
     addFilterArr(e);
   };
 
+  const onClickApplyButton = () => {
+    parseArrayToSearchParams();
+  };
+
   return (
     <Wrapper ref={clickRef}>
       <ModalBtn onClick={onToggle}>
@@ -39,7 +43,7 @@ export default function SelectType() {
             <AiOutlineClose onClick={onToggle} />
           </PeopleTitle>
           <ModalPeopleBtnWrapper>
-            <ModalPeopleBtn onClick={() => parseArrayToSearchParams()}>
+            <ModalPeopleBtn onClick={onClickApplyButton}>
               적용하기
             </ModalPeopleBtn>
           </ModalPeopleBtnWrapper>

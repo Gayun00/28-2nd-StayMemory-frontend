@@ -5,6 +5,8 @@ import { BiRefresh } from 'react-icons/bi';
 import CalendarS from '../../../components/Modal/ModalContentItem/Calendar/CalendarS';
 import { useQueryStringObject } from '../../../utils/hooks/useQueryStringObject';
 import moment from 'moment';
+import ModalPortal from '../../../components/Modal/Modal';
+import Modal from '../../../components/Modal/Modal';
 
 export default function FilterDay() {
   const [startDate, setStartDate] = useState(null);
@@ -33,12 +35,13 @@ export default function FilterDay() {
 
     if (startDate) {
       queryObject.checkin = startDate.format('YYYY-MM-DD');
-    if (endDate) {
-      queryObject.checkout = endDate.format('YYYY-MM-DD');
+      if (endDate) {
+        queryObject.checkout = endDate.format('YYYY-MM-DD');
+      }
+      parseObjectToSearchParams(queryObject);
+      setStartDate(startDate);
+      setEndDate(endDate);
     }
-    parseObjectToSearchParams(queryObject);
-    setStartDate(startDate);
-    setEndDate(endDate);
   };
 
   return (
@@ -47,6 +50,9 @@ export default function FilterDay() {
         <KeywordTitle>여행지/숙소</KeywordTitle>
         <KeywordInput />
         <KeywordBtn>{place || '국내전체'}</KeywordBtn>
+        <ModalPortal>
+          <Modal />
+        </ModalPortal>
         <KeywordReset>
           <ResetLink to="/list">
             <BiRefresh className="BiRefresh" />

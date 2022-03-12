@@ -6,6 +6,7 @@ export const useQueryStringObject = (objKey, stateObj) => {
   const navigate = useNavigate();
   let URLSearch = new URLSearchParams(search);
   const [selectedListObject, setSelectedListObject] = useState(stateObj);
+
   const addFilterObject = (name, updatedResult) => {
     const updatedObject = {
       ...selectedListObject,

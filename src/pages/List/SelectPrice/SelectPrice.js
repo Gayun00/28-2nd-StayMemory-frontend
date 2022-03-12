@@ -18,7 +18,7 @@ import { useQueryStringObject } from '../../../utils/hooks/useQueryStringObject'
 import useClickAway from '../../../utils/hooks/useClickAway';
 import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
 
-export default function SelectPrice({ closeHandler }) {
+export default function SelectPrice() {
   const initialState = {
     min: 0,
     max: 0,

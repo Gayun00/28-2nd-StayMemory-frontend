@@ -18,15 +18,7 @@ function SelectDate({ onToggle }) {
     parseObjectToSearchParams();
     onToggle();
   }
-  return (
-    <ModalSelectForm
-      onClickSearch={onClickSearch}
-      onToggle={onToggle}
-      title="언제 떠날까요?"
-    >
-      <CalendarM />
-    </ModalSelectForm>
-  );
+  return <CalendarM />;
 }
 
 export default SelectDate;

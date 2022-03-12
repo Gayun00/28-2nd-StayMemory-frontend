@@ -5,8 +5,10 @@ import { HiUser } from 'react-icons/hi';
 import { BsToggleOn, BsToggleOff } from 'react-icons/bs';
 import ModalPortal from '../Modal/ModalPortal';
 import { useNavigate } from 'react-router';
-import useClickAway from '../../utils/hooks/useClickAway';
 import { NavModalTitle } from '../../utils/constants';
+import ModalSelectForm from '../Modal/ModalFrame/ModalSelectForm';
+import { useRecoilState } from 'recoil';
+import { selectedDatesState } from '../Modal/GlobalState';
 
 function Nav() {
   const [openedModalName, setOpenedModalName] = useState('');
@@ -14,7 +16,7 @@ function Nav() {
   const navigate = useNavigate();
   const LOGIN_TOKEN = 'loginToken';
   const isLoggedIn = sessionStorage.getItem(LOGIN_TOKEN);
-  const { isOpened, onToggle, clickRef } = useClickAway();
+  const [selectedDates, setSelectedDates] = useRecoilState(selectedDatesState);
 
   function handleDarkMode() {
     setIsDarkMode(!isDarkMode);
@@ -30,20 +32,29 @@ function Nav() {
 
   function onClickModalButton(category) {
     setOpenedModalName(category);
-    if (!isOpened) onToggle();
   }
 
+  function onCloseModal() {
+    setOpenedModalName('');
+  }
   return (
     <Wrapper>
       <Logo onClick={() => goToPage('/')} />
       <FilterWrap>
         {NavModalTitle.map(ti => (
-          <span key={ti.id}>
-            {ti.icon}
-            <FilterButton onClick={() => onClickModalButton(ti.category)}>
-              {ti.title}
-            </FilterButton>
-          </span>
+          <>
+            <span key={ti.id}>
+              {ti.icon}
+              <FilterButton onClick={() => onClickModalButton(ti.category)}>
+                {ti.title}
+              </FilterButton>
+            </span>
+            {openedModalName === ti.category && (
+              <ModalPortal>
+                <Modal>{ti.modalContent}</Modal>
+              </ModalPortal>
+            )}
+          </>
         ))}
       </FilterWrap>
       <MenuWrap>
@@ -65,15 +76,6 @@ function Nav() {
           <BsToggleOn onClick={handleDarkMode} />
         )}
       </UserWrap>
-      {isOpened && (
-        <ModalPortal>
-          <Modal
-            clickRef={clickRef}
-            onToggle={onToggle}
-            content={openedModalName}
-          />
-        </ModalPortal>
-      )}
     </Wrapper>
   );
 }
