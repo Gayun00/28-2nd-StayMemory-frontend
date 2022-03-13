@@ -13,8 +13,8 @@ function Detail() {
   useRecoilState(selectedHotelIdState);
   const params = useParams();
   const LOGIN_TOKEN = sessionStorage.getItem('loginToken');
-  const [startDate, setStartDate] = useState(moment());
-  const [endDate, setEndDate] = useState(moment());
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
 
   useEffect(() => {
     loadDetailData();

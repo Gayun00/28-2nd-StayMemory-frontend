@@ -10,8 +10,8 @@ import Modal from '../../../components/Modal/Modal';
 import SelectCity from '../../../components/Modal/ModalContent/SelectCity';
 
 export default function FilterDay() {
-  const [startDate, setStartDate] = useState(moment());
-  const [focusedInput, setFocusedInput] = useState(moment());
+  const [startDate, setStartDate] = useState(null);
+  const [focusedInput, setFocusedInput] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const location = useLocation();
   const URLSearch = new URLSearchParams(location.search);
@@ -28,8 +28,8 @@ export default function FilterDay() {
   useEffect(() => {
     const checkinDate = URLSearch.get('checkin');
     const checkoutDate = URLSearch.get('checkout');
-    setStartDate(moment(checkinDate));
-    setEndDate(moment(checkoutDate));
+    checkinDate && setStartDate(moment(checkinDate));
+    checkoutDate && setEndDate(moment(checkoutDate));
   }, [location.search]);
 
   const handleDatesChange = ({ startDate, endDate }) => {
@@ -50,6 +50,9 @@ export default function FilterDay() {
   function toggleModal() {
     setIsOpened(!isOpened);
   }
+  useEffect(() => {
+    console.log(startDate);
+  }, []);
 
   return (
     <FilterDays>
