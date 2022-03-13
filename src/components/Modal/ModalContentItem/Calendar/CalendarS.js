@@ -2,6 +2,7 @@ import React from 'react';
 import 'react-dates/initialize';
 import { DateRangePicker } from 'react-dates';
 import 'react-dates/lib/css/_datepicker.css';
+import styled from 'styled-components';
 
 function CalendarS({
   startDate,
@@ -11,7 +12,7 @@ function CalendarS({
   setFocusedInput,
 }) {
   return (
-    <div className="App">
+    <CalendarContainer>
       <DateRangePicker
         startDatePlaceholderText="체크인"
         endDatePlaceholderText="체크아웃"
@@ -29,8 +30,15 @@ function CalendarS({
         noBorder={true}
         small={true}
       />
-    </div>
+    </CalendarContainer>
   );
 }
+
+const CalendarContainer = styled.div`
+  position: absolute;
+  .DateInput {
+    display: none;
+  }
+`;
 
 export default CalendarS;

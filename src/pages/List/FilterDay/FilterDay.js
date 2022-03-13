@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { BiRefresh } from 'react-icons/bi';
 import CalendarS from '../../../components/Modal/ModalContentItem/Calendar/CalendarS';
 import { useQueryStringObject } from '../../../utils/hooks/useQueryStringObject';
@@ -164,9 +164,9 @@ const CheckInOut = styled.div`
   display: flex;
   align-items: center;
 
-  .DateInput {
+  /* .DateInput {
     display: none;
-  }
+  } */
 `;
 
 const CheckInOutTitle = styled.div`

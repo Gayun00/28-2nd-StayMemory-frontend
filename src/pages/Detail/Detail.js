@@ -9,6 +9,11 @@ import showModalState, {
   totalPriceState,
 } from '../../components/Modal/GlobalState';
 import { useParams } from 'react-router-dom';
+import CalendarM from '../../components/Modal/ModalContentItem/Calendar/CalendarM';
+import { useQueryStringObject } from '../../utils/hooks/useQueryStringObject';
+import CalendarS from '../../components/Modal/ModalContentItem/Calendar/CalendarS';
+import ReservationDate from './ReservationDate/ReservationDate';
+import ReservationButton from './ReservationDate/ReservationButton';
 
 function Detail() {
   const [detail, setDetail] = useState([]);
@@ -20,6 +25,7 @@ function Detail() {
   const params = useParams();
   const totalPrice = useRecoilValue(totalPriceState);
   const LOGIN_TOKEN = sessionStorage.getItem('loginToken');
+  const { selectedListObject, setSelectedListObject } = useQueryStringObject();
 
   useEffect(() => {
     loadDetailData();
@@ -46,6 +52,7 @@ function Detail() {
       .then(res => res.json())
       .then(res => setDisabledDates([...res.data.date]));
   }
+  console.log(disabledDates);
 
   function showDatesModal() {
     setModal('date_detail');
@@ -85,7 +92,6 @@ function Detail() {
   }
 
   const stay = detail[0];
-
   return (
     <Wrapper>
       {detail.length && (
@@ -98,19 +104,10 @@ function Detail() {
             </BackWrapper>
             <SelectWrapper>
               <h2>{stay.hotelName}</h2>
-              <SelectDateWrapper onClick={showDatesModal}>
-                {selectedDates.checkout !== null ? (
-                  <p>{`${selectedDates.checkin}~${selectedDates.checkout}`}</p>
-                ) : (
-                  <>
-                    <div>날짜를 선택해주세요</div>
-                    <IoIosArrowDown />
-                  </>
-                )}
+              <SelectDateWrapper>
+                <ReservationDate />
+                <ReservationButton />
               </SelectDateWrapper>
-              <BookButton onClick={() => bookHotel(stay)}>
-                <button>{totalPrice ? `${totalPrice}원  ` : ''}결제하기</button>
-              </BookButton>
             </SelectWrapper>
           </HeaderWrapper>
           <ContentWrapper>
@@ -206,15 +203,9 @@ const SelectDateWrapper = styled.span`
   }
 `;
 
-const BookButton = styled.div`
-  & > button {
-    width: 14rem;
-    height: 2.5rem;
-    background-color: black;
-    border: none;
-    color: white;
-  }
-`;
+// const CalenderContainer = styled.div`
+//   position: absolute;
+// `;
 
 const ContentWrapper = styled.div`
   display: flex;
