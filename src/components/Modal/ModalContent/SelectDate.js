@@ -12,7 +12,7 @@ function SelectDate({ onClose }) {
     setSelectedListObject,
     selectedListObject,
     parseObjectToSearchParams,
-  } = useQueryStringObject('dates', selectedDates);
+  } = useQueryStringObject(selectedDates);
 
   function onClickSearch() {
     parseObjectToSearchParams();

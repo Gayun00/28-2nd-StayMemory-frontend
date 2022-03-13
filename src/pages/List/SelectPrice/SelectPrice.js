@@ -20,16 +20,16 @@ import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
 
 export default function SelectPrice() {
   const initialState = {
-    min: 0,
-    max: 0,
+    minprice: 0,
+    maxprice: 0,
   };
   const { addFilterObject, selectedListObject, parseObjectToSearchParams } =
-    useQueryStringObject('priceRange', initialState);
+    useQueryStringObject(initialState);
   const { clickRef, isOpened, onToggle } = useClickAway();
 
   const handleChange = e => {
     const maxPrice = e.target.value * 10000;
-    addFilterObject('max', maxPrice);
+    addFilterObject('maxprice', maxPrice);
   };
 
   return (

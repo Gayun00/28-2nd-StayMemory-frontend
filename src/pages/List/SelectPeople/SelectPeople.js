@@ -22,10 +22,11 @@ export default function SelectPeople() {
     baby: 0,
   };
   const { addFilterObject, selectedListObject, parseObjectToSearchParams } =
-    useQueryStringObject('count', initialState);
+    useQueryStringObject(initialState);
   const { clickRef, isOpened, onToggle } = useClickAway();
 
   const onClickPlusButton = name => {
+    console.log(name);
     addFilterObject(name, selectedListObject[name] + 1);
   };
 
@@ -36,7 +37,13 @@ export default function SelectPeople() {
   };
 
   const onFilter = () => {
-    parseObjectToSearchParams();
+    const number = Object.entries(selectedListObject).reduce((acc, curr) => {
+      return (acc = acc + curr[1]);
+    }, 0);
+    const obj = {
+      maxpeople: number,
+    };
+    parseObjectToSearchParams(obj);
   };
 
   return (

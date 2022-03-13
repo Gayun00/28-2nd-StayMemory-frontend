@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-export const useQueryStringObject = (objKey, stateObj) => {
+export const useQueryStringObject = stateObj => {
   const { search } = useLocation();
   const navigate = useNavigate();
   let URLSearch = new URLSearchParams(search);
@@ -19,17 +19,14 @@ export const useQueryStringObject = (objKey, stateObj) => {
     obj = selectedListObject,
     page = 'list'
   ) => {
-    let valueArr = [];
     Object.entries(obj).map(([key, value]) => {
-      if (value) {
-        valueArr.push(key + '=' + value);
-      }
+      value && URLSearch.set(key, value);
     });
-    URLSearch.set(objKey, valueArr.join('&'));
     navigate(`/${page}?` + URLSearch.toString());
   };
 
   const parseQueryIntoObject = querystring => {
+    console.log(querystring);
     const params = new URLSearchParams(querystring);
     const obj = {};
 

@@ -1,43 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { IoIosArrowRoundBack, IoIosArrowDown } from 'react-icons/io';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import showModalState, {
-  disabledDatesState,
-  selectedDatesState,
-  selectedHotelIdState,
-  totalPriceState,
-} from '../../components/Modal/GlobalState';
+import { IoIosArrowRoundBack } from 'react-icons/io';
+import { useRecoilState } from 'recoil';
+import { selectedHotelIdState } from '../../components/Modal/GlobalState';
 import { useParams } from 'react-router-dom';
-import CalendarM from '../../components/Modal/ModalContentItem/Calendar/CalendarM';
-import { useQueryStringObject } from '../../utils/hooks/useQueryStringObject';
-import CalendarS from '../../components/Modal/ModalContentItem/Calendar/CalendarS';
 import ReservationDate from './ReservationDate/ReservationDate';
 import ReservationButton from './ReservationDate/ReservationButton';
+import moment from 'moment';
 
 function Detail() {
   const [detail, setDetail] = useState([]);
-  const setModal = useSetRecoilState(showModalState);
-  const selectedDates = useRecoilValue(selectedDatesState);
-  const [disabledDates, setDisabledDates] = useRecoilState(disabledDatesState);
-  const [selectedHotelId, setSelectedHotelId] =
-    useRecoilState(selectedHotelIdState);
+  useRecoilState(selectedHotelIdState);
   const params = useParams();
-  const totalPrice = useRecoilValue(totalPriceState);
   const LOGIN_TOKEN = sessionStorage.getItem('loginToken');
-  const { selectedListObject, setSelectedListObject } = useQueryStringObject();
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
+  const [startDate, setStartDate] = useState(moment());
+  const [endDate, setEndDate] = useState(moment());
 
   useEffect(() => {
     loadDetailData();
-    // getUnavaliableDate();
-    saveHotelId();
   }, []);
-
-  function saveHotelId() {
-    setSelectedHotelId(params.id);
-  }
 
   function loadDetailData() {
     fetch(
