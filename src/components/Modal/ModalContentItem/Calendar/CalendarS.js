@@ -10,6 +10,7 @@ function CalendarS({
   handleDatesChange,
   focusedInput,
   setFocusedInput,
+  isDayBlocked,
 }) {
   return (
     <CalendarContainer>
@@ -29,6 +30,7 @@ function CalendarS({
         onFocusChange={focusedInput => setFocusedInput(focusedInput)}
         noBorder={true}
         small={true}
+        isDayBlocked={isDayBlocked}
       />
     </CalendarContainer>
   );

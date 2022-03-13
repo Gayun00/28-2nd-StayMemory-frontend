@@ -26,10 +26,12 @@ function Detail() {
   const totalPrice = useRecoilValue(totalPriceState);
   const LOGIN_TOKEN = sessionStorage.getItem('loginToken');
   const { selectedListObject, setSelectedListObject } = useQueryStringObject();
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
 
   useEffect(() => {
     loadDetailData();
-    getUnavaliableDate();
+    // getUnavaliableDate();
     saveHotelId();
   }, []);
 
@@ -44,53 +46,6 @@ function Detail() {
       .then(res => res.json())
       .then(res => setDetail([res.data]));
   }
-
-  function getUnavaliableDate() {
-    fetch(
-      `http://ec2-3-36-124-170.ap-northeast-2.compute.amazonaws.com/stays/1/unavailable-date?start-date=2022-01-01`
-    )
-      .then(res => res.json())
-      .then(res => setDisabledDates([...res.data.date]));
-  }
-  console.log(disabledDates);
-
-  function showDatesModal() {
-    setModal('date_detail');
-  }
-
-  function bookHotel(hotel) {
-    alert('예약되었습니다.');
-    const test = {
-      stayId: hotel.hotelId,
-      numPeople: 2,
-      checkin: selectedDates.checkin,
-      checkout: selectedDates.checkout,
-      price: totalPrice,
-      payment: 'credit_card',
-    };
-
-    fetch(
-      `http://ec2-3-36-124-170.ap-northeast-2.compute.amazonaws.com/reservations`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: LOGIN_TOKEN,
-        },
-        body: JSON.stringify({
-          stayId: 1,
-          numPeople: 2,
-          checkin: '2021-02-21',
-          checkout: '2021-02-22',
-          price: totalPrice,
-          payment: 'credit_card',
-        }),
-      }
-    )
-      .then(res => res.json())
-      .then(res => console.log(res));
-  }
-
   const stay = detail[0];
   return (
     <Wrapper>
@@ -105,8 +60,13 @@ function Detail() {
             <SelectWrapper>
               <h2>{stay.hotelName}</h2>
               <SelectDateWrapper>
-                <ReservationDate />
-                <ReservationButton />
+                <ReservationDate
+                  startDate={startDate}
+                  setStartDate={setStartDate}
+                  endDate={endDate}
+                  setEndDate={setEndDate}
+                />
+                <ReservationButton startDate={startDate} endDate={endDate} />
               </SelectDateWrapper>
             </SelectWrapper>
           </HeaderWrapper>

@@ -3,13 +3,29 @@ import { IoIosArrowDown } from 'react-icons/io';
 import CalendarS from '../../../components/Modal/ModalContentItem/Calendar/CalendarS';
 import styled from 'styled-components';
 import moment from 'moment';
+import { useParams, useSearchParams } from 'react-router-dom';
 
-function ReservationDate({startDate, endDate}) {
+function ReservationDate({ startDate, endDate, setStartDate, setEndDate }) {
   const [isOpened, setIsOpened] = useState(false);
-  const [startDate, setStartDate] = useState(null);
   const [focusedInput, setFocusedInput] = useState(null);
-  const [endDate, setEndDate] = useState(null);
   const [diffDays, setDiffDays] = useState(0);
+  const today = moment().format('YYYY-MM-DD');
+  const stayIdParams = useParams().id;
+  const [unAvaliableDates, setUnavailableDates] = useState([
+    '2022-03-15',
+    '2022-03-17',
+  ]);
+
+  async function getUnavaliableDate() {
+    const res = await fetch(
+      `http://ec2-3-36-124-170.ap-northeast-2.compute.amazonaws.com/stays/${stayIdParams}/unavailable-date?start-date=${today}`
+    );
+    const resJson = await res.json();
+    const unAvailableDates = resJson.data.date;
+    // setUnavailableDates(unAvailableDates);
+  }
+  getUnavaliableDate();
+  // console.log(disabledDates);
 
   function toggleCalendar() {
     setIsOpened(!isOpened);
@@ -32,6 +48,11 @@ function ReservationDate({startDate, endDate}) {
     }
   }, [startDate, endDate]);
 
+  function disableDates(momentDate) {
+    const date = momentDate.format('YYYY-MM-DD');
+    return unAvaliableDates.includes(date) ? true : false;
+  }
+
   return (
     <>
       <div onClick={onClickSelectDate}>
@@ -52,6 +73,7 @@ function ReservationDate({startDate, endDate}) {
             handleDatesChange={handleDatesChange}
             focusedInput={focusedInput}
             setFocusedInput={setFocusedInput}
+            isDayBlocked={disableDates}
           />
         </CalenderContainer>
       )}
