@@ -12,8 +12,10 @@ function ReservationDate({ startDate, endDate, setStartDate, setEndDate }) {
   const today = moment().format('YYYY-MM-DD');
   const stayIdParams = useParams().id;
   const [unAvaliableDates, setUnavailableDates] = useState([
-    '2022-03-15',
-    '2022-03-17',
+    '2022-03-14',
+
+    '2022-03-19',
+    '2022-03-22',
   ]);
 
   async function getUnavaliableDate() {
@@ -50,7 +52,23 @@ function ReservationDate({ startDate, endDate, setStartDate, setEndDate }) {
 
   function disableDates(momentDate) {
     const date = momentDate.format('YYYY-MM-DD');
-    return unAvaliableDates.includes(date) ? true : false;
+    if (focusedInput === 'startDate') {
+      return unAvaliableDates.includes(date) ? true : false;
+    } else if (focusedInput === 'endDate') {
+      console.log(checkFirstUnAvailableDates());
+      return unAvaliableDates.includes(date) ||
+        moment(date).isBefore(startDate.format('YYYY-MM-DD')) ||
+        moment(date).isAfter(checkFirstUnAvailableDates())
+        ? true
+        : false;
+    }
+  }
+  function checkFirstUnAvailableDates() {
+    for (let i = 0; i < unAvaliableDates.length; i++) {
+      if (moment(unAvaliableDates[i]).isAfter(startDate)) {
+        return unAvaliableDates[i];
+      }
+    }
   }
 
   return (
