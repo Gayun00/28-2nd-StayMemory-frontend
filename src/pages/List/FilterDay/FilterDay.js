@@ -50,9 +50,6 @@ export default function FilterDay() {
   function toggleModal() {
     setIsOpened(!isOpened);
   }
-  useEffect(() => {
-    console.log(startDate);
-  }, []);
 
   return (
     <FilterDays>

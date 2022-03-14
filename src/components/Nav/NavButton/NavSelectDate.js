@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { HiOutlineLocationMarker } from 'react-icons/hi';
 import Modal from '../../Modal/Modal';
 import ModalPortal from '../../Modal/ModalPortal';
 import styled from 'styled-components';
 import SelectDate from '../../Modal/ModalContent/SelectDate';
+import { AiOutlineCalendar } from 'react-icons/ai';
 
 function NavSelectDate() {
   const [isOpened, setIsOpened] = useState(false);
@@ -15,7 +15,7 @@ function NavSelectDate() {
   return (
     <>
       <span onClick={toggleModal}>
-        <HiOutlineLocationMarker />
+        <AiOutlineCalendar />
         <FilterButton>언제 떠날까요?</FilterButton>
       </span>
       {isOpened && (

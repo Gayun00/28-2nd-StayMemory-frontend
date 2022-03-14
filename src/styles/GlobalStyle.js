@@ -12,6 +12,11 @@ const GlobalStyle = createGlobalStyle`
     cursor: pointer
   }
 
+  button {
+    background-color: transparent;
+    border: none;
+  }
+
   * {
     box-sizing: border-box;
     font-family: 'Spoqa Han Sans Neo', 'sans-serif';

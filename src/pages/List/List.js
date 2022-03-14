@@ -22,15 +22,10 @@ export default function List() {
       const res = await fetch(FETCH_LiST_API_URL(location.search));
       const resJson = await res.json();
       setHotel(resJson.data);
+      console.log(resJson);
     };
-    // fetchHotelList();
+    fetchHotelList();
   }, [location.search]);
-
-  // useEffect(() => {
-  //   fetch(FETCH_LiST_API_URL)
-  //     .then(res => res.json())
-  //     .then(res => setHotel(res.data));
-  // }, []);
 
   return (
     <Container>

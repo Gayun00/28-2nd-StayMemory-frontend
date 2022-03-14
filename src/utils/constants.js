@@ -1,11 +1,4 @@
-import { AiOutlineCalendar } from 'react-icons/ai';
-import { HiOutlineLocationMarker } from 'react-icons/hi';
-import Location from '../components/Modal/ModalContentItem/Location/Location';
-import CalendarM from '../components/Modal/ModalContentItem/Calendar/CalendarM';
-import SelectCity from '../components/Modal/ModalContent/SelectCity';
-import SelectDate from '../components/Modal/ModalContent/SelectDate';
-
-const BASE_URL =
+export const BASE_URL =
   'http://ec2-3-36-124-170.ap-northeast-2.compute.amazonaws.com/';
 export const API_KEY = process.env.REACT_APP_API_KEY;
 export const CLIENT_SECRET_KEY = process.env.REACT_APP_CLIENT_SECRET;
@@ -24,8 +17,8 @@ export const TYPE_DATA = {
     { id: 3, type: '영아', age: '24개월 미만', name: 'baby' },
   ],
   category: [
-    { id: 1, type: '게스트하우스', name: 'guesthouse' },
-    { id: 2, type: '호텔', name: 'hotel' },
+    { id: 1, type: '게스트하우스', name: '게스트하우스' },
+    { id: 2, type: '호텔', name: '호텔' },
   ],
   theme: [
     { id: 1, type: '디자인투어', name: 'designTour' },
@@ -43,41 +36,8 @@ export const TYPE_DATA = {
 };
 
 export const cities = [
-  { id: 0, name: '전체' },
-  { id: 1, name: '서울' },
-  { id: 2, name: '제주' },
-  { id: 3, name: '강원' },
+  { id: 0, type: '전체', name: '전체' },
+  { id: 1, type: '서울특별시', name: '서울' },
+  { id: 2, type: '제주특별자치도', name: '제주' },
+  { id: 3, type: '강원도', name: '강원' },
 ];
-
-export const NavModalTitle = [
-  {
-    id: 0,
-    category: 'location',
-    title: '어디로 떠날까요?',
-    icon: <HiOutlineLocationMarker />,
-    modalContent: <SelectCity />,
-  },
-  {
-    id: 1,
-    category: 'date',
-    title: '언제 떠날까요?',
-    icon: <AiOutlineCalendar />,
-    modalContent: <SelectDate />,
-  },
-];
-
-// export const ModalContents = {
-//   location: {
-//     title: '어디로 떠날까요?',
-//     content: <CalendarM />,
-//   },
-//   date: {
-//     title: '언제 떠날까요?',
-//     content: <Location />,
-//   },
-// };
-
-export const ModalContentComponents = {
-  date: <CalendarM />,
-  location: <Location />,
-};

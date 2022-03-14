@@ -24,8 +24,8 @@ function Location({ selectedCity, setSelectedCity }) {
           {cities.map(city => (
             <Button
               key={city.id}
-              isClicked={selectedCity === city.name}
-              onClick={() => onClickCityButton(city.name)}
+              isClicked={selectedCity === city.type}
+              onClick={() => onClickCityButton(city.type)}
             >
               {city.name}
             </Button>
