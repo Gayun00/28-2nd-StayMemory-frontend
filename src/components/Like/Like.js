@@ -2,25 +2,31 @@ import React, { useState } from 'react';
 import { RiHeartLine, RiHeartFill } from 'react-icons/ri';
 import styled from 'styled-components';
 
-function Like(props) {
+function Like({ id }) {
   const [heart, setHeart] = useState(false);
+  const LOGIN_TOKEN = sessionStorage.getItem('loginToken');
 
   function clickHeart() {
     setHeart(!heart);
-    fetch('http://192.168.243.37:8082/wishlists', {
-      method: 'POST',
-      headers: {
-        Authorization:
-          'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MX0.AekHFMguragxj6mgkwhioYrEzr6tOktCW-vOYLj1P9M',
-      },
-    }).then(response => response.json());
+    fetch(
+      'http://ec2-3-36-124-170.ap-northeast-2.compute.amazonaws.com/wishlists',
+      {
+        method: 'POST',
+        headers: {
+          Authorization: LOGIN_TOKEN,
+        },
+        body: JSON.stringify({
+          stayId: id,
+        }),
+      }
+    );
   }
 
   return (
-    <div>
+    <Wrapper onClick={clickHeart}>
       <div>
         {heart ? (
-          <div onClick={clickHeart}>
+          <div>
             <RiHeartFill size="20px" />
           </div>
         ) : (
@@ -29,10 +35,12 @@ function Like(props) {
           </div>
         )}
       </div>
-    </div>
+    </Wrapper>
   );
 }
 
-const iconWrapper = styled.div``;
+const Wrapper = styled.div`
+  background-color: turquoise;
+`;
 
 export default Like;
