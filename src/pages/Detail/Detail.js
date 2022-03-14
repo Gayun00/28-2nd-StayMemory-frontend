@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { IoIosArrowRoundBack } from 'react-icons/io';
 import { useRecoilState } from 'recoil';
 import { selectedHotelIdState } from '../../components/Modal/GlobalState';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory, useNavigate } from 'react-router-dom';
 import ReservationDate from './ReservationDate/ReservationDate';
 import ReservationButton from './ReservationDate/ReservationButton';
 import moment from 'moment';
@@ -15,7 +15,7 @@ function Detail() {
   const LOGIN_TOKEN = sessionStorage.getItem('loginToken');
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
-
+  const navigate = useNavigate();
   useEffect(() => {
     loadDetailData();
   }, []);
@@ -27,6 +27,10 @@ function Detail() {
       .then(res => res.json())
       .then(res => setDetail([res.data]));
   }
+
+  function onClickGoBack() {
+    navigate(-1);
+  }
   const stay = detail[0];
   return (
     <Wrapper>
@@ -35,8 +39,10 @@ function Detail() {
           <HeaderWrapper>
             <Title>BOOKING</Title>
             <BackWrapper>
-              <IoIosArrowRoundBack />
-              <p>돌아가기</p>
+              <BackContainer onClick={onClickGoBack}>
+                <IoIosArrowRoundBack />
+                <p>돌아가기</p>
+              </BackContainer>
             </BackWrapper>
             <SelectWrapper>
               <h2>{stay.hotelName}</h2>
@@ -67,7 +73,6 @@ function Detail() {
                   기준 인원 {stay.headCount}명 (최대 인원 {stay.headCount}명)
                 </p>
                 <p>객실면적 {stay.area}m</p>
-                {/* <p>{stay.bed}</p> */}
               </RoomDescription>
             </RoomInfoWrapper>
             <RoomImgWrapper>
@@ -107,6 +112,10 @@ const Title = styled.h1`
 const BackWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
+`;
+
+const BackContainer = styled.button`
+  display: flex;
   align-items: center;
 
   & > svg {
@@ -137,6 +146,7 @@ const SelectWrapper = styled.div`
 
 const SelectDateWrapper = styled.span`
   display: flex;
+  align-items: center;
   cursor: pointer;
 
   & > svg {

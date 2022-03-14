@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 function ReservationButton({ startDate, endDate }) {
@@ -6,6 +7,10 @@ function ReservationButton({ startDate, endDate }) {
   const checkoutDate = endDate && endDate.format('YYYY-MM-DD');
   const peopleCount = 2;
   const [totalPrice, setTotalPrice] = useState('');
+  const LOGIN_TOKEN = sessionStorage.getItem('loginToken');
+  const paramsId = useParams().id;
+  console.log(paramsId);
+
   console.log(checkinDate, checkoutDate);
 
   async function getTotalPrice() {
@@ -18,44 +23,36 @@ function ReservationButton({ startDate, endDate }) {
   }
 
   useEffect(() => {
-    getTotalPrice();
+    endDate && getTotalPrice();
   }, [endDate]);
 
-  // function bookHotel(hotel) {
-  //   alert('예약되었습니다.');
-  //   const test = {
-  //     stayId: hotel.hotelId,
-  //     numPeople: 2,
-  //     checkin: checkinDate,
-  //     checkout: checkoutDate,
-  //     price: totalPrice,
-  //     payment: 'credit_card',
-  //   };
+  function bookHotel(hotel) {
+    alert('예약되었습니다.');
 
-  //   fetch(
-  //     `http://ec2-3-36-124-170.ap-northeast-2.compute.amazonaws.com/reservations`,
-  //     {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //         Authorization: LOGIN_TOKEN,
-  //       },
-  //       body: JSON.stringify({
-  //         stayId: 1,
-  //         numPeople: 2,
-  //         checkin: '2021-02-21',
-  //         checkout: '2021-02-22',
-  //         price: totalPrice,
-  //         payment: 'credit_card',
-  //       }),
-  //     }
-  //   )
-  //     .then(res => res.json())
-  //     .then(res => console.log(res));
-  // }
+    fetch(
+      `http://ec2-3-36-124-170.ap-northeast-2.compute.amazonaws.com/reservations`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: LOGIN_TOKEN,
+        },
+        body: JSON.stringify({
+          stayId: paramsId,
+          numPeople: 2,
+          checkin: checkinDate,
+          checkout: checkoutDate,
+          price: totalPrice,
+          payment: 'credit_card',
+        }),
+      }
+    )
+      .then(res => res.json())
+      .then(res => console.log(res));
+  }
 
   return (
-    <BookButton>
+    <BookButton onClick={bookHotel}>
       <button>{totalPrice ? `${totalPrice}원  ` : ''}결제하기</button>
     </BookButton>
   );

@@ -13,7 +13,6 @@ function ReservationDate({ startDate, endDate, setStartDate, setEndDate }) {
   const stayIdParams = useParams().id;
   const [unAvaliableDates, setUnavailableDates] = useState([
     '2022-03-14',
-
     '2022-03-19',
     '2022-03-22',
   ]);
@@ -23,7 +22,8 @@ function ReservationDate({ startDate, endDate, setStartDate, setEndDate }) {
       `http://ec2-3-36-124-170.ap-northeast-2.compute.amazonaws.com/stays/${stayIdParams}/unavailable-date?start-date=${today}`
     );
     const resJson = await res.json();
-    const unAvailableDates = resJson.data.date;
+    const undates = resJson.data.date;
+    console.log(undates);
     // setUnavailableDates(unAvailableDates);
   }
   getUnavaliableDate();
@@ -55,12 +55,13 @@ function ReservationDate({ startDate, endDate, setStartDate, setEndDate }) {
     if (focusedInput === 'startDate') {
       return unAvaliableDates.includes(date) ? true : false;
     } else if (focusedInput === 'endDate') {
-      console.log(checkFirstUnAvailableDates());
-      return unAvaliableDates.includes(date) ||
-        moment(date).isBefore(startDate.format('YYYY-MM-DD')) ||
-        moment(date).isAfter(checkFirstUnAvailableDates())
-        ? true
-        : false;
+      if (checkFirstUnAvailableDates()) {
+        return unAvaliableDates.includes(date) ||
+          moment(date).isAfter(checkFirstUnAvailableDates())
+          ? true
+          : false;
+      }
+      return unAvaliableDates.includes(date) ? true : false;
     }
   }
   function checkFirstUnAvailableDates() {
@@ -72,7 +73,7 @@ function ReservationDate({ startDate, endDate, setStartDate, setEndDate }) {
   }
 
   return (
-    <>
+    <Wrapper>
       <div onClick={onClickSelectDate}>
         {startDate && endDate ? (
           `${startDate.format('YYYY.MM.DD')}~${endDate.format('YYYY.MM.DD')}${
@@ -95,9 +96,14 @@ function ReservationDate({ startDate, endDate, setStartDate, setEndDate }) {
           />
         </CalenderContainer>
       )}
-    </>
+    </Wrapper>
   );
 }
+
+const Wrapper = styled.div`
+  display: flex;
+  margin-right: 20px;
+`;
 
 const CalenderContainer = styled.div`
   //
