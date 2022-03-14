@@ -1,7 +1,12 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 export default function HotelList({ hotel }) {
+  const navigate = useNavigate();
+  function goToDetail(id) {
+    navigate(`/findstay/${id}`);
+  }
   return (
     <HotelListWrapper>
       {hotel &&
@@ -16,9 +21,13 @@ export default function HotelList({ hotel }) {
                   기준 {ele.baseNum}명 (최대 {ele.maxNum} 명)
                 </Num>
                 <Price>₩{ele.price}</Price>
-                <p>예약하기</p>
+                <p onClick={() => goToDetail(ele.id)}>예약하기</p>
               </HotelContent>
-              <Img src={ele.img} alt="호텔이미지" />
+              <Img
+                onClick={() => goToDetail(ele.id)}
+                src={ele.img}
+                alt="호텔이미지"
+              />
             </HotelContentList>
           </HotelLists>
         ))}
