@@ -12,7 +12,6 @@ function Detail() {
   const [detail, setDetail] = useState([]);
   useRecoilState(selectedHotelIdState);
   const params = useParams();
-  const LOGIN_TOKEN = sessionStorage.getItem('loginToken');
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const navigate = useNavigate();

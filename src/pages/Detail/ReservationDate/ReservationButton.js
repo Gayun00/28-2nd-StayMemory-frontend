@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { GET_TOTAL_PRICE_URL, RESERVATION_URL } from '../../../utils/constants';
+import { useError } from '../../../utils/hooks/useError';
 
 function ReservationButton({ startDate, endDate }) {
   const checkinDate = startDate && startDate.format('YYYY-MM-DD');
@@ -9,11 +10,12 @@ function ReservationButton({ startDate, endDate }) {
   const peopleCount = 2;
   const [totalPrice, setTotalPrice] = useState('');
   const LOGIN_TOKEN = sessionStorage.getItem('loginToken');
-  const paramsId = useParams().id;
+  const stayId = useParams().id;
+  const { throwError, catchError } = useError();
 
   async function getTotalPrice() {
     const res = await fetch(
-      GET_TOTAL_PRICE_URL(paramsId, checkinDate, checkoutDate, peopleCount)
+      GET_TOTAL_PRICE_URL(stayId, checkinDate, checkoutDate, peopleCount)
     );
     const resJson = await res.json();
     const price = resJson.data.total_price;
@@ -24,16 +26,16 @@ function ReservationButton({ startDate, endDate }) {
     endDate && getTotalPrice();
   }, [endDate]);
 
-  async function bookHotel() {
+  const bookHotel = async () => {
     try {
-      await fetch(RESERVATION_URL, {
+      const res = await fetch(RESERVATION_URL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           Authorization: LOGIN_TOKEN,
         },
         body: JSON.stringify({
-          stayId: paramsId,
+          stayId: stayId,
           numPeople: 2,
           checkin: checkinDate,
           checkout: checkoutDate,
@@ -41,10 +43,14 @@ function ReservationButton({ startDate, endDate }) {
           payment: 'credit_card',
         }),
       });
+      const resJson = await res.json();
+      if (!res.ok) {
+        throwError(resJson);
+      }
     } catch (err) {
-      console.error(err);
+      catchError(err);
     }
-  }
+  };
 
   return (
     <BookButton onClick={bookHotel}>
