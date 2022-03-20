@@ -1,5 +1,15 @@
 export const BASE_URL =
   'http://ec2-3-36-124-170.ap-northeast-2.compute.amazonaws.com/';
+export const RESERVATION_URL = `${BASE_URL}reservations`;
+const LOAD_HOTEL_URL = `${BASE_URL}stays`;
+export const GET_TOTAL_PRICE_URL = (
+  paramsId,
+  checkinDate,
+  checkoutDate,
+  peopleCount
+) =>
+  `${LOAD_HOTEL_URL}/${paramsId}/price?start-date=${checkinDate}&end-date=${checkoutDate}&num-people=${peopleCount}`;
+
 export const API_KEY = process.env.REACT_APP_API_KEY;
 export const CLIENT_SECRET_KEY = process.env.REACT_APP_CLIENT_SECRET;
 const REDIRECT_URI = 'http://localhost:3000/signin_kakao';
