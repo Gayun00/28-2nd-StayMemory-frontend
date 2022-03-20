@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
+import { GET_TOTAL_PRICE_URL, RESERVATION_URL } from '../../../utils/constants';
 
 function ReservationButton({ startDate, endDate }) {
   const checkinDate = startDate && startDate.format('YYYY-MM-DD');
@@ -9,13 +10,10 @@ function ReservationButton({ startDate, endDate }) {
   const [totalPrice, setTotalPrice] = useState('');
   const LOGIN_TOKEN = sessionStorage.getItem('loginToken');
   const paramsId = useParams().id;
-  console.log(paramsId);
-
-  console.log(checkinDate, checkoutDate);
 
   async function getTotalPrice() {
     const res = await fetch(
-      `http://ec2-3-36-124-170.ap-northeast-2.compute.amazonaws.com/stays/2/price?start-date=${checkinDate}&end-date=${checkoutDate}&num-people=${peopleCount}`
+      GET_TOTAL_PRICE_URL(paramsId, checkinDate, checkoutDate, peopleCount)
     );
     const resJson = await res.json();
     const price = resJson.data.total_price;
@@ -26,12 +24,9 @@ function ReservationButton({ startDate, endDate }) {
     endDate && getTotalPrice();
   }, [endDate]);
 
-  function bookHotel(hotel) {
-    alert('예약되었습니다.');
-
-    fetch(
-      `http://ec2-3-36-124-170.ap-northeast-2.compute.amazonaws.com/reservations`,
-      {
+  async function bookHotel() {
+    try {
+      await fetch(RESERVATION_URL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -45,10 +40,10 @@ function ReservationButton({ startDate, endDate }) {
           price: totalPrice,
           payment: 'credit_card',
         }),
-      }
-    )
-      .then(res => res.json())
-      .then(res => console.log(res));
+      });
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   return (

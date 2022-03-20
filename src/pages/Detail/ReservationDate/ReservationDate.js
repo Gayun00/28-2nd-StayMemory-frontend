@@ -3,7 +3,7 @@ import { IoIosArrowDown } from 'react-icons/io';
 import CalendarS from '../../../components/Modal/ModalContentItem/Calendar/CalendarS';
 import styled from 'styled-components';
 import moment from 'moment';
-import { useParams, useSearchParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 function ReservationDate({ startDate, endDate, setStartDate, setEndDate }) {
   const [isOpened, setIsOpened] = useState(false);
@@ -11,11 +11,7 @@ function ReservationDate({ startDate, endDate, setStartDate, setEndDate }) {
   const [diffDays, setDiffDays] = useState(0);
   const today = moment().format('YYYY-MM-DD');
   const stayIdParams = useParams().id;
-  const [unAvaliableDates, setUnavailableDates] = useState([
-    '2022-03-14',
-    '2022-03-19',
-    '2022-03-22',
-  ]);
+  const [unAvailableDates, setUnavailableDates] = useState([]);
 
   async function getUnavaliableDate() {
     const res = await fetch(
@@ -23,11 +19,8 @@ function ReservationDate({ startDate, endDate, setStartDate, setEndDate }) {
     );
     const resJson = await res.json();
     const undates = resJson.data.date;
-    console.log(undates);
-    // setUnavailableDates(unAvailableDates);
+    setUnavailableDates(undates);
   }
-  getUnavaliableDate();
-  // console.log(disabledDates);
 
   function toggleCalendar() {
     setIsOpened(!isOpened);
@@ -36,6 +29,7 @@ function ReservationDate({ startDate, endDate, setStartDate, setEndDate }) {
   function onClickSelectDate() {
     toggleCalendar();
     setFocusedInput('startDate');
+    getUnavaliableDate();
   }
 
   function handleDatesChange({ startDate, endDate }) {
@@ -53,21 +47,21 @@ function ReservationDate({ startDate, endDate, setStartDate, setEndDate }) {
   function disableDates(momentDate) {
     const date = momentDate.format('YYYY-MM-DD');
     if (focusedInput === 'startDate') {
-      return unAvaliableDates.includes(date) ? true : false;
+      return unAvailableDates.includes(date) ? true : false;
     } else if (focusedInput === 'endDate') {
       if (checkFirstUnAvailableDates()) {
-        return unAvaliableDates.includes(date) ||
+        return unAvailableDates.includes(date) ||
           moment(date).isAfter(checkFirstUnAvailableDates())
           ? true
           : false;
       }
-      return unAvaliableDates.includes(date) ? true : false;
+      return unAvailableDates.includes(date) ? true : false;
     }
   }
   function checkFirstUnAvailableDates() {
-    for (let i = 0; i < unAvaliableDates.length; i++) {
-      if (moment(unAvaliableDates[i]).isAfter(startDate)) {
-        return unAvaliableDates[i];
+    for (let i = 0; i < unAvailableDates.length; i++) {
+      if (moment(unAvailableDates[i]).isAfter(startDate)) {
+        return unAvailableDates[i];
       }
     }
   }
