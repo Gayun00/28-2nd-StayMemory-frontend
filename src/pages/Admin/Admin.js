@@ -1,13 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { GrClose } from 'react-icons/gr';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 function Admin() {
   const [hotelList, setHotelList] = useState([]);
   const [price, setPrice] = useState(0);
   const location = useLocation();
   const adminId = location.pathname.slice(-1);
+  const navigate = useNavigate();
 
   useEffect(() => {
     loadAdminData();
@@ -46,15 +47,15 @@ function Admin() {
     formData.append('price', price);
   }
   const hotelId = 2;
-  async function submitPrice() {
-    console.log(price);
+  async function submitPrice(id) {
+    console.log(id);
     const formData = new FormData();
     formData.append('price', price);
-    for (var value of formData.values()) {
+    for (let value of formData.values()) {
       console.log(value);
     }
     await fetch(
-      `http://ec2-3-36-124-170.ap-northeast-2.compute.amazonaws.com/admins/${adminId}?stay-id=${hotelId}`,
+      `http://ec2-3-36-124-170.ap-northeast-2.compute.amazonaws.com/admins/${adminId}?stay-id=${id}`,
       {
         method: 'POST',
         headers: {},
@@ -97,8 +98,12 @@ function Admin() {
         {hotelList.length &&
           hotelList.map((hotel, idx) => (
             <HotelItem key={idx}>
+              <p>{hotel.hotelId}</p>
+
               <Name>{hotel.name}</Name>
-              <ImgContainer>
+              <ImgContainer
+                onClick={() => navigate(`/findstay/${hotel.hotelId}`)}
+              >
                 <img src={hotel.img} alt={hotel.name} />
                 <UploadButton>
                   <input
@@ -113,8 +118,10 @@ function Admin() {
               <TextContainer>
                 <Price>{`가격: ${hotel.price}`}</Price>
                 <PriceInputWrapper>
-                  <PriceInput onChange={e => updatePrice(e)}></PriceInput>
-                  <PriceButton onClick={submitPrice}>변경 </PriceButton>
+                  <PriceInput onChange={e => updatePrice(e)} />
+                  <PriceButton onClick={() => submitPrice(hotel.hotelId)}>
+                    변경
+                  </PriceButton>
                 </PriceInputWrapper>
               </TextContainer>
               <CloseButton onClick={() => deleteHotel(hotel.id)}>
