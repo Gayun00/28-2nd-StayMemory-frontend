@@ -2,15 +2,13 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { IoIosArrowRoundBack } from 'react-icons/io';
 import { useRecoilState } from 'recoil';
-import { selectedHotelIdState } from '../../components/Modal/GlobalState';
-import { useParams, useHistory, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import ReservationDate from './ReservationDate/ReservationDate';
 import ReservationButton from './ReservationDate/ReservationButton';
-import moment from 'moment';
+import Like from '../../components/Like/Like';
 
 function Detail() {
   const [detail, setDetail] = useState([]);
-  useRecoilState(selectedHotelIdState);
   const params = useParams();
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
@@ -44,7 +42,10 @@ function Detail() {
               </BackContainer>
             </BackWrapper>
             <SelectWrapper>
-              <h2>{stay.hotelName}</h2>
+              <HotelTitleWrapper>
+                <HotelTitleName>{stay.hotelName}</HotelTitleName>
+                <Like id={params.id} />
+              </HotelTitleWrapper>
               <SelectDateWrapper>
                 <ReservationDate
                   startDate={startDate}
@@ -141,6 +142,15 @@ const SelectWrapper = styled.div`
   & > div {
     cursor: pointer;
   }
+`;
+
+const HotelTitleWrapper = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const HotelTitleName = styled.h2`
+  margin-right: 10px;
 `;
 
 const SelectDateWrapper = styled.span`

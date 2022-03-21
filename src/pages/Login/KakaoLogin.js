@@ -1,8 +1,11 @@
 import { useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import { loginTokenState } from '../../utils/GlobalState';
 function KakaoLogin() {
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
+  const [loginToken, setLoginToken] = useRecoilState(loginTokenState);
   const API_KEY = process.env.REACT_APP_KAKAO_API_KEY;
   const CLIENT_SECRET = process.env.REACT_APP_CLIENT_SECRET;
 
@@ -33,7 +36,7 @@ function KakaoLogin() {
       }
     )
       .then(res => res.json())
-      .then(res => saveLoginToken(res.token));
+      .then(res => setLoginToken(res.token));
     goToMain();
   };
 

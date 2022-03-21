@@ -68,7 +68,6 @@ const ItemContainer = styled.div`
 const ImgContainer = styled.div`
   position: relative;
   height: 60%;
-  background-color: lightblue;
 `;
 
 const Img = styled.img.attrs(hotel => ({

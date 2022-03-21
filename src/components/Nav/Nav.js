@@ -5,12 +5,13 @@ import { BsToggleOn, BsToggleOff } from 'react-icons/bs';
 import { useNavigate } from 'react-router';
 import NavSelectCity from './NavButton/NavSelectCity';
 import NavSelectDate from './NavButton/NavSelectDate';
+import { useRecoilState } from 'recoil';
+import { loginTokenState } from '../../utils/GlobalState';
 
 function Nav() {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const navigate = useNavigate();
-  const LOGIN_TOKEN = 'loginToken';
-  const isLoggedIn = sessionStorage.getItem(LOGIN_TOKEN);
+  const [loginToken, setLoginToken] = useRecoilState(loginTokenState);
 
   function handleDarkMode() {
     setIsDarkMode(!isDarkMode);
@@ -21,7 +22,7 @@ function Nav() {
   }
 
   function logout() {
-    sessionStorage.removeItem(LOGIN_TOKEN);
+    setLoginToken('');
   }
 
   return (
@@ -38,8 +39,8 @@ function Nav() {
         <span>PRE-ORDER</span>
       </MenuWrap>
       <UserWrap>
-        {isLoggedIn && <HiUser onClick={() => goToPage('/mypage/wishlists')} />}
-        {isLoggedIn ? (
+        {loginToken && <HiUser onClick={() => goToPage('/mypage/wishlists')} />}
+        {loginToken ? (
           <LoginButton onClick={logout}>LOGOUT</LoginButton>
         ) : (
           <LoginButton onClick={() => goToPage('/login')}>LOGIN</LoginButton>

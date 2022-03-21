@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import PageBtn from '../../components/PageBtn';
 import { BASE_URL } from '../../utils/constants';
 import { categories } from '../../utils/constants/mypage';
+import { loginTokenState } from '../../utils/GlobalState';
 
 function MyPage() {
   const [hotelData, setHotelData] = useState([]);
@@ -11,7 +13,7 @@ function MyPage() {
   const navigate = useNavigate();
   const location = useLocation();
   const params = useParams().page;
-  const LOGIN_TOKEN = sessionStorage.getItem('loginToken');
+  const LOGIN_TOKEN = useRecoilValue(loginTokenState);
   const URLSearch = new URLSearchParams(location.search);
 
   const updateOffset = btnidx => {

@@ -1,7 +1,9 @@
+import { useRecoilValue } from 'recoil';
+import { loginTokenState } from '../GlobalState';
 import { useError } from './useError';
 
 function useFetch() {
-  const loginToken = sessionStorage.getItem('loginToken');
+  const loginToken = useRecoilValue(loginTokenState);
   const { throwError, catchError } = useError();
 
   async function getRequest(url) {
