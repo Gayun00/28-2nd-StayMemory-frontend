@@ -1,16 +1,32 @@
 import React, { useState } from 'react';
 import { RiHeartLine, RiHeartFill } from 'react-icons/ri';
-import styled from 'styled-components';
+import { WISHLIST_URL } from '../../utils/constants';
+import { useError } from '../../utils/hooks/useError';
 
 function Like({ id }) {
   const [heart, setHeart] = useState(false);
   const LOGIN_TOKEN = sessionStorage.getItem('loginToken');
+  const { throwError, catchError } = useError();
+  const [isInWishList, setIsInWishList] = useState(false);
 
-  function clickHeart() {
-    setHeart(!heart);
-    fetch(
-      'http://ec2-3-36-124-170.ap-northeast-2.compute.amazonaws.com/wishlists',
-      {
+  async function fetchWishlist() {
+    const res = await fetch(WISHLIST_URL, {
+      method: 'GET',
+      headers: {
+        Authorization: LOGIN_TOKEN,
+      },
+    });
+    const resJson = await res.json();
+    const wishlist = resJson.data;
+    wishlist.forEach(stay => {
+      stay.hotelId === id ? setIsInWishList(true) : setIsInWishList(false);
+    });
+  }
+
+  async function addToWishlist() {
+    try {
+      setHeart(!heart);
+      const res = await fetch(WISHLIST_URL, {
         method: 'POST',
         headers: {
           Authorization: LOGIN_TOKEN,
@@ -18,29 +34,28 @@ function Like({ id }) {
         body: JSON.stringify({
           stayId: id,
         }),
+      });
+      const resJson = await res.json();
+      if (!res.ok) {
+        throwError(resJson);
       }
-    );
+    } catch (err) {
+      catchError(err);
+    }
+    await fetchWishlist();
   }
 
   return (
-    <Wrapper onClick={clickHeart}>
+    <div onClick={addToWishlist}>
       <div>
-        {heart ? (
-          <div>
-            <RiHeartFill size="20px" />
-          </div>
+        {isInWishList ? (
+          <RiHeartFill size="20px" />
         ) : (
-          <div onClick={clickHeart}>
-            <RiHeartLine size="20px" color="pink" />
-          </div>
+          <RiHeartLine size="20px" color="pink" />
         )}
       </div>
-    </Wrapper>
+    </div>
   );
 }
-
-const Wrapper = styled.div`
-  background-color: turquoise;
-`;
 
 export default Like;
