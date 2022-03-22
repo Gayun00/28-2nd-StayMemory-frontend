@@ -4,6 +4,7 @@ import CalendarS from '../../../components/Modal/ModalContentItem/Calendar/Calen
 import styled from 'styled-components';
 import moment from 'moment';
 import { useParams } from 'react-router-dom';
+import { unAvailableDatesUrl } from '../../../utils/constants';
 
 function ReservationDate({ startDate, endDate, setStartDate, setEndDate }) {
   const [isOpened, setIsOpened] = useState(false);
@@ -14,12 +15,14 @@ function ReservationDate({ startDate, endDate, setStartDate, setEndDate }) {
   const [unAvailableDates, setUnavailableDates] = useState([]);
 
   async function getUnavaliableDate() {
-    const res = await fetch(
-      `http://ec2-3-36-124-170.ap-northeast-2.compute.amazonaws.com/stays/${stayIdParams}/unavailable-date?start-date=${today}`
-    );
-    const resJson = await res.json();
-    const undates = resJson.data.date;
-    setUnavailableDates(undates);
+    try {
+      const res = await fetch(unAvailableDatesUrl(stayIdParams, today));
+      const resJson = await res.json();
+      const undates = resJson.data.date;
+      setUnavailableDates(undates);
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   function toggleCalendar() {
@@ -79,7 +82,7 @@ function ReservationDate({ startDate, endDate, setStartDate, setEndDate }) {
       </div>
       <IoIosArrowDown />
       {isOpened && (
-        <CalenderContainer>
+        <div>
           <CalendarS
             startDate={startDate}
             endDate={endDate}
@@ -88,7 +91,7 @@ function ReservationDate({ startDate, endDate, setStartDate, setEndDate }) {
             setFocusedInput={setFocusedInput}
             isDayBlocked={disableDates}
           />
-        </CalenderContainer>
+        </div>
       )}
     </Wrapper>
   );
@@ -97,10 +100,6 @@ function ReservationDate({ startDate, endDate, setStartDate, setEndDate }) {
 const Wrapper = styled.div`
   display: flex;
   margin-right: 20px;
-`;
-
-const CalenderContainer = styled.div`
-  //
 `;
 
 export default ReservationDate;

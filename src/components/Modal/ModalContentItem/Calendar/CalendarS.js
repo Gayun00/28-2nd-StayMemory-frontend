@@ -1,7 +1,7 @@
 import React from 'react';
 import 'react-dates/initialize';
 import { DateRangePicker } from 'react-dates';
-import 'react-dates/lib/css/_datepicker.css';
+// import 'react-dates/lib/css/_datepicker.css';
 import styled from 'styled-components';
 
 function CalendarS({

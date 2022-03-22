@@ -2,6 +2,8 @@ export const BASE_URL =
   'http://ec2-3-36-124-170.ap-northeast-2.compute.amazonaws.com/';
 export const RESERVATION_URL = `${BASE_URL}reservations`;
 const LOAD_HOTEL_URL = `${BASE_URL}stays`;
+export const unAvailableDatesUrl = (stayId, startDate) =>
+  `${LOAD_HOTEL_URL}${stayId}/unavailable-date?start-date=${startDate}`;
 export const WISHLIST_URL = `${BASE_URL}wishlists`;
 export const GET_TOTAL_PRICE_URL = (
   paramsId,
