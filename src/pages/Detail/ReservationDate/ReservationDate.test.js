@@ -3,23 +3,25 @@
  */
 import React from 'react';
 import ReservationDate from './ReservationDate';
-import { screen, render } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { render } from '@testing-library/react';
 import moment from 'moment';
 
-describe('ReservationDate', () => {
+describe('ReservationDate 예약 불가날짜 비활성화 처리 테스트', () => {
   let getUnavaliableDate;
-  let startDate = '2022-03-26';
+  const startDate = '2022-03-26';
   let endDate;
   let setStartDate;
   let setEndDate;
   let unAvailableDates = [];
   let checkFirstUnAvailableDates;
   let disableDates;
-  let focusedInput = 'endDate';
+  const focusedInput = 'endDate';
   let mockIsDisabledFunctionProps;
 
   beforeEach(() => {
+    setStartDate = jest.fn();
+    setEndDate = jest.fn();
+
     getUnavaliableDate = jest
       .fn()
       .mockResolvedValue([
@@ -29,8 +31,6 @@ describe('ReservationDate', () => {
         '2022-04-04',
         '2022-04-05',
       ]);
-    setStartDate = jest.fn();
-    setEndDate = jest.fn();
 
     checkFirstUnAvailableDates = jest.fn().mockImplementation(() => {
       for (let i = 0; i < unAvailableDates.length; i++) {
@@ -50,28 +50,24 @@ describe('ReservationDate', () => {
             moment(date).isAfter(checkFirstUnAvailableDates())
             ? true
             : false;
-          // unAvailableDates.includes(date) ||
-          // moment(date).isAfter(checkFirstUnAvailableDates())
-          //   ? console.log(date)
-          //   : console.log('nope');
         }
       }
     });
 
     mockIsDisabledFunctionProps = jest.fn().mockImplementation(() => {
-      const startDate = '2022-03-01';
+      const startDate = '2022-03-26';
       let enabledDates = [];
-      for (let i = 1; i < 40; i++) {
+      for (let i = 0; i < 31; i++) {
         const momentDate = moment(startDate).add(i, 'days');
-        if (disableDates(momentDate)) {
-          console.log(momentDate.format('YYYY-MM-DD'));
+        if (!disableDates(momentDate)) {
           enabledDates.push(momentDate.format('YYYY-MM-DD'));
         }
       }
       return enabledDates;
     });
   });
-  it('날짜선택 버튼 클릭 시 달력 창 띄우기', async () => {
+
+  it('컴포넌트 렌더링', async () => {
     await render(
       <ReservationDate
         startDate={startDate}
@@ -80,9 +76,11 @@ describe('ReservationDate', () => {
         setEndDate={setEndDate}
       />
     );
+  });
+
+  it('예약 불가 날짜 정보 받아오기', async () => {
     unAvailableDates = await getUnavaliableDate();
-    // const selectDateButton = screen.getByText('날짜를 선택해주세요');
-    // userEvent.click(selectDateButton);
+
     expect(unAvailableDates).toEqual([
       '2022-03-29',
       '2022-03-30',
@@ -90,13 +88,17 @@ describe('ReservationDate', () => {
       '2022-04-04',
       '2022-04-05',
     ]);
+  });
 
+  it('선택한 체크인 날짜 26일 이후 첫번째 예약 불가 날짜 29일 찾기', () => {
     expect(checkFirstUnAvailableDates()).toBe('2022-03-29');
-    // expect(mockIsDisabledFunctionProps()).toBe([
-    //   '2022-03-26',
-    //   '2022-03-27',
-    //   '2022-03-28',
-    // ]);
-    console.log(mockIsDisabledFunctionProps());
+  });
+
+  it('선택한 체크인 날짜와 첫번째 예약 불가날짜 사이 구간 26~28일만 선택 가능하도록 하기', () => {
+    expect(mockIsDisabledFunctionProps()).toStrictEqual([
+      '2022-03-26',
+      '2022-03-27',
+      '2022-03-28',
+    ]);
   });
 });
