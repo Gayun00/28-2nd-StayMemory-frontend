@@ -6,11 +6,9 @@ import SelectType from './SelectType/SelectType';
 import SelectTheme from './SelectTheme/SelectTheme';
 import FilterDay from './FilterDay/FilterDay';
 import HotelList from './HotelList/HotelList';
-
 import styled from 'styled-components';
 import { GoLocation } from 'react-icons/go';
 import { BsArrowRight } from 'react-icons/bs';
-
 import { FETCH_LiST_API_URL } from '../../utils/constants';
 
 export default function List() {
@@ -19,10 +17,13 @@ export default function List() {
 
   useEffect(() => {
     const fetchHotelList = async () => {
-      const res = await fetch(FETCH_LiST_API_URL(location.search));
-      const resJson = await res.json();
-      setHotel(resJson.data);
-      console.log(resJson);
+      try {
+        const res = await fetch(FETCH_LiST_API_URL(location.search));
+        const resJson = await res.json();
+        setHotel(resJson.data);
+      } catch (err) {
+        console.error(err);
+      }
     };
     fetchHotelList();
   }, [location.search]);
@@ -37,18 +38,10 @@ export default function List() {
         <FilterDay />
         <FilterOther>
           <ModalWrapper>
-            <div>
-              <SelectPeople />
-            </div>
-            <div>
-              <SelectPrice />
-            </div>
-            <div>
-              <SelectType />
-            </div>
-            <div>
-              <SelectTheme />
-            </div>
+            <SelectPeople />
+            <SelectPrice />
+            <SelectType />
+            <SelectTheme />
             <BtnSelectMap>
               <GoLocation />
             </BtnSelectMap>
