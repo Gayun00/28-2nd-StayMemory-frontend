@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   ModalPeopleBtn,
   ModalPeopleBtnWrapper,
@@ -9,25 +9,32 @@ import {
 } from '../List';
 import { AiOutlineClose } from 'react-icons/ai';
 import { TYPE_DATA } from '../../../utils/constants';
-import { useQueryStringArr } from '../../../utils/hooks/useQueryStringArr';
 import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
 import useClickAway from '../../../utils/hooks/useClickAway';
+import useUpdateState from '../../../utils/hooks/useUpdateState';
+import useCheckBox from '../../../utils/hooks/useCheckBox';
+import useQueryString from '../../../utils/hooks/useQueryString';
 
 export default function SelectTheme() {
-  const {
-    addFilterArr,
-    handleCheckedAll,
-    isCheckedAll,
-    isChecked,
-    parseArrayToSearchParams,
-  } = useQueryStringArr('theme');
+  const [selectedTheme, setSelectedTheme] = useState({
+    theme: [],
+  });
+  const { updateState } = useUpdateState(selectedTheme, setSelectedTheme);
+  const { isChecked, isCheckedAll, handleCheckedAll } = useCheckBox(
+    selectedTheme,
+    setSelectedTheme,
+    TYPE_DATA.theme
+  );
+  const { parseObjectToSearchParams } = useQueryString(selectedTheme);
   const { clickRef, isOpened, onToggle } = useClickAway();
+
   const handleChange = e => {
-    addFilterArr(e);
+    const { name } = e.target;
+    updateState(name);
   };
 
   const onClickApplyButton = () => {
-    parseArrayToSearchParams();
+    parseObjectToSearchParams();
   };
 
   return (
@@ -61,7 +68,7 @@ export default function SelectTheme() {
             {TYPE_DATA.theme.map((obj, idx) => {
               return (
                 <li key={idx}>
-                  <label name={obj.name}>
+                  <label name={obj.type}>
                     <span>{obj.type}</span>
                     <input
                       type="checkbox"

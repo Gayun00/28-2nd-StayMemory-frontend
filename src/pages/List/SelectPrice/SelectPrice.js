@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
   ModalPeopleBtn,
   ModalPeopleBtnWrapper,
@@ -14,22 +14,24 @@ import {
   ModalBtn,
 } from '../List';
 import { AiOutlineClose } from 'react-icons/ai';
-import { useQueryStringObject } from '../../../utils/hooks/useQueryStringObject';
 import useClickAway from '../../../utils/hooks/useClickAway';
 import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
+import useUpdateState from '../../../utils/hooks/useUpdateState';
+import useQueryString from '../../../utils/hooks/useQueryString';
 
 export default function SelectPrice() {
-  const initialState = {
-    minprice: 0,
-    maxprice: 0,
-  };
-  const { addFilterObject, selectedListObject, parseObjectToSearchParams } =
-    useQueryStringObject(initialState);
+  const [selectedPrice, setSelectedPrice] = useState({
+    minPrice: 0,
+    maxPrice: 0,
+  });
+  const { updateState } = useUpdateState(selectedPrice, setSelectedPrice);
+  const { parseObjectToSearchParams } = useQueryString(selectedPrice);
+
   const { clickRef, isOpened, onToggle } = useClickAway();
 
   const handleChange = e => {
     const maxPrice = e.target.value * 10000;
-    addFilterObject('maxprice', maxPrice);
+    updateState(maxPrice, 'maxPrice');
   };
 
   return (
@@ -66,7 +68,7 @@ export default function SelectPrice() {
             <div>
               <InputHeader>최고요금</InputHeader>
               <InputContent>
-                <input type="text" value={selectedListObject.max} />
+                <input type="text" value={selectedPrice.max} />
                 만원~
               </InputContent>
             </div>

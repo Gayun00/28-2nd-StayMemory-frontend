@@ -3,11 +3,11 @@ import styled from 'styled-components';
 import { Link, useLocation } from 'react-router-dom';
 import { BiRefresh } from 'react-icons/bi';
 import CalendarS from '../../../components/Modal/ModalContentItem/Calendar/CalendarS';
-import { useQueryStringObject } from '../../../utils/hooks/useQueryStringObject';
 import moment from 'moment';
 import ModalPortal from '../../../components/Modal/Modal';
 import Modal from '../../../components/Modal/Modal';
 import SelectCity from '../../../components/Modal/ModalContent/SelectCity';
+import useQueryString from '../../../utils/hooks/useQueryString';
 
 export default function FilterDay() {
   const [startDate, setStartDate] = useState(null);
@@ -22,8 +22,9 @@ export default function FilterDay() {
     checkin: '',
     checkout: '',
   };
+
   const { parseObjectToSearchParams, parseQueryIntoObject } =
-    useQueryStringObject(datesObj);
+    useQueryString(datesObj);
 
   useEffect(() => {
     const checkinDate = URLSearch.get('checkin');

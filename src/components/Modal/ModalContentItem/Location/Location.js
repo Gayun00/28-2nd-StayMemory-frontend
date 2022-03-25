@@ -1,11 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 import { AiOutlineSearch } from 'react-icons/ai';
-import { cities } from '../../../../utils/constants';
+import { TYPE_DATA } from '../../../../utils/constants';
 
-function Location({ selectedCity, setSelectedCity }) {
+function Location({ selectedCity, updateCity }) {
   function onClickCityButton(city) {
-    setSelectedCity(city);
+    updateCity(city);
   }
 
   return (
@@ -21,7 +21,7 @@ function Location({ selectedCity, setSelectedCity }) {
         </SearchWrapper>
         <SearchTitle>국내</SearchTitle>
         <ButtonWrapper>
-          {cities.map(city => (
+          {TYPE_DATA.cities.map(city => (
             <Button
               key={city.id}
               isClicked={selectedCity === city.type}

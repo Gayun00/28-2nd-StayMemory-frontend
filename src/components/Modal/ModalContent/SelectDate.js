@@ -1,18 +1,15 @@
-import React from 'react';
-import { useQueryStringObject } from '../../../utils/hooks/useQueryStringObject';
+import React, { useState } from 'react';
+import useQueryString from '../../../utils/hooks/useQueryString';
 import CalendarM from '../ModalContentItem/Calendar/CalendarM';
 import ModalSelectForm from '../ModalFrame/ModalSelectForm';
 
 function SelectDate({ onClose }) {
-  const selectedDates = {
+  const [selectedDates, setSelectedDates] = useState({
     checkin: '',
     checkout: '',
-  };
-  const {
-    setSelectedListObject,
-    selectedListObject,
-    parseObjectToSearchParams,
-  } = useQueryStringObject(selectedDates);
+  });
+
+  const { parseObjectToSearchParams } = useQueryString(selectedDates);
 
   function onClickSearch() {
     parseObjectToSearchParams();
@@ -21,8 +18,8 @@ function SelectDate({ onClose }) {
   return (
     <ModalSelectForm title="언제 떠날까요?" onClickSearch={onClickSearch}>
       <CalendarM
-        selectedDates={selectedListObject}
-        setSelectedDates={setSelectedListObject}
+        selectedDates={selectedDates}
+        setSelectedDates={setSelectedDates}
       />
     </ModalSelectForm>
   );

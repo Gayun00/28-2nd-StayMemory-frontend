@@ -12,32 +12,35 @@ import {
 } from '../List';
 import { AiOutlineClose } from 'react-icons/ai';
 import { TYPE_DATA } from '../../../utils/constants';
-import { useQueryStringObject } from '../../../utils/hooks/useQueryStringObject';
 import useClickAway from '../../../utils/hooks/useClickAway';
 import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
+import { useState } from 'react';
+import useUpdateState from '../../../utils/hooks/useUpdateState';
+import useQueryString from '../../../utils/hooks/useQueryString';
 export default function SelectPeople() {
-  const initialState = {
+  const [selectedPeople, setSelectedPeople] = useState({
     adult: 0,
     child: 0,
     baby: 0,
-  };
-  const { addFilterObject, selectedListObject, parseObjectToSearchParams } =
-    useQueryStringObject(initialState);
+  });
+
+  const { updateState } = useUpdateState(selectedPeople, setSelectedPeople);
+  const { parseObjectToSearchParams } = useQueryString(selectedPeople);
+
   const { clickRef, isOpened, onToggle } = useClickAway();
 
   const onClickPlusButton = name => {
-    console.log(name);
-    addFilterObject(name, selectedListObject[name] + 1);
+    updateState(selectedPeople[name] + 1, name);
   };
 
   const onClickMinusButton = name => {
-    if (selectedListObject[name]) {
-      addFilterObject(name, selectedListObject[name] - 1);
+    if (selectedPeople[name]) {
+      updateState(selectedPeople[name] - 1, name);
     }
   };
 
   const onFilter = () => {
-    const number = Object.entries(selectedListObject).reduce((acc, curr) => {
+    const number = Object.entries(selectedPeople).reduce((acc, curr) => {
       return (acc = acc + curr[1]);
     }, 0);
     const obj = {
@@ -76,7 +79,7 @@ export default function SelectPeople() {
                       <InputNum>
                         <input
                           type="number"
-                          value={selectedListObject[item.name] || 0}
+                          value={selectedPeople[item.name] || 0}
                           readOnly
                         />
                         <span>명</span>

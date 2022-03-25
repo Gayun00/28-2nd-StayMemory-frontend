@@ -5,6 +5,7 @@
 describe('useQueryStringObject', () => {
   let testobj;
   let testObjWithArr;
+  let testObjWithStr;
   let search;
   let parseObjectToSearchParams;
   let parseQueryIntoObject;
@@ -19,6 +20,10 @@ describe('useQueryStringObject', () => {
 
     testObjWithArr = {
       category: ['guesthouse', 'hotel'],
+    };
+
+    testObjWithStr = {
+      city: 'jeju',
     };
 
     search = '';
@@ -65,9 +70,14 @@ describe('useQueryStringObject', () => {
       checkout: '2022-03-26',
     });
   });
-  it('배열을 쿼리스트링으로 변환', () => {
+
+  it('배열을 value로 갖는 객체를 쿼리스트링으로 변환', () => {
     expect(parseObjectToSearchParams(testObjWithArr)).toBe(
       `/list?category=guesthouse%26hotel`
     );
+  });
+
+  it('문자열을 value로 갖는 객체를 쿼리스트링으로 변환', () => {
+    expect(parseObjectToSearchParams(testObjWithStr)).toBe(`/list?city=jeju`);
   });
 });

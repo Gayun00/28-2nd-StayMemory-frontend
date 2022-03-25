@@ -8,26 +8,34 @@ import {
 } from '../List';
 import { AiOutlineClose } from 'react-icons/ai';
 import { TYPE_DATA } from '../../../utils/constants';
-import { useQueryStringArr } from '../../../utils/hooks/useQueryStringArr';
 import styled from 'styled-components';
 import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
 import useClickAway from '../../../utils/hooks/useClickAway';
+import { useState } from 'react';
+import useUpdateState from '../../../utils/hooks/useUpdateState';
+import useCheckBox from '../../../utils/hooks/useCheckBox';
+import useQueryString from '../../../utils/hooks/useQueryString';
 
 export default function SelectType() {
-  const {
-    addFilterArr,
-    handleCheckedAll,
-    isCheckedAll,
-    isChecked,
-    parseArrayToSearchParams,
-  } = useQueryStringArr('category');
+  const [selectedType, setSelectedType] = useState({
+    category: [],
+  });
+  const { updateState } = useUpdateState(selectedType, setSelectedType);
+  const { isChecked, isCheckedAll, handleCheckedAll } = useCheckBox(
+    selectedType,
+    setSelectedType,
+    TYPE_DATA.category
+  );
+  const { parseObjectToSearchParams } = useQueryString(selectedType);
   const { clickRef, isOpened, onToggle } = useClickAway();
+
   const handleChange = e => {
-    addFilterArr(e);
+    const { name } = e.target;
+    updateState(name);
   };
 
   const onClickApplyButton = () => {
-    parseArrayToSearchParams();
+    parseObjectToSearchParams();
   };
 
   return (
@@ -63,7 +71,7 @@ export default function SelectType() {
             {TYPE_DATA.category.map((item, idx) => {
               return (
                 <li key={idx}>
-                  <label name={item.name}>
+                  <label name={item.type}>
                     <span>{item.type}</span>
                     <input
                       type="checkbox"

@@ -9,17 +9,25 @@ describe('체크박스 테스트', () => {
   let isCheckedAll;
   let isChecked;
   let state;
+  let stateKey;
+  let stateValue;
   let data;
 
   beforeEach(() => {
+    state = {
+      category: ['guesthouse'],
+    };
     data = TYPE_DATA.category;
 
+    stateKey = Object.keys(state)[0];
+    stateValue = state[stateKey];
+
     isChecked = property => {
-      return state.includes(property);
+      return stateValue.includes(property);
     };
 
     isCheckedAll = () => {
-      return data.every(obj => state.includes(obj.name));
+      return data.every(obj => stateValue.includes(obj.name));
     };
 
     handleCheckedAll = () => {
@@ -30,21 +38,36 @@ describe('체크박스 테스트', () => {
           updatedList.push(obj.name);
         });
       }
-      return updatedList;
+
+      const updatedState = {
+        [stateKey]: updatedList,
+      };
+
+      return updatedState;
     };
   });
+
   it('isChecked(): 체크 여부 테스트', () => {
-    state = ['guesthouse'];
+    state = {
+      category: ['guesthouse'],
+    };
     expect(isChecked('guesthouse')).toBe(true);
   });
 
   it('isCheckedAll: 모든 항목 체크 여부 테스트', () => {
-    state = ['guesthouse', 'hotel'];
-    expect(isCheckedAll()).toBe(true);
+    state = {
+      category: ['guesthouse', 'hotel'],
+    };
+    stateValue = state[stateKey];
+    expect(isCheckedAll()).toEqual(true);
   });
 
   it('handleCheckAll(): 전체 선택 기능 테스트 ', () => {
-    state = [];
-    expect(handleCheckedAll()).toEqual(['guesthouse', 'hotel']);
+    state = {
+      category: ['guesthouse'],
+    };
+    expect(handleCheckedAll()).toEqual({
+      category: ['guesthouse', 'hotel'],
+    });
   });
 });
