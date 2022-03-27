@@ -5,10 +5,14 @@ import styled from 'styled-components';
 function Banner() {
   const [banners, setBanners] = useState([]);
   async function fetchBannersData() {
-    const response = await fetch('/data/banner.json');
-    const data = await response.json();
-    const updated = [...data, ...data, ...data];
-    setBanners(updated);
+    try {
+      const response = await fetch('/data/banner.json');
+      const data = await response.json();
+      const updated = [...data, ...data, ...data];
+      setBanners(updated);
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   useEffect(() => {

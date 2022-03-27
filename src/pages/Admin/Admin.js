@@ -1,7 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { GrClose } from 'react-icons/gr';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { ADMIN_URL } from 'utils/constants/constants';
 
 function Admin() {
   const [hotelList, setHotelList] = useState([]);
@@ -15,28 +16,26 @@ function Admin() {
   }, []);
 
   function loadAdminData() {
-    fetch(
-      `http://ec2-3-36-124-170.ap-northeast-2.compute.amazonaws.com/admins/1`
-    )
-      .then(res => res.json())
-      .then(res => setHotelList(res.data));
-    console.log(hotelList);
+    try {
+      fetch(ADMIN_URL(adminId))
+        .then(res => res.json())
+        .then(res => setHotelList(res.data));
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   function submitImage(e, hotelId) {
     const formData = new FormData();
     const uploadedFile = e.target.files[0];
     formData.append('img', uploadedFile);
-    fetch(
-      `http://ec2-3-36-124-170.ap-northeast-2.compute.amazonaws.com/admins/${adminId}?stay-id=${hotelId}`,
-      {
-        method: 'POST',
-        headers: {},
-        body: formData,
-      }
-    )
+    fetch(ADMIN_URL(adminId, hotelId), {
+      method: 'POST',
+      headers: {},
+      body: formData,
+    })
       .then(res => res.json())
-      .then(res => console.log(res));
+      .catch(err => console.error(err));
     reloadHotelList();
   }
 
@@ -46,51 +45,40 @@ function Admin() {
     setPrice(val);
     formData.append('price', price);
   }
-  const hotelId = 2;
+
   async function submitPrice(id) {
-    console.log(id);
     const formData = new FormData();
     formData.append('price', price);
-    for (let value of formData.values()) {
-      console.log(value);
-    }
-    await fetch(
-      `http://ec2-3-36-124-170.ap-northeast-2.compute.amazonaws.com/admins/${adminId}?stay-id=${id}`,
-      {
+
+    try {
+      await fetch(ADMIN_URL(adminId, id), {
         method: 'POST',
         headers: {},
         body: formData,
-      }
-    )
-      .then(res => res.json())
-      .then(res => console.log(res));
-    reloadHotelList();
+      })
+        .then(res => res.json())
+        .then(res => console.log(res));
+      reloadHotelList();
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   async function deleteHotel(id) {
-    await fetch(
-      `http://ec2-3-36-124-170.ap-northeast-2.compute.amazonaws.com/admins/${adminId}?stay-id=2`,
-      {
-        method: 'DELETE',
-      }
-    )
+    await fetch(ADMIN_URL(adminId, id), {
+      method: 'DELETE',
+    })
       .then(res => res.json())
-      .then(res => console.log(res));
+      .catch(err => console.error(err));
     reloadHotelList();
   }
 
   function reloadHotelList() {
-    fetch(
-      `http://ec2-3-36-124-170.ap-northeast-2.compute.amazonaws.com/admins/${adminId}`
-    )
+    fetch(ADMIN_URL(adminId))
       .then(res => res.json())
-      .then(res => setHotelList([...res.data]));
+      .then(res => setHotelList([...res.data]))
+      .catch(err => console.error(err));
   }
-
-  useEffect(() => {
-    console.log(hotelList);
-  }, [hotelList]);
-
   return (
     <Wrapper>
       <HotelList>

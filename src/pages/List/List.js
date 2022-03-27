@@ -1,33 +1,38 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import SelectPeople from './SelectPeople/SelectPeople';
-import SelectPrice from './SelectPrice/SelectPrice';
-import SelectType from './SelectType/SelectType';
-import SelectTheme from './SelectTheme/SelectTheme';
-import FilterDay from './FilterDay/FilterDay';
-import HotelList from './HotelList/HotelList';
+import SelectPeople from 'pages/List/SelectPeople/SelectPeople';
+import SelectPrice from 'pages/List/SelectPrice/SelectPrice';
+import SelectType from 'pages/List/SelectType/SelectType';
+import SelectTheme from 'pages/List/SelectTheme/SelectTheme';
+import FilterDay from 'pages/List/FilterDay/FilterDay';
+import HotelList from 'pages/List/HotelList/HotelList';
 import styled from 'styled-components';
 import { GoLocation } from 'react-icons/go';
 import { BsArrowRight } from 'react-icons/bs';
-import { FETCH_LiST_API_URL } from '../../utils/constants';
-import useQueryString from '../../utils/hooks/useQueryString';
+import {
+  FETCH_LiST_API_URL,
+  게스트하우스,
+  호텔,
+  부산광역시,
+  서울특별시,
+  제주특별자치도,
+} from 'utils/constants/constants';
+import useQueryString from 'utils/hooks/useQueryString';
 
 export default function List() {
   const [hotel, setHotel] = useState([]);
   const { search } = useLocation();
-
   const { parseQueryIntoObject, makeQueryStringFromObject } = useQueryString();
-  let changedQueryString;
 
   const cityQueryParams = {
-    jeju: '제주특별자치도',
-    seoul: '서울특별시',
-    busan: '부산',
+    jeju: 제주특별자치도,
+    seoul: 서울특별시,
+    busan: 부산광역시,
   };
 
   const categoryQueryParams = {
-    guesthouse: '게스트하우스',
-    hotel: '호텔',
+    guesthouse: 게스트하우스,
+    hotel: 호텔,
   };
 
   function changeQueryString() {
@@ -37,14 +42,13 @@ export default function List() {
     obj.category &&
       (obj.category = categoryQueryParams[obj.category.split('&')[0]]);
 
-    changedQueryString = makeQueryStringFromObject(obj);
+    return makeQueryStringFromObject(obj);
   }
 
   useEffect(() => {
-    changeQueryString();
     const fetchHotelList = async () => {
       try {
-        const res = await fetch(FETCH_LiST_API_URL(changedQueryString));
+        const res = await fetch(FETCH_LiST_API_URL(changeQueryString()));
         const resJson = await res.json();
         setHotel(resJson.data);
       } catch (err) {

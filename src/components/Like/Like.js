@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { RiHeartLine, RiHeartFill } from 'react-icons/ri';
-import { WISHLIST_URL } from '../../utils/constants';
-import useFetch from '../../utils/hooks/useFetch';
+import { WISHLIST_URL } from 'utils/constants/constants';
+import useFetch from 'utils/hooks/useFetch';
 
 function Like({ id }) {
   const clickedId = Number(id);

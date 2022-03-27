@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import Like from 'components/Like/Like';
 
 export default function HotelList({ hotel }) {
   const navigate = useNavigate();
@@ -23,11 +24,16 @@ export default function HotelList({ hotel }) {
                 <Price>₩{ele.price}</Price>
                 <p onClick={() => goToDetail(ele.id)}>예약하기</p>
               </HotelContent>
-              <Img
-                onClick={() => goToDetail(ele.id)}
-                src={ele.img}
-                alt="호텔이미지"
-              />
+              <ImgContainer>
+                <Img
+                  onClick={() => goToDetail(ele.id)}
+                  src={ele.img}
+                  alt="호텔이미지"
+                />
+                <LikeWrapper>
+                  <Like id={ele.id} />
+                </LikeWrapper>
+              </ImgContainer>
             </HotelContentList>
           </HotelLists>
         ))}
@@ -80,8 +86,22 @@ const HotelContent = styled.div`
   }
 `;
 
-const Img = styled.img`
+const ImgContainer = styled.span`
+  position: relative;
+  display: flex;
+  flex-direction: column;
   width: 60%;
+  height: 60%;
+  overflow: hidden;
+`;
+
+const Img = styled.img`
+  width: 100%;
+`;
+
+const LikeWrapper = styled.div`
+  position: absolute;
+  bottom: 0;
 `;
 
 const Address = styled.div``;

@@ -2,10 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
-import PageBtn from '../../components/PageBtn';
-import { BASE_URL } from '../../utils/constants';
-import { categories } from '../../utils/constants/mypage';
-import { loginTokenState } from '../../utils/GlobalState';
+import PageBtn from 'components/PageBtn';
+import { BASE_URL, TYPE_DATA } from 'utils/constants/constants';
+import { loginTokenState } from 'utils/GlobalState';
 
 function MyPage() {
   const [hotelData, setHotelData] = useState([]);
@@ -28,14 +27,18 @@ function MyPage() {
   }, [location.search]);
 
   async function fetchHotelData() {
-    const res = await fetch(`${BASE_URL}${params}?${URLSearch.toString()}`, {
-      method: 'GET',
-      headers: {
-        Authorization: LOGIN_TOKEN,
-      },
-    });
-    const resJson = await res.json();
-    setHotelData(resJson.data);
+    try {
+      const res = await fetch(`${BASE_URL}${params}?${URLSearch.toString()}`, {
+        method: 'GET',
+        headers: {
+          Authorization: LOGIN_TOKEN,
+        },
+      });
+      const resJson = await res.json();
+      setHotelData(resJson.data);
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   function onClickReservationInfo(value) {
@@ -88,7 +91,7 @@ function MyPage() {
         <MyPageContent>
           {params === 'reservations' && (
             <ButtonsWrapper>
-              {categories.map(category => (
+              {TYPE_DATA.categories.map(category => (
                 <ReservationInfo
                   isClicked={categoryQuery === category.category}
                   key={category.id}

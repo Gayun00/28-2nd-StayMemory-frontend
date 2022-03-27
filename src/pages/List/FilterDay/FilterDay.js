@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Link, useLocation } from 'react-router-dom';
 import { BiRefresh } from 'react-icons/bi';
-import CalendarS from '../../../components/Modal/ModalContentItem/Calendar/CalendarS';
+import CalendarS from 'components/Modal/ModalContentItem/Calendar/CalendarS';
 import moment from 'moment';
-import ModalPortal from '../../../components/Modal/Modal';
-import Modal from '../../../components/Modal/Modal';
-import SelectCity from '../../../components/Modal/ModalContent/SelectCity';
-import useQueryString from '../../../utils/hooks/useQueryString';
+import ModalPortal from 'components/Modal/Modal';
+import Modal from 'components/Modal/Modal';
+import SelectCity from 'components/Modal/ModalContent/SelectCity';
+import useQueryString from 'utils/hooks/useQueryString';
+import { checkin, checkout, city, dates } from 'utils/constants/constants';
 
 export default function FilterDay() {
   const [startDate, setStartDate] = useState(null);
@@ -15,7 +16,7 @@ export default function FilterDay() {
   const [endDate, setEndDate] = useState(null);
   const location = useLocation();
   const URLSearch = new URLSearchParams(location.search);
-  const place = URLSearch.get('city');
+  const place = URLSearch.get(city);
   const [isOpened, setIsOpened] = useState(false);
 
   const datesObj = {
@@ -27,14 +28,14 @@ export default function FilterDay() {
     useQueryString(datesObj);
 
   useEffect(() => {
-    const checkinDate = URLSearch.get('checkin');
-    const checkoutDate = URLSearch.get('checkout');
+    const checkinDate = URLSearch.get(checkin);
+    const checkoutDate = URLSearch.get(checkout);
     checkinDate && setStartDate(moment(checkinDate));
     checkoutDate && setEndDate(moment(checkoutDate));
   }, [location.search]);
 
   const handleDatesChange = ({ startDate, endDate }) => {
-    const queryString = URLSearch.get('dates');
+    const queryString = URLSearch.get(dates);
     const queryObject = parseQueryIntoObject(queryString);
 
     if (startDate) {

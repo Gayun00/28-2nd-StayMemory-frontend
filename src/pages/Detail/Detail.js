@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { IoIosArrowRoundBack } from 'react-icons/io';
-import { useRecoilState } from 'recoil';
 import { useParams, useNavigate } from 'react-router-dom';
 import ReservationDate from './ReservationDate/ReservationDate';
 import ReservationButton from './ReservationDate/ReservationButton';
-import Like from '../../components/Like/Like';
+import Like from 'components/Like/Like';
+import { FETCH_LiST_API_URL } from 'utils/constants/constants';
 
 function Detail() {
   const [detail, setDetail] = useState([]);
@@ -18,11 +18,10 @@ function Detail() {
   }, []);
 
   function loadDetailData() {
-    fetch(
-      `http://ec2-3-36-124-170.ap-northeast-2.compute.amazonaws.com/stays/${params.id}`
-    )
+    fetch(FETCH_LiST_API_URL(params.id))
       .then(res => res.json())
-      .then(res => setDetail([res.data]));
+      .then(res => setDetail([res.data]))
+      .catch(err => console.error(err));
   }
 
   function onClickGoBack() {

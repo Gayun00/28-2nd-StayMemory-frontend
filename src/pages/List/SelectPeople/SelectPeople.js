@@ -9,14 +9,14 @@ import {
   PeopleTitle,
   ModalBack,
   ModalBtn,
-} from '../List';
+} from 'pages/List/List';
 import { AiOutlineClose } from 'react-icons/ai';
-import { TYPE_DATA } from '../../../utils/constants';
-import useClickAway from '../../../utils/hooks/useClickAway';
+import { TYPE_DATA } from 'utils/constants/constants';
+import useClickAway from 'utils/hooks/useClickAway';
 import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
 import { useState } from 'react';
-import useUpdateState from '../../../utils/hooks/useUpdateState';
-import useQueryString from '../../../utils/hooks/useQueryString';
+import useUpdateState from 'utils/hooks/useUpdateState';
+import useQueryString from 'utils/hooks/useQueryString';
 export default function SelectPeople() {
   const [selectedPeople, setSelectedPeople] = useState({
     adult: 0,

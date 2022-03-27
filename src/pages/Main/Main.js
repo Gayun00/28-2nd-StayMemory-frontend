@@ -4,6 +4,7 @@ import SubSlider from './SubSlider';
 import styled from 'styled-components';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import { FETCH_LiST_API_URL } from 'utils/constants/constants';
 
 function Main() {
   const [mainSlide, setMainSlide] = useState([]);
@@ -11,13 +12,13 @@ function Main() {
   useEffect(() => {
     fetch('/data/mainSlider.json')
       .then(res => res.json())
-      .then(res => setMainSlide([...res]));
+      .then(res => setMainSlide([...res]))
+      .catch(err => console.error(err));
 
-    fetch(
-      'http://ec2-3-36-124-170.ap-northeast-2.compute.amazonaws.com/stays?offset=0&limit=5'
-    )
+    fetch(FETCH_LiST_API_URL)
       .then(res => res.json())
-      .then(res => setSubSlide([...res.data]));
+      .then(res => setSubSlide([...res.data]))
+      .catch(err => console.error(err));
   }, []);
 
   const slicedSubSlide = subSlide.slice(0, 9);

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import Modal from '../../Modal/Modal';
-import ModalPortal from '../../Modal/ModalPortal';
+import Modal from 'components/Modal/Modal';
+import ModalPortal from 'components/Modal/ModalPortal';
 import styled from 'styled-components';
-import SelectDate from '../../Modal/ModalContent/SelectDate';
+import SelectDate from 'components/Modal/ModalContent/SelectDate';
 import { AiOutlineCalendar } from 'react-icons/ai';
 
 function NavSelectDate() {

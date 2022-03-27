@@ -1,9 +1,9 @@
 import React from 'react';
 import { useState } from 'react';
-import useQueryString from '../../../utils/hooks/useQueryString';
-import useUpdateState from '../../../utils/hooks/useUpdateState';
-import Location from '../ModalContentItem/Location/Location';
-import ModalSelectForm from '../ModalFrame/ModalSelectForm';
+import useQueryString from 'utils/hooks/useQueryString';
+import useUpdateState from 'utils/hooks/useUpdateState';
+import Location from 'components/Modal/ModalContentItem/Location/Location';
+import ModalSelectForm from 'components/Modal/ModalFrame/ModalSelectForm';
 
 function SelectCity({ onClose }) {
   const [selectedCity, setSelectedCity] = useState({

@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { useRecoilState, useSetRecoilState } from 'recoil';
-import { loginTokenState } from '../../utils/GlobalState';
+import { useRecoilState } from 'recoil';
+import { JWT_TOKEN_URL, TOKEN_API_URL } from 'utils/constants/constants';
+import { loginTokenState } from 'utils/GlobalState';
 function KakaoLogin() {
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
@@ -14,7 +15,7 @@ function KakaoLogin() {
   }, []);
 
   const getKakaoToken = () => {
-    fetch('https://kauth.kakao.com/oauth/token', {
+    fetch(TOKEN_API_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
@@ -22,26 +23,21 @@ function KakaoLogin() {
       body: `grant_type=authorization_code&client_id=${API_KEY}&${searchParams}&client_secret=${CLIENT_SECRET}`,
     })
       .then(res => res.json())
-      .then(res => getLoginToken(res.access_token));
+      .then(res => getLoginToken(res.access_token))
+      .catch(err => console.error(err));
   };
 
   const getLoginToken = kakaoToken => {
-    fetch(
-      `http://ec2-3-36-124-170.ap-northeast-2.compute.amazonaws.com/users/signin-kakao`,
-      {
-        method: 'POST',
-        headers: {
-          Authorization: kakaoToken,
-        },
-      }
-    )
+    fetch(JWT_TOKEN_URL, {
+      method: 'POST',
+      headers: {
+        Authorization: kakaoToken,
+      },
+    })
       .then(res => res.json())
-      .then(res => setLoginToken(res.token));
+      .then(res => setLoginToken(res.token))
+      .catch(err => console.error(err));
     goToMain();
-  };
-
-  const saveLoginToken = loginToken => {
-    sessionStorage.setItem('loginToken', loginToken);
   };
 
   const goToMain = () => {

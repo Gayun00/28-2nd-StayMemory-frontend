@@ -3,10 +3,10 @@ import styled from 'styled-components';
 import { HiUser } from 'react-icons/hi';
 import { BsToggleOn, BsToggleOff } from 'react-icons/bs';
 import { useNavigate } from 'react-router';
-import NavSelectCity from './NavButton/NavSelectCity';
-import NavSelectDate from './NavButton/NavSelectDate';
+import NavSelectCity from 'components/Nav/NavButton/NavSelectCity';
+import NavSelectDate from 'components/Nav/NavButton/NavSelectDate';
 import { useRecoilState } from 'recoil';
-import { loginTokenState } from '../../utils/GlobalState';
+import { loginTokenState } from 'utils/GlobalState';
 
 function Nav() {
   const [isDarkMode, setIsDarkMode] = useState(false);

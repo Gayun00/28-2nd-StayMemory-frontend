@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import useQueryString from '../../../utils/hooks/useQueryString';
-import CalendarM from '../ModalContentItem/Calendar/CalendarM';
-import ModalSelectForm from '../ModalFrame/ModalSelectForm';
+import useQueryString from 'utils/hooks/useQueryString';
+import CalendarM from 'components/Modal/ModalContentItem/Calendar/CalendarM';
+import ModalSelectForm from 'components/Modal/ModalFrame/ModalSelectForm';
 
 function SelectDate({ onClose }) {
   const [selectedDates, setSelectedDates] = useState({

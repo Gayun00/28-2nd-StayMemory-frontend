@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { IoIosArrowDown } from 'react-icons/io';
-import CalendarS from '../../../components/Modal/ModalContentItem/Calendar/CalendarS';
+import CalendarS from 'components/Modal/ModalContentItem/Calendar/CalendarS';
 import styled from 'styled-components';
 import moment from 'moment';
 import { useParams } from 'react-router-dom';
-import { unAvailableDatesUrl } from '../../../utils/constants';
+import { UNAVAILABLE_DATES_URL } from 'utils/constants/constants';
 
 function ReservationDate({ startDate, endDate, setStartDate, setEndDate }) {
   const [isOpened, setIsOpened] = useState(false);
@@ -16,9 +16,9 @@ function ReservationDate({ startDate, endDate, setStartDate, setEndDate }) {
 
   async function getUnavaliableDate() {
     try {
-      const res = await fetch(unAvailableDatesUrl(stayIdParams, today));
+      const res = await fetch(UNAVAILABLE_DATES_URL(stayIdParams, today));
       const resJson = await res.json();
-      const undates = resJson.data.date;
+      const undates = resJson.data.date.sort();
       setUnavailableDates(undates);
     } catch (err) {
       console.error(err);
@@ -46,7 +46,6 @@ function ReservationDate({ startDate, endDate, setStartDate, setEndDate }) {
       setDiffDays(diffDays);
     }
   }, [startDate, endDate]);
-
   function disableDates(momentDate) {
     const date = momentDate.format('YYYY-MM-DD');
     if (focusedInput === 'startDate') {
@@ -58,7 +57,6 @@ function ReservationDate({ startDate, endDate, setStartDate, setEndDate }) {
           ? true
           : false;
       }
-      return unAvailableDates.includes(date) ? true : false;
     }
   }
   function checkFirstUnAvailableDates() {

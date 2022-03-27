@@ -5,16 +5,16 @@ import {
   PeopleTitle,
   ModalBack,
   CheckList,
-} from '../List';
+} from 'pages/List/List';
 import { AiOutlineClose } from 'react-icons/ai';
-import { TYPE_DATA } from '../../../utils/constants';
+import { TYPE_DATA } from 'utils/constants/constants';
 import styled from 'styled-components';
 import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
-import useClickAway from '../../../utils/hooks/useClickAway';
+import useClickAway from 'utils/hooks/useClickAway';
 import { useState } from 'react';
-import useUpdateState from '../../../utils/hooks/useUpdateState';
-import useCheckBox from '../../../utils/hooks/useCheckBox';
-import useQueryString from '../../../utils/hooks/useQueryString';
+import useUpdateState from 'utils/hooks/useUpdateState';
+import useCheckBox from 'utils/hooks/useCheckBox';
+import useQueryString from 'utils/hooks/useQueryString';
 
 export default function SelectType() {
   const [selectedType, setSelectedType] = useState({

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { HiOutlineLocationMarker } from 'react-icons/hi';
-import Modal from '../../Modal/Modal';
-import SelectCity from '../../Modal/ModalContent/SelectCity';
-import ModalPortal from '../../Modal/ModalPortal';
+import Modal from 'components/Modal/Modal';
+import SelectCity from 'components/Modal/ModalContent/SelectCity';
+import ModalPortal from 'components/Modal/ModalPortal';
 import styled from 'styled-components';
 
 function NavSelectCity() {

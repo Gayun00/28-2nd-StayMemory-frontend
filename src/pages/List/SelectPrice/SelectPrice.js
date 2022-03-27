@@ -9,15 +9,14 @@ import {
   InputContent,
   Dash,
   MinRangeBar,
-  MaxRangeBar,
   RangeWrap,
   ModalBtn,
-} from '../List';
+} from 'pages/List/List';
 import { AiOutlineClose } from 'react-icons/ai';
-import useClickAway from '../../../utils/hooks/useClickAway';
+import useClickAway from 'utils/hooks/useClickAway';
 import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
-import useUpdateState from '../../../utils/hooks/useUpdateState';
-import useQueryString from '../../../utils/hooks/useQueryString';
+import useUpdateState from 'utils/hooks/useUpdateState';
+import useQueryString from 'utils/hooks/useQueryString';
 
 export default function SelectPrice() {
   const [selectedPrice, setSelectedPrice] = useState({

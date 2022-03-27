@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { AiOutlineSearch } from 'react-icons/ai';
-import { TYPE_DATA } from '../../../../utils/constants';
+import { TYPE_DATA } from 'utils/constants/constants';
 
 function Location({ selectedCity, updateCity }) {
   function onClickCityButton(city) {

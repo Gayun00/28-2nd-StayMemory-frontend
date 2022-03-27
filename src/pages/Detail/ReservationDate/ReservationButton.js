@@ -2,9 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
-import { GET_TOTAL_PRICE_URL, RESERVATION_URL } from '../../../utils/constants';
-import { loginTokenState } from '../../../utils/GlobalState';
-import { useError } from '../../../utils/hooks/useError';
+import {
+  GET_TOTAL_PRICE_URL,
+  RESERVATION_URL,
+} from 'utils/constants/constants';
+import { loginTokenState } from 'utils/GlobalState';
+import { useError } from 'utils/hooks/useError';
 
 function ReservationButton({ startDate, endDate }) {
   const checkinDate = startDate && startDate.format('YYYY-MM-DD');
@@ -16,12 +19,16 @@ function ReservationButton({ startDate, endDate }) {
   const { throwError, catchError } = useError();
 
   async function getTotalPrice() {
-    const res = await fetch(
-      GET_TOTAL_PRICE_URL(stayId, checkinDate, checkoutDate, PEOPLE_COUNT)
-    );
-    const resJson = await res.json();
-    const price = resJson.data.total_price;
-    setTotalPrice(price);
+    try {
+      const res = await fetch(
+        GET_TOTAL_PRICE_URL(stayId, checkinDate, checkoutDate, PEOPLE_COUNT)
+      );
+      const resJson = await res.json();
+      const price = resJson.data.total_price;
+      setTotalPrice(price);
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   useEffect(() => {

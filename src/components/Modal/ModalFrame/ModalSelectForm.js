@@ -1,14 +1,12 @@
 import React from 'react';
-import { GrClose } from 'react-icons/gr';
 import styled from 'styled-components';
-import SearchButton from '../../Button/SearchButton';
+import SearchButton from 'components/Button/SearchButton';
 
-function ModalSelectForm({ title, children, onClose, onClickSearch }) {
+function ModalSelectForm({ title, children, onClickSearch }) {
   return (
     <Wrapper>
       <PopUp>
         <PopUpTitle>
-          {/* <GrClose onClick={onClose} /> */}
           <h2>{title}</h2>
         </PopUpTitle>
         <Container>{children}</Container>

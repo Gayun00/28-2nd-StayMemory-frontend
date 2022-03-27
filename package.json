@@ -32,8 +32,8 @@
     "web-vitals": "^2.1.3"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "NODE_PATH=src react-scripts start",
+    "build": "NODE_PATH=src react-scripts build",
     "test": "jest",
     "cypress": "cypress open",
     "eject": "react-scripts eject"
