@@ -9,6 +9,7 @@ describe('useQueryStringObject', () => {
   let search;
   let parseObjectToSearchParams;
   let parseQueryIntoObject;
+  let makeQueryStringFromObject;
   let state;
   let URLSearch;
 
@@ -54,21 +55,39 @@ describe('useQueryStringObject', () => {
 
       return obj;
     };
+
+    makeQueryStringFromObject = object => {
+      const result = [];
+      for (let [k, v] of Object.entries(object)) {
+        if (Array.isArray(v)) {
+          result.push(...v.map(el => `${k}=${el}`));
+        } else {
+          result.push(`${k}=${v}`);
+        }
+      }
+      return '?' + result.join('&');
+    };
   });
 
-  it('객체를 쿼리스트링으로 변환', () => {
+  it('parseObjectToSearchParams: 객체를 쿼리스트링으로 변환', () => {
     expect(parseObjectToSearchParams(testobj)).toBe(
       '/list?checkin=2022-03-22&checkout=2022-03-26'
     );
   });
 
-  it('쿼리스트링을 객체로 변환', () => {
+  it('parseQueryIntoObject: 쿼리스트링을 객체로 변환', () => {
     expect(
       parseQueryIntoObject(`checkin=2022-03-22&checkout=2022-03-26`)
     ).toEqual({
       checkin: '2022-03-22',
       checkout: '2022-03-26',
     });
+  });
+
+  it('makeQueryStringFromObject: 객체를 쿼리스트링으로 변환', () => {
+    expect(parseObjectToSearchParams(testobj)).toBe(
+      '/list?checkin=2022-03-22&checkout=2022-03-26'
+    );
   });
 
   it('배열을 value로 갖는 객체를 쿼리스트링으로 변환', () => {

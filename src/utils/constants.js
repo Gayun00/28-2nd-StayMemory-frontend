@@ -3,7 +3,7 @@ export const BASE_URL =
 export const RESERVATION_URL = `${BASE_URL}reservations`;
 const LOAD_HOTEL_URL = `${BASE_URL}stays`;
 export const unAvailableDatesUrl = (stayId, startDate) =>
-  `${LOAD_HOTEL_URL}${stayId}/unavailable-date?start-date=${startDate}`;
+  `${LOAD_HOTEL_URL}/${stayId}/unavailable-date?start-date=${startDate}`;
 export const WISHLIST_URL = `${BASE_URL}wishlists`;
 export const GET_TOTAL_PRICE_URL = (
   paramsId,
@@ -30,11 +30,11 @@ export const TYPE_DATA = {
     { id: 3, type: '영아', age: '24개월 미만', name: 'baby' },
   ],
   category: [
-    { id: 1, type: '게스트하우스', name: '게스트하우스' },
-    { id: 2, type: '호텔', name: '호텔' },
+    { id: 1, type: '게스트하우스', name: 'guesthouse' },
+    { id: 2, type: '호텔', name: 'hotel' },
   ],
   theme: [
-    { id: 1, type: '디자인투어', name: 'designTour' },
+    { id: 1, type: '디자인투어', name: 'designtour' },
     {
       id: 2,
       type: '풀빌라',
@@ -46,11 +46,14 @@ export const TYPE_DATA = {
       name: 'rest',
     },
   ],
+  cities: [
+    // { id: 0, type: '전체', name: '전체' },
+    // { id: 1, type: '서울특별시', name: '서울' },
+    // { id: 2, type: '제주특별자치도', name: '제주' },
+    // { id: 3, type: '강원도', name: '강원' },
+    { id: 0, type: 'all', name: '전체' },
+    { id: 1, type: 'seoul', name: '서울' },
+    { id: 2, type: 'jeju', name: '제주' },
+    { id: 3, type: 'gangwon', name: '강원' },
+  ],
 };
-
-export const cities = [
-  { id: 0, type: '전체', name: '전체' },
-  { id: 1, type: '서울특별시', name: '서울' },
-  { id: 2, type: '제주특별자치도', name: '제주' },
-  { id: 3, type: '강원도', name: '강원' },
-];

@@ -40,7 +40,7 @@ export default function SelectTheme() {
   return (
     <div ref={clickRef}>
       <ModalBtn onClick={onToggle}>
-        테마
+        스테이 테마
         <MdOutlineKeyboardArrowDown />
       </ModalBtn>
       {isOpened && (

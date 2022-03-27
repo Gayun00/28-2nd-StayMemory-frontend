@@ -10,15 +10,41 @@ import styled from 'styled-components';
 import { GoLocation } from 'react-icons/go';
 import { BsArrowRight } from 'react-icons/bs';
 import { FETCH_LiST_API_URL } from '../../utils/constants';
+import useQueryString from '../../utils/hooks/useQueryString';
 
 export default function List() {
   const [hotel, setHotel] = useState([]);
-  const location = useLocation();
+  const { search } = useLocation();
+
+  const { parseQueryIntoObject, makeQueryStringFromObject } = useQueryString();
+  let changedQueryString;
+
+  const cityQueryParams = {
+    jeju: '제주특별자치도',
+    seoul: '서울특별시',
+    busan: '부산',
+  };
+
+  const categoryQueryParams = {
+    guesthouse: '게스트하우스',
+    hotel: '호텔',
+  };
+
+  function changeQueryString() {
+    const URLSearch = new URLSearchParams(search);
+    const obj = parseQueryIntoObject(URLSearch);
+    obj.city && (obj.city = cityQueryParams[obj.city]);
+    obj.category &&
+      (obj.category = categoryQueryParams[obj.category.split('&')[0]]);
+
+    changedQueryString = makeQueryStringFromObject(obj);
+  }
 
   useEffect(() => {
+    changeQueryString();
     const fetchHotelList = async () => {
       try {
-        const res = await fetch(FETCH_LiST_API_URL(location.search));
+        const res = await fetch(FETCH_LiST_API_URL(changedQueryString));
         const resJson = await res.json();
         setHotel(resJson.data);
       } catch (err) {
@@ -26,7 +52,7 @@ export default function List() {
       }
     };
     fetchHotelList();
-  }, [location.search]);
+  }, [search]);
 
   return (
     <Container>

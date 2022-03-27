@@ -2,10 +2,11 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 function useQueryString(state) {
   const { search } = useLocation();
-  const URLSearch = new URLSearchParams(search);
   const navigate = useNavigate();
 
   const parseObjectToSearchParams = (obj = state, page = 'list') => {
+    const URLSearch = new URLSearchParams(search);
+
     let updatedValue;
 
     Object.entries(obj).map(([key, value]) => {
@@ -14,6 +15,18 @@ function useQueryString(state) {
       value && URLSearch.set(key, updatedValue);
     });
     navigate(`/${page}?` + URLSearch.toString());
+  };
+
+  const makeQueryStringFromObject = object => {
+    const result = [];
+    for (let [k, v] of Object.entries(object)) {
+      if (Array.isArray(v)) {
+        result.push(...v.map(el => `${k}=${el}`));
+      } else {
+        result.push(`${k}=${v}`);
+      }
+    }
+    return '?' + result.join('&');
   };
 
   const parseQueryIntoObject = querystring => {
@@ -30,7 +43,11 @@ function useQueryString(state) {
 
     return obj;
   };
-  return { parseQueryIntoObject, parseObjectToSearchParams };
+  return {
+    makeQueryStringFromObject,
+    parseQueryIntoObject,
+    parseObjectToSearchParams,
+  };
 }
 
 export default useQueryString;
